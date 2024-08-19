@@ -10,6 +10,7 @@ DEV_DEPENDS=0
 SET_KITTY_AS_DEFAULT=0
 curr_date=$(date +%Y%m%d-%H%M%S)
 current_dir=$(pwd)
+KEYMAP_SETUP=0
 
 # check if the script is running as root
 if [[ $EUID -eq 0 ]]; then
@@ -46,11 +47,7 @@ confirm() {
 }
 
 # print debug information
-debug() {
-    if [[ $DEBUG_MODE -eq 1 ]]; then
-        echo "[DEBUG] $1"
-    fi
-}
+debug() { [[ $DEBUG_MODE -eq 1 ]] && echo "[DEBUG] $1"; }
 
 # check if internet connection is available
 check_internet() {
@@ -84,7 +81,7 @@ get_command_args() {
             ;;
         --configure-keymap)
             debug "Configuring keymap..."
-            download_keysetup
+            KEYMAP_SETUP=1
             ;;
         --help)
             printf "%sUsage: $0 [--debug] [--skip-update]\n"
@@ -121,6 +118,7 @@ download_keysetup() {
         sleep 0.5
         exit 0
     fi
+    exit 0
 }
 
 # check if command line argument is in list
@@ -167,8 +165,9 @@ backup_alacritty() {
         echo "alacritty config was not found. Skipping"
         return
     fi
-    mkdir -p $HOME/backups/alacritty_$curr_date
-    mv $HOME/.config/alacritty $HOME/backups/alacritty_$curr_date
+    echo "hello"
+    # mkdir -p $HOME/backups/alacritty_$curr_date
+    # mv $HOME/.config/alacritty $HOME/backups/alacritty_$curr_date
 }
 
 backup_kitty() {
@@ -390,53 +389,55 @@ select_configs() {
     clear
     echo "Selected options:"
     for opt in "${selected[@]}"; do
-        case "$opt" in
-        "alacritty")
-            backup_alacritty
-            ;;
-        "kitty")
-            backup_kitty
-            ;;
-        "neovim")
-            backup_neovim
-            ;;
-        "bspwm")
-            backup_bspwm
-            ;;
-        "polybar")
-            backup_polybar
-            ;;
-        "sxhkd")
-            backup_sxhkd
-            ;;
-        "dunst")
-            backup_dunst
-            ;;
-        "ncmpcpp")
-            backup_ncmpcpp
-            ;;
-        "ranger")
-            backup_ranger
-            ;;
-        "tmux")
-            backup_tmux
-            ;;
-        "zsh")
-            backup_zsh
-            ;;
-        "mpd")
-            backup_mpd
-            ;;
-        "paru")
-            backup_paru
-            ;;
-        "eww")
-            backup_eww
-            ;;
-        "rofi")
-            backup_rofi
-            ;;
-        esac
+        output="backup_$opt"
+        $output
+        # case "$opt" in
+        # "alacritty")
+        #     backup_alacritty
+        #     ;;
+        # "kitty")
+        #     backup_kitty
+        #     ;;
+        # "neovim")
+        #     backup_neovim
+        #     ;;
+        # "bspwm")
+        #     backup_bspwm
+        #     ;;
+        # "polybar")
+        #     backup_polybar
+        #     ;;
+        # "sxhkd")
+        #     backup_sxhkd
+        #     ;;
+        # "dunst")
+        #     backup_dunst
+        #     ;;
+        # "ncmpcpp")
+        #     backup_ncmpcpp
+        #     ;;
+        # "ranger")
+        #     backup_ranger
+        #     ;;
+        # "tmux")
+        #     backup_tmux
+        #     ;;
+        # "zsh")
+        #     backup_zsh
+        #     ;;
+        # "mpd")
+        #     backup_mpd
+        #     ;;
+        # "paru")
+        #     backup_paru
+        #     ;;
+        # "eww")
+        #     backup_eww
+        #     ;;
+        # "rofi")
+        #     backup_rofi
+        #     ;;
+        # esac
     done
 }
 
@@ -494,7 +495,6 @@ check_aur_package() {
 install_aur_packages() {
     for package in $1; do
         check_aur_package "$package"
-        # check_package "$package"
         sleep 0.1
     done
 }
@@ -503,6 +503,8 @@ install_aur_packages() {
 
 check_internet
 get_command_args "$@"
+
+[[ $KEYMAP_SETUP -eq 1 ]] && download_keysetup
 
 update_system
 
@@ -638,11 +640,6 @@ confirm "Do you want to setup keyboard layouts? (if you want two or more layouts
 
 printf "\e[32m[INFO] Configs have been copied.\e[0m\n"
 
-echo "Installation finished! Enjoy!"
-echo "Now, you should reboot your system for changes to take effect."
-
-confirm "Do you want to reboot now?" && sudo reboot
-
 if command -v paru >/dev/null 2>&1; then
     echo "\e[32m[INFO] Paru is already installed.\e[0m"
 else
@@ -675,25 +672,25 @@ fi
 
 # Installing rofi-greenclip
 if pacman -Q rofi-greenclip >/dev/null 2>&1; then
-    echo "\e[32mRofi-greenclip is already installed.\e[0m"
+    echo "\e[32mRofi-greenclip is already installed.\e[0m\n"
 else
-    echo "\e[33mRofi-greenclip is not installed. Installing...\e[0m"
+    echo "\e[33mRofi-greenclip is not installed. Installing...\e[0m\n"
     install_aur_packages "rofi-greenclip"
 fi
 
 # Installing ttf-maple
 if pacman -Q ttf-maple >/dev/null 2>&1; then
-    echo "\e[32mTtf-maple is already installed.\e[0m"
+    printf "%s\e[32mTtf-maple is already installed.\e[0m\n"
 else
-    echo "\e[33mTtf-maple is not installed. Installing...\e[0m"
+    printf "%s\e[33mTtf-maple is not installed. Installing...\e[0m\n"
     install_aur_packages "ttf-maple"
 fi
 
 # Installing simple-mtpfs
 if pacman -Q simple-mtpfs >/dev/null 2>&1; then
-    echo "\e[32mSimple-mtpfs is already installed.\e[0m"
+    printf "%s\e[32mSimple-mtpfs is already installed.\e[0m\n"
 else
-    echo "\e[33mSimple-mtpfs is not installed. Installing...\e[0m"
+    printf "%s\e[33mSimple-mtpfs is not installed. Installing...\e[0m\n"
     install_aur_packages "simple-mtpfs"
 fi
 
@@ -701,7 +698,7 @@ fi
 if command -v eww >/dev/null 2>&1; then
     echo "\e[32mEww is already installed.\e[0m"
 else
-    echo "\e[33mEww is not installed. Installing...\e[0m"
+    printf "%s\e[33mEww is not installed. Installing...\e[0m\n"
     if curl -L https://github.com/gh0stzk/pkgs/raw/main/eww -o eww; then
         chmod +x eww
         if sudo install -Dm755 eww /usr/bin/eww; then
@@ -714,3 +711,8 @@ else
         echo "Error: The file can't be downloaded.."
     fi
 fi
+
+echo "Installation finished! Enjoy!"
+echo "Now, you should reboot your system for changes to take effect."
+
+confirm "Do you want to reboot now?" && sudo reboot
