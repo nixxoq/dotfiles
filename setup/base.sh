@@ -12,10 +12,10 @@ curr_date=$(date +%Y%m%d-%H%M%S)
 current_dir=$(pwd)
 
 # check if the script is running as root
-# if [[ $EUID -eq 0 ]]; then
-#     echo "Please run this script without root access."
-#     exit 1
-# fi
+if [[ $EUID -eq 0 ]]; then
+    echo "Please run this script without root access."
+    exit 1
+fi
 
 # check if the script is running on Arch
 if [[ $(uname -r | grep arch) == "" ]]; then
@@ -82,11 +82,17 @@ get_command_args() {
             debug "Adding development dependencies..."
             DEV_DEPENDS=1
             ;;
+        --configure-keymap)
+            debug "Configuring keymap..."
+            download_keysetup
+            ;;
         --help)
             printf "%sUsage: $0 [--debug] [--skip-update]\n"
             printf "%s\t--debug: Enable debug mode.\n"
             printf "%s\t--skip-update: Skip system update.\n"
             printf "%s\t--media: Install media dependencies.\n"
+            printf "%s\t--dev: Install development dependencies.\n"
+            printf "%s\t--configure-keymap: Configure keymap.\n"
             printf "%s\t--help: Show this help message.\n"
             exit 0
             ;;
@@ -95,6 +101,26 @@ get_command_args() {
             ;;
         esac
     done
+}
+
+# download the key setup script
+# TODO: add --replace option to replace layouts.json
+download_keysetup() {
+    printf "%s\e[33m[INFO] Checking if keymap reconfiguration script is available...\e[0m\n"
+    if [ ! -f $current_dir/keyboard_setup.sh ]; then
+        printf "%s\e[33m[INFO] Downloading keymap reconfiguration script...\e[0m\n"
+        curl -sL https://raw.githubusercontent.com/nixxoq/dotfiles/main/setup/keyboard_setup.sh -o $current_dir/keyboard_setup.sh
+        chmod +x $current_dir/keyboard_setup.sh
+    fi
+
+    bash $current_dir/keyboard_setup.sh
+    confirm "Do you want to reconfigure keymap?" && mv $current_dir/layouts.json $HOME/.config/.local/bin/layouts.json
+
+    if [[ $? -eq 1 ]]; then
+        echo "Skipping keymap reconfiguration... Do not forget to configure it manually later."
+        sleep 0.5
+        exit 0
+    fi
 }
 
 # check if command line argument is in list
@@ -459,7 +485,7 @@ check_aur_package() {
         printf "\e[32m[INFO] $1 is already installed.\e[0m\n"
     else
         printf "\e[33m[INFO] $1 is not installed. Installing...\e[0m"
-        paru -S --noconfirm "$1" >/dev/null 2>&1 &&
+        paru -S --skipreview --noconfirm "$1" >/dev/null 2>&1 &&
             printf "\n\e[32m[INFO] $1 has been installed.\e[0m\n"
     fi
 }
@@ -618,10 +644,9 @@ echo "Now, you should reboot your system for changes to take effect."
 confirm "Do you want to reboot now?" && sudo reboot
 
 if command -v paru >/dev/null 2>&1; then
-    echo "Paru is already installed"
+    echo "\e[32m[INFO] Paru is already installed.\e[0m"
 else
-    echo "Paru is not installed. Installing..."
-    # printf "%s%sInstalling paru%s\n" "${BLD}" "${CBL}" "${CNC}"
+    echo "\e[33m[INFO] Paru is not installed. Installing...\e[0m"
     {
         cd "$HOME" || exit
         git clone https://aur.archlinux.org/paru-bin.git
@@ -634,8 +659,58 @@ fi
 
 # Installing tdrop for scratchpads
 if command -v tdrop >/dev/null 2>&1; then
-    echo "Tdrop is already installed"
+    echo "\e[32mTdrop is already installed.\e[0m"
 else
-    printf "\n%s%sInstalling tdrop, this should be fast!%s\n" "${BLD}" "${CBL}" "${CNC}"
-    
+    echo "\e[33mTdrop is not installed. Installing...\e[0m"
+    install_aur_packages "tdrop"
+fi
+
+# Installing xqp
+if command -v xqp >/dev/null 2>&1; then
+    echo "\e[32mXqp is already installed.\e[0m"
+else
+    echo "\e[33mXqp is not installed. Installing...\e[0m"
+    install_aur_packages "xqp"
+fi
+
+# Installing rofi-greenclip
+if pacman -Q rofi-greenclip >/dev/null 2>&1; then
+    echo "\e[32mRofi-greenclip is already installed.\e[0m"
+else
+    echo "\e[33mRofi-greenclip is not installed. Installing...\e[0m"
+    install_aur_packages "rofi-greenclip"
+fi
+
+# Installing ttf-maple
+if pacman -Q ttf-maple >/dev/null 2>&1; then
+    echo "\e[32mTtf-maple is already installed.\e[0m"
+else
+    echo "\e[33mTtf-maple is not installed. Installing...\e[0m"
+    install_aur_packages "ttf-maple"
+fi
+
+# Installing simple-mtpfs
+if pacman -Q simple-mtpfs >/dev/null 2>&1; then
+    echo "\e[32mSimple-mtpfs is already installed.\e[0m"
+else
+    echo "\e[33mSimple-mtpfs is not installed. Installing...\e[0m"
+    install_aur_packages "simple-mtpfs"
+fi
+
+# Installing Eww
+if command -v eww >/dev/null 2>&1; then
+    echo "\e[32mEww is already installed.\e[0m"
+else
+    echo "\e[33mEww is not installed. Installing...\e[0m"
+    if curl -L https://github.com/gh0stzk/pkgs/raw/main/eww -o eww; then
+        chmod +x eww
+        if sudo install -Dm755 eww /usr/bin/eww; then
+            echo "Installation complete."
+            rm eww
+        else
+            echo "Error: Something happend."
+        fi
+    else
+        echo "Error: The file can't be downloaded.."
+    fi
 fi
