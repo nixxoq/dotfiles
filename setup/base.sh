@@ -429,18 +429,20 @@ copy_configs() {
     sleep 1
 
     for dir in $HOME/dotfiles/config/*; do
-        dirname=$(basename $dir)
+        dirname=$(basename "$dir")
 
         cp -r "$dir" ~/.config && echo "Copied $dirname" || echo "Failed to copy $dirname"
-
     done
 
-    for dir in $HOME/dotfiles/home/*; do
-        dirname=$(basename $dir)
+    for dir in $HOME/dotfiles/home/* $HOME/dotfiles/home/.*; do
+        [[ "$dir" == "$HOME/dotfiles/home/." || "$dir" == "$HOME/dotfiles/home/.." ]] && continue
+
+        dirname=$(basename "$dir")
 
         cp -r "$dir" ~ && echo "Copied $dirname" || echo "Failed to copy $dirname"
     done
 }
+
 
 # install packages
 install_packages() {
