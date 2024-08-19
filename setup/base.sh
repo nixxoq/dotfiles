@@ -124,9 +124,9 @@ check_package() {
     if pacman -Qq "$1" >/dev/null 2>&1; then
         printf "\e[32m[INFO] $1 is already installed.\e[0m\n"
     else
-        printf "\e[34m[INFO] $1 is not installed. Installing...\e[0m"
+        printf "\e[33m[INFO] $1 is not installed. Installing...\e[0m"
         sudo pacman -S --noconfirm "$1" >/dev/null 2>&1 &&
-            # printf "\r$(tput el)\e[32m[INFO] $1 has been installed.\e[0m\n"
+            # printf "\r$(tput el)\e[33m[INFO] $1 has been installed.\e[0m\n"
             printf "\n\e[32m[INFO] $1 has been installed.\e[0m\n"
     fi
 }
@@ -443,7 +443,6 @@ copy_configs() {
     done
 }
 
-
 # install packages
 install_packages() {
     # split " " and for-loop each package
@@ -451,6 +450,25 @@ install_packages() {
 
     for package in "${packages[@]}"; do
         check_package "$package"
+        sleep 0.1
+    done
+}
+
+check_aur_package() {
+    if paru -Qq "$1" >/dev/null 2>&1; then
+        printf "\e[32m[INFO] $1 is already installed.\e[0m\n"
+    else
+        printf "\e[33m[INFO] $1 is not installed. Installing...\e[0m"
+        paru -S --noconfirm "$1" >/dev/null 2>&1 &&
+            printf "\n\e[32m[INFO] $1 has been installed.\e[0m\n"
+    fi
+}
+
+# install packages from AUR
+install_aur_packages() {
+    for package in $1; do
+        check_aur_package "$package"
+        # check_package "$package"
         sleep 0.1
     done
 }
@@ -471,21 +489,13 @@ fi
 echo "Installing base packages..."
 sleep 0.5
 
-# Base packages
-
-# only base: bspwm, sxhkd, polybar, alacritty, pacman-contrib, papirus-icon-theme
-# physlock, polkit-gnome, python-gobject, ranger, redshift, rofi,
-# ttf-inconsolata, ttf-jetbrains-mono, ttf-jetbrains-mono-nerd,
-# ttf-joypixels, ttf-terminus-nerd ueberzug webp-pixbuf-loader xclip xdg-user-dirs
-# xdo xdotool xorg-xdpyinfo xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot
-# xorg-xwininfo
-
 install_packages "\
     bspwm sxhkd polybar alacritty pacman-contrib papirus-icon-theme \
     physlock polkit-gnome python-gobject ranger redshift rofi ttf-inconsolata \
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-joypixels ttf-terminus-nerd \
     ueberzug webp-pixbuf-loader xclip xdg-user-dirs xdo xdotool xorg-xdpyinfo \
-    xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo jq
+    xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo jq \
+    xorg xorg-xinit
 "
 
 confirm "Do you want to install brightness control?" && install_packages "brightnessctl"
@@ -585,21 +595,20 @@ fi
 
 # copy configs
 
-printf "\e[34m[INFO] Copying configs...\e[0m\n"
+printf "\e[33m[INFO] Copying configs...\e[0m\n"
 sleep 0.5
 
 copy_configs
 
-confirm "Do you want to setup keyboard layouts? (if you want two or more layouts)" && 
-
-if [[ $? -eq 1 ]]; then
-    echo "Skipping keyboard layouts setup..."
-    sleep 0.5
-else
-    # run keyboard_setup from $HOME/dotfiles/setup/keyboard_setup.sh
-    bash $HOME/dotfiles/setup/keyboard_setup.sh
-    mv $current_dir/layouts.json $HOME/.local/bin/
-fi
+confirm "Do you want to setup keyboard layouts? (if you want two or more layouts)" &&
+    if [[ $? -eq 1 ]]; then
+        echo "Skipping keyboard layouts setup..."
+        sleep 0.5
+    else
+        # run keyboard_setup from $HOME/dotfiles/setup/keyboard_setup.sh
+        bash $HOME/dotfiles/setup/keyboard_setup.sh
+        mv $current_dir/layouts.json $HOME/.local/bin/
+    fi
 
 printf "\e[32m[INFO] Configs have been copied.\e[0m\n"
 
@@ -608,23 +617,25 @@ echo "Now, you should reboot your system for changes to take effect."
 
 confirm "Do you want to reboot now?" && sudo reboot
 
-# utils: maim (screenshot tool), tmux (terminal multiplexer),
-# other: zsh, zsh-autosuggestions, zsh-history-substring-search, zsh-syntax-highlighting
-# kitty (another terminal), bat (cat command alternative),
+if command -v paru >/dev/null 2>&1; then
+    echo "Paru is already installed"
+else
+    echo "Paru is not installed. Installing..."
+    # printf "%s%sInstalling paru%s\n" "${BLD}" "${CBL}" "${CNC}"
+    {
+        cd "$HOME" || exit
+        git clone https://aur.archlinux.org/paru-bin.git
+        cd paru-bin || exit
+        makepkg -si --noconfirm
+    } || {
+        echo "Failed to install Paru. You may need to install it manually"
+    }
+fi
 
-# install_packages "\
-#     alacritty base-devel bat brightnessctl bspwm dunst feh jq jgmenu \
-#     libwebp
-# "
-
-# install_packages "\
-#     alacritty base-devel bat brightnessctl bspwm dunst eza feh gvfs-mtp \
-#     firefox geany git kitty imagemagick jq jgmenu libwebp maim mpc mpd \
-#     neovim ncmpcpp npm pamixer pacman-contrib papirus-icon-theme physlock \
-#     picom playerctl polybar polkit-gnome python-gobject ranger redshift \
-#     rofi rustup sxhkd tmux ttf-inconsolata ttf-jetbrains-mono \
-#     ttf-jetbrains-mono-nerd ttf-joypixels ttf-terminus-nerd ueberzug \
-#     webp-pixbuf-loader xclip xdg-user-dirs xdo xdotool xorg-xdpyinfo \
-#     xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo zsh \
-#     zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
-# "
+# Installing tdrop for scratchpads
+if command -v tdrop >/dev/null 2>&1; then
+    echo "Tdrop is already installed"
+else
+    printf "\n%s%sInstalling tdrop, this should be fast!%s\n" "${BLD}" "${CBL}" "${CNC}"
+    
+fi
