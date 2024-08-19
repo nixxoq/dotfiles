@@ -458,6 +458,8 @@ get_command_args "$@"
 
 update_system
 
+install_packages "xdg-user-dirs"
+
 if [ ! -e $HOME/.config/user-dirs.dirs ]; then
     xdg-user-dirs-update
 fi
