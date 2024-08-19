@@ -5,9 +5,9 @@ AVAILABLE_LAYOUTS_FILE="available_layouts.txt"
 
 # Check if the JSON file exists
 if [ ! -f "$JSON_FILE" ]; then
-    echo '{"layouts": []}' > "$JSON_FILE"
+    echo '{"layouts": []}' >"$JSON_FILE"
 elif [ ! -s "$JSON_FILE" ]; then
-    echo '{"layouts": []}' > "$JSON_FILE"
+    echo '{"layouts": []}' >"$JSON_FILE"
 fi
 
 show_available_layouts() {
@@ -15,7 +15,6 @@ show_available_layouts() {
     echo
     echo "Fetching available layouts..."
     echo
-
 
     # printf blue text
     printf "\e[34m"
@@ -40,7 +39,7 @@ while true; do
         continue
     fi
 
-    IFS=',' read -r -a new_layouts <<< "$input"
+    IFS=',' read -r -a new_layouts <<<"$input"
 
     tmp_file=$(mktemp)
 
@@ -50,11 +49,11 @@ while true; do
             echo "Invalid layout code: $layout. Skipping..."
             continue
         fi
-        
+
         layout=$(echo "$layout" | xargs)
 
-        if ! jq -e --arg code "$layout" '.layouts[] | select(.code == $code)' "$JSON_FILE" > /dev/null; then
-            jq --arg code "$layout" '.layouts += [{"code": $code}]' "$JSON_FILE" > "$tmp_file" && mv "$tmp_file" "$JSON_FILE"
+        if ! jq -e --arg code "$layout" '.layouts[] | select(.code == $code)' "$JSON_FILE" >/dev/null; then
+            jq --arg code "$layout" '.layouts += [{"code": $code}]' "$JSON_FILE" >"$tmp_file" && mv "$tmp_file" "$JSON_FILE"
         fi
     done
 
@@ -68,15 +67,15 @@ while true; do
         read -r answer
 
         case "$answer" in
-            [Yy][Ee][Ss])
-                break
-                ;;
-            [Nn][Oo])
-                exit 0
-                ;;
-            *)
-                echo "Invalid input. Please enter 'yes' or 'no'."
-                ;;
+        [Yy][Ee][Ss])
+            break
+            ;;
+        [Nn][Oo])
+            exit 0
+            ;;
+        *)
+            echo "Invalid input. Please enter 'yes' or 'no'."
+            ;;
         esac
     done
 done
