@@ -439,7 +439,7 @@ copy_configs() {
 
         dirname=$(basename "$dir")
 
-        cp -r "$dir" ~ && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        cp -r "$dir" ~/.config && echo "Copied $dirname" || echo "Failed to copy $dirname"
     done
 }
 
@@ -598,7 +598,7 @@ if [[ $? -eq 1 ]]; then
 else
     # run keyboard_setup from $HOME/dotfiles/setup/keyboard_setup.sh
     bash $HOME/dotfiles/setup/keyboard_setup.sh
-    mv $current_dir/layouts.json $HOME/.config/.local/bin/
+    mv $current_dir/layouts.json $HOME/.local/bin/
 fi
 
 printf "\e[32m[INFO] Configs have been copied.\e[0m\n"
