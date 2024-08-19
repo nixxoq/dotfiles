@@ -165,9 +165,8 @@ backup_alacritty() {
         echo "alacritty config was not found. Skipping"
         return
     fi
-    echo "hello"
-    # mkdir -p $HOME/backups/alacritty_$curr_date
-    # mv $HOME/.config/alacritty $HOME/backups/alacritty_$curr_date
+    mkdir -p $HOME/backups/alacritty_$curr_date
+    mv $HOME/.config/alacritty $HOME/backups/alacritty_$curr_date
 }
 
 backup_kitty() {
