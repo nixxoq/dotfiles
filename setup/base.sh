@@ -485,7 +485,7 @@ install_packages "\
     physlock polkit-gnome python-gobject ranger redshift rofi ttf-inconsolata \
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-joypixels ttf-terminus-nerd \
     ueberzug webp-pixbuf-loader xclip xdg-user-dirs xdo xdotool xorg-xdpyinfo \
-    xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo
+    xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo jq
 "
 
 confirm "Do you want to install brightness control?" && install_packages "brightnessctl"
