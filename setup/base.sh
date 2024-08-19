@@ -431,12 +431,14 @@ copy_configs() {
     for dir in $HOME/dotfiles/config/*; do
         dirname=$(basename $dirs)
 
-        [ cp -r "$dirs" ~/.config ] && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        cp -r "$dirs" ~/.config && echo "Copied $dirname" || echo "Failed to copy $dirname"
+
     done
 
     for dir in $HOME/dotfiles/home/*; do
         dirname=$(basename $dirs)
-        [ cp -r "$dir" ~ ] && echo "Copied $dirname" || echo "Failed to copy $dirname"
+
+        cp -r "$dir" ~ && echo "Copied $dirname" || echo "Failed to copy $dirname"
     done
 }
 
