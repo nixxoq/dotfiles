@@ -590,15 +590,15 @@ sleep 0.5
 
 copy_configs
 
-confirm "Do you want to setup keyboard layouts? (if you want two or more layouts)"
+confirm "Do you want to setup keyboard layouts? (if you want two or more layouts)" && 
 
 if [[ $? -eq 1 ]]; then
+    echo "Skipping keyboard layouts setup..."
+    sleep 0.5
+else
     # run keyboard_setup from $HOME/dotfiles/setup/keyboard_setup.sh
     bash $HOME/dotfiles/setup/keyboard_setup.sh
     mv $current_dir/layouts.json $HOME/.config/.local/bin/
-else
-    echo "Skipping keyboard layouts setup..."
-    sleep 0.5
 fi
 
 printf "\e[32m[INFO] Configs have been copied.\e[0m\n"
