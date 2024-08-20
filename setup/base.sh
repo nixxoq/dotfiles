@@ -390,53 +390,6 @@ select_configs() {
     for opt in "${selected[@]}"; do
         output="backup_$opt"
         $output
-        # case "$opt" in
-        # "alacritty")
-        #     backup_alacritty
-        #     ;;
-        # "kitty")
-        #     backup_kitty
-        #     ;;
-        # "neovim")
-        #     backup_neovim
-        #     ;;
-        # "bspwm")
-        #     backup_bspwm
-        #     ;;
-        # "polybar")
-        #     backup_polybar
-        #     ;;
-        # "sxhkd")
-        #     backup_sxhkd
-        #     ;;
-        # "dunst")
-        #     backup_dunst
-        #     ;;
-        # "ncmpcpp")
-        #     backup_ncmpcpp
-        #     ;;
-        # "ranger")
-        #     backup_ranger
-        #     ;;
-        # "tmux")
-        #     backup_tmux
-        #     ;;
-        # "zsh")
-        #     backup_zsh
-        #     ;;
-        # "mpd")
-        #     backup_mpd
-        #     ;;
-        # "paru")
-        #     backup_paru
-        #     ;;
-        # "eww")
-        #     backup_eww
-        #     ;;
-        # "rofi")
-        #     backup_rofi
-        #     ;;
-        # esac
     done
 }
 
@@ -541,7 +494,7 @@ install_packages "\
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-joypixels ttf-terminus-nerd \
     ueberzug webp-pixbuf-loader xclip xdg-user-dirs xdo xdotool xorg-xdpyinfo \
     xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo jq \
-    xorg xorg-xinit eza feh
+    xorg xorg-xinit eza feh libdbusmenu-gtk3
 "
 
 confirm "Do you want to install brightness control?" && install_packages "brightnessctl"
