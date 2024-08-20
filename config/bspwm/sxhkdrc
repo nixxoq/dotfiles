@@ -18,6 +18,7 @@ super + Return
 	OpenApps --terminal
 
 # Open floating Terminal
+# super + alt + Return
 ctrl + alt + t
 	OpenApps --floating
 
@@ -39,8 +40,6 @@ shift + alt + {r,v,k}
 shift + alt + p
 	OpenApps --soundcontrol
 
-# ctrl + shift
-#	{setxkbmap us, setxkbmap ru, setxkbmap ua}
 
 #|||----- System Keybindings -----|||#
 
@@ -69,7 +68,7 @@ super + alt + {h,u}
 	HideBar {-h,-u}
 
 # Change transparency on focused window
-ctrl + alt + {plus,minus,;}
+ctrl + alt + {plus,minus,t}
 	picom-trans {-c -o +3,-c -o -1,-c -d}
 
 # Random wallpaper
@@ -89,10 +88,8 @@ super + alt + c
 	OpenApps --clipboard
 
 # Screenshot
-shift + super + s
-	flameshot gui
-	# flameshot gui
-	# OpenApps --screenshot
+super + shift + s
+	OpenApps --screenshot
 
 # Bluetooth
 super + alt + b
@@ -127,7 +124,7 @@ super + {_,shift + }q
 	
 # Reload Keybindings
 super + Escape
-	pkill -USR1 -x sxhkd; ~/.config/.local/bin/keyboard.sh; dunstify -u low -i ~/.config/bspwm/assets/reload.svg 'sxhkd' 'The configuration file has been reloaded successfully!'
+	pkill -USR1 -x sxhkd; dunstify -u low -i ~/.config/bspwm/assets/reload.svg 'sxhkd' 'The configuration file has been reloaded successfully!'
 
 #####
 
@@ -140,8 +137,8 @@ super + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
-ctrl + alt {m,x,p}
-	bspc node -g {marked,locked,private}
+ctrl + alt {m,x,s,p}
+	bspc node -g {marked,locked,sticky,private}
 
 # Hide/Unhide Window
 ctrl + alt + h

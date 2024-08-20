@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#
 #  ██████╗ ███████╗██████╗ ██╗    ██╗███╗   ███╗██████╗  ██████╗
 #  ██╔══██╗██╔════╝██╔══██╗██║    ██║████╗ ████║██╔══██╗██╔════╝
 #  ██████╔╝███████╗██████╔╝██║ █╗ ██║██╔████╔██║██████╔╝██║
@@ -17,6 +18,11 @@ export PATH="$HOME/.config/bspwm/src:$PATH"
 export XDG_CURRENT_DESKTOP='bspwm'
 ## Fix java applications
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+#
+# Set Up keyboard
+#
+~/.config/.local/bin/keyboard.sh
 
 #  ╦ ╦╔═╗╦═╗╦╔═╔═╗╔═╗╔═╗╔═╗╔═╗╔═╗
 #  ║║║║ ║╠╦╝╠╩╗╚═╗╠═╝╠═╣║  ║╣ ╚═╗
@@ -59,9 +65,6 @@ bspc rule -a scratch sticky=on state=floating focus=on
 # Set system vars for polybar
 "$HOME"/.config/bspwm/src/SetSysVars
 
-# Set monitor DP-2 (my msi 165 hertz) to primary
-xrandr --output DP-2 --primary --output HDMI-0 --right-of DP-2
-
 # Load current theme
 "${HOME}"/.config/bspwm/rices/"${RICETHEME}"/Theme.sh
 
@@ -83,8 +86,4 @@ pidof -q polkit-gnome-authentication-agent-1 || { /usr/lib/polkit-gnome/polkit-g
 # Fix cursor
 xsetroot -cursor_name left_ptr
 
-# Run keyboard swithcer
-~/.config/.local/bin/keyboard.sh &
-
 # End one time code
-flameshot & disown

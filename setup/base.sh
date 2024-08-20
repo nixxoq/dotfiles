@@ -116,8 +116,8 @@ download_keysetup() {
     if [[ $? -eq 1 ]]; then
         echo "Skipping keymap reconfiguration... Do not forget to configure it manually later."
         sleep 0.5
-        exit 0
     fi
+
     exit 0
 }
 
@@ -457,7 +457,8 @@ copy_configs() {
     for dir in $HOME/dotfiles/config/*; do
         dirname=$(basename "$dir")
 
-        cp -r "$dir" ~/.config && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        [ "$dirname" == "local" ] && cp -r "$dir/" ~/.config/.local && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        [ "$dirname" != "local" ] && cp -r "$dir" ~/.config && echo "Copied $dirname" || echo "Failed to copy $dirname"
     done
 
     for dir in $HOME/dotfiles/home/* $HOME/dotfiles/home/.*; do
@@ -465,8 +466,16 @@ copy_configs() {
 
         dirname=$(basename "$dir")
 
-        cp -r "$dir" ~/.config && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        [ "$dirname" == "local" ] && cp -r "$dir/" ~/.local && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        [ "$dirname" != "local" ] && cp -r "$dir" ~ && echo "Copied $dirname" || echo "Failed to copy $dirname"
     done
+
+    chown -R $USER:$USER ~/.local/bin ~/.local/share
+    chown -R $USER:$USER ~/.config
+
+    chmod -R u+x ~/.local/bin/
+    chmod -R u+x ~/.config/
+    chmod -R u+x ~/.local/share/
 }
 
 # install packages
@@ -522,7 +531,7 @@ install_packages "\
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-joypixels ttf-terminus-nerd \
     ueberzug webp-pixbuf-loader xclip xdg-user-dirs xdo xdotool xorg-xdpyinfo \
     xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo jq \
-    xorg xorg-xinit
+    xorg xorg-xinit eza feh
 "
 
 confirm "Do you want to install brightness control?" && install_packages "brightnessctl"
@@ -710,6 +719,12 @@ else
         echo "Error: The file can't be downloaded.."
     fi
 fi
+
+# seem that mpc and mpd are required for dotfiles
+# so we need to install them and run mpd service
+
+install_packages "mpc mpd"
+systemctl --user enable --now mpd.service
 
 echo "Installation finished! Enjoy!"
 echo "Now, you should reboot your system for changes to take effect."
