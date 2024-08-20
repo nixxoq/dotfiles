@@ -11,7 +11,7 @@
 #	Copyright (C) 2021-2024 gh0stzk <z0mbi3.zk@protonmail.com>
 
 # Current rice
-read -r RICETHEME < "${HOME}"/.config/bspwm/.rice
+read -r RICETHEME <"${HOME}"/.config/bspwm/.rice
 
 # Set environment variables
 export PATH="$HOME/.config/bspwm/src:$PATH"
@@ -22,7 +22,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 #
 # Set Up keyboard
 #
-~/.config/.local/bin/keyboard.sh --file="~/.config/.local/bin/layouts.json" --set-keymap
+~/.config/.local/bin/keyboard.sh --file="$HOME/.config/.local/bin/layouts.json" --set-keymap
 
 #  ╦ ╦╔═╗╦═╗╦╔═╔═╗╔═╗╔═╗╔═╗╔═╗╔═╗
 #  ║║║║ ║╠╦╝╠╩╗╚═╗╠═╝╠═╣║  ║╣ ╚═╗
@@ -42,19 +42,19 @@ done
 
 bspc config external_rules_command "${HOME}"/.config/bspwm/src/ExternalRules
 
-bspc config window_gap                6
-bspc config split_ratio               0.51
-bspc config single_monocle            true
-bspc config borderless_monocle        false
-bspc config gapless_monocle           false
+bspc config window_gap 6
+bspc config split_ratio 0.51
+bspc config single_monocle true
+bspc config borderless_monocle false
+bspc config gapless_monocle false
 
-bspc config focus_follows_pointer     true
-bspc config pointer_follows_focus     false
-bspc config pointer_motion_interval   5
-bspc config pointer_modifier          mod4
-bspc config pointer_action1           move
-bspc config pointer_action2           resize_side
-bspc config pointer_action3           resize_corner
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus false
+bspc config pointer_motion_interval 5
+bspc config pointer_modifier mod4
+bspc config pointer_action1 move
+bspc config pointer_action2 resize_side
+bspc config pointer_action3 resize_corner
 
 bspc rule -a scratch sticky=on state=floating focus=on
 
