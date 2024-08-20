@@ -22,7 +22,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 #
 # Set Up keyboard
 #
-~/.config/.local/bin/keyboard.sh
+~/.config/.local/bin/keyboard.sh --file="$HOME"/.config/.local/bin/layouts.json --set_keymap
 
 #  ╦ ╦╔═╗╦═╗╦╔═╔═╗╔═╗╔═╗╔═╗╔═╗╔═╗
 #  ║║║║ ║╠╦╝╠╩╗╚═╗╠═╝╠═╣║  ║╣ ╚═╗
