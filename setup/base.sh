@@ -145,7 +145,7 @@ update_system() {
 
 # check if package is installed
 check_package() {
-    if pacman -Qq "$1" >/dev/null 2>&1; then
+    if pacman -Qq "$1" >/dev/null 2>&1 || pacman -Qqg "$1" >/dev/null 2>&1; then
         printf "\e[32m[INFO] $1 is already installed.\e[0m\n"
     else
         printf "\e[33m[INFO] $1 is not installed. Installing...\e[0m"
@@ -673,40 +673,19 @@ else
 fi
 
 # Installing tdrop for scratchpads
-if command -v tdrop >/dev/null 2>&1; then
-    printf "\e[32mTdrop is already installed.\e[0m\n"
-else
-    install_aur_packages "tdrop"
-fi
+install_aur_packages "tdrop"
 
 # Installing xqp
-if command -v xqp >/dev/null 2>&1; then
-    printf "\e[32mXqp is already installed.\e[0m\n"
-else
-    install_aur_packages "xqp"
-fi
+install_aur_packages "xqp"
 
 # Installing rofi-greenclip
-if pacman -Q rofi-greenclip >/dev/null 2>&1; then
-    printf "\e[32mRofi-greenclip is already installed.\e[0m\n"
-else
-    install_aur_packages "rofi-greenclip"
-fi
+install_aur_packages "rofi-greenclip"
 
 # Installing ttf-maple
-if pacman -Q ttf-maple >/dev/null 2>&1; then
-    printf "\e[32mTtf-maple is already installed.\e[0m\n"
-else
-    install_aur_packages "ttf-maple"
-fi
+install_aur_packages "ttf-maple"
 
 # Installing simple-mtpfs
-if pacman -Q simple-mtpfs >/dev/null 2>&1; then
-    printf "\e[32mSimple-mtpfs is already installed.\e[0m\n"
-else
-    printf "\e[33mSimple-mtpfs is not installed. Installing...\e[0m\n"
-    install_aur_packages "simple-mtpfs"
-fi
+install_aur_packages "simple-mtpfs"
 
 # Installing Eww
 if command -v eww >/dev/null 2>&1; then
@@ -726,8 +705,8 @@ else
     fi
 fi
 
-# install xkb-layout for changing keyboard layouts
-install_aur_packages "xkb-layout"
+# install xkb-switch for changing keyboard layouts
+install_aur_packages "xkb-switch"
 
 # seem that mpc and mpd are required for dotfiles
 # so we need to install them and run mpd service
