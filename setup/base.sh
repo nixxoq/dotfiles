@@ -457,8 +457,13 @@ copy_configs() {
     for dir in $HOME/dotfiles/config/*; do
         dirname=$(basename "$dir")
 
-        [ "$dirname" == "local" ] && cp -r "$dir/" ~/.config/.local && echo "Copied $dirname" || echo "Failed to copy $dirname"
-        [ "$dirname" != "local" ] && cp -r "$dir" ~/.config && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        if [ "$dirname" == "local" ]; then
+            cp -r "$dir/" ~/.config/.local
+            echo "Copied $dirname"
+        else
+            cp -r "$dir" ~/.config
+            echo "Copied $dirname"
+        fi
     done
 
     for dir in $HOME/dotfiles/home/* $HOME/dotfiles/home/.*; do
@@ -466,8 +471,13 @@ copy_configs() {
 
         dirname=$(basename "$dir")
 
-        [ "$dirname" == "local" ] && cp -r "$dir/" ~/.local && echo "Copied $dirname" || echo "Failed to copy $dirname"
-        [ "$dirname" != "local" ] && cp -r "$dir" ~ && echo "Copied $dirname" || echo "Failed to copy $dirname"
+        if [ "$dirname" == "local" ]; then
+            cp -r "$dir/" ~/.local
+            echo "Copied $dirname"
+        else
+            cp -r "$dir" ~
+            echo "Copied $dirname"
+        fi
     done
 
     chown -R $USER:$USER ~/.local/bin ~/.local/share
@@ -649,9 +659,9 @@ confirm "Do you want to setup keyboard layouts? (if you want two or more layouts
 printf "\e[32m[INFO] Configs have been copied.\e[0m\n"
 
 if command -v paru >/dev/null 2>&1; then
-    echo "\e[32m[INFO] Paru is already installed.\e[0m"
+    printf "\e[32m[INFO] Paru is already installed.\e[0m\n"
 else
-    echo "\e[33m[INFO] Paru is not installed. Installing...\e[0m"
+    printf "\e[33m[INFO] Paru is not installed. Installing...\e[0m\n"
     {
         cd "$HOME" || exit
         git clone https://aur.archlinux.org/paru-bin.git
@@ -664,49 +674,45 @@ fi
 
 # Installing tdrop for scratchpads
 if command -v tdrop >/dev/null 2>&1; then
-    echo "\e[32mTdrop is already installed.\e[0m"
+    printf "\e[32mTdrop is already installed.\e[0m\n"
 else
-    echo "\e[33mTdrop is not installed. Installing...\e[0m"
     install_aur_packages "tdrop"
 fi
 
 # Installing xqp
 if command -v xqp >/dev/null 2>&1; then
-    echo "\e[32mXqp is already installed.\e[0m"
+    printf "\e[32mXqp is already installed.\e[0m\n"
 else
-    echo "\e[33mXqp is not installed. Installing...\e[0m"
     install_aur_packages "xqp"
 fi
 
 # Installing rofi-greenclip
 if pacman -Q rofi-greenclip >/dev/null 2>&1; then
-    echo "\e[32mRofi-greenclip is already installed.\e[0m\n"
+    printf "\e[32mRofi-greenclip is already installed.\e[0m\n"
 else
-    echo "\e[33mRofi-greenclip is not installed. Installing...\e[0m\n"
     install_aur_packages "rofi-greenclip"
 fi
 
 # Installing ttf-maple
 if pacman -Q ttf-maple >/dev/null 2>&1; then
-    printf "%s\e[32mTtf-maple is already installed.\e[0m\n"
+    printf "\e[32mTtf-maple is already installed.\e[0m\n"
 else
-    printf "%s\e[33mTtf-maple is not installed. Installing...\e[0m\n"
     install_aur_packages "ttf-maple"
 fi
 
 # Installing simple-mtpfs
 if pacman -Q simple-mtpfs >/dev/null 2>&1; then
-    printf "%s\e[32mSimple-mtpfs is already installed.\e[0m\n"
+    printf "\e[32mSimple-mtpfs is already installed.\e[0m\n"
 else
-    printf "%s\e[33mSimple-mtpfs is not installed. Installing...\e[0m\n"
+    printf "\e[33mSimple-mtpfs is not installed. Installing...\e[0m\n"
     install_aur_packages "simple-mtpfs"
 fi
 
 # Installing Eww
 if command -v eww >/dev/null 2>&1; then
-    echo "\e[32mEww is already installed.\e[0m"
+    printf "\e[32mEww is already installed.\e[0m\n"
 else
-    printf "%s\e[33mEww is not installed. Installing...\e[0m\n"
+    printf "\e[33mEww is not installed. Installing...\e[0m\n"
     if curl -L https://github.com/gh0stzk/pkgs/raw/main/eww -o eww; then
         chmod +x eww
         if sudo install -Dm755 eww /usr/bin/eww; then
@@ -720,9 +726,11 @@ else
     fi
 fi
 
+# install xkb-layout for changing keyboard layouts
+install_aur_packages "xkb-layout"
+
 # seem that mpc and mpd are required for dotfiles
 # so we need to install them and run mpd service
-
 install_packages "mpc mpd"
 systemctl --user enable --now mpd.service
 
