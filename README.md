@@ -31,7 +31,9 @@ NOTES:
     SUPER - WINDOWS
     RETURN - Enter
     @space - space
-    Unfortunately, when you use the keyboard shortcut <b>shift + alt</b>, the <b>shift + alt + b and others. are broken</b>. If you want to use keyboard shortcuts for your favorite browser, editor and file manager, use ctrl + shift or other. 
+    
+    Unfortunately, when you use the keyboard shortcut <b>shift + alt</b>, the <b>shift + alt + b and others. are broken</b>. 
+    If you want to use keyboard shortcuts for your favorite browser, editor and file manager, use ctrl + shift or other. 
 
 - Super + Return
     Opens terminal (Alacritty by default)
@@ -161,7 +163,7 @@ NOTES:
     Move a floating window
 
 
-### Wordspace
+### Workspace
 - Super + arrow left/right
     Switch workspace (next or previous)
 
@@ -181,7 +183,7 @@ NOTES:
 
 notes:
 ```
-# TODO: add option to run this script on startup. A
-#       Additionally, add a option to alias neofetch to 'sysfetch'
-from: https://github.com/nixxoq/dotfiles/home/.zshrc
+# TODO: add option to run this script on startup
+#       Additionally, add an option to alias neofetch as 'sysfetch'
+source: https://github.com/nixxoq/dotfiles/blob/main/home/.zshrc#L154
 ```

@@ -151,5 +151,5 @@ alias ll='eza --icons=always --color=always -la'
 
 # $HOME/.local/bin/colorscript -r
 # well, i don't like this :(
-# TODO: add option to run this script on startup. A
-#       Additionally, add a option to alias neofetch to 'sysfetch'
+# TODO: add option to run this script on startup
+#       Additionally, add an option to alias neofetch as 'sysfetch'
