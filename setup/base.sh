@@ -669,6 +669,7 @@ else
         makepkg -si --noconfirm
     } || {
         echo "Failed to install Paru. You may need to install it manually"
+        exit -1
     }
 fi
 
@@ -689,19 +690,19 @@ install_aur_packages "simple-mtpfs"
 
 # Installing Eww
 if command -v eww >/dev/null 2>&1; then
-    printf "\e[32mEww is already installed.\e[0m\n"
+    printf "\e[32m[INFO] Eww is already installed.\e[0m\n"
 else
-    printf "\e[33mEww is not installed. Installing...\e[0m\n"
+    printf "\e[33m[INFO] Eww is not installed. Installing...\e[0m\n"
     if curl -L https://github.com/gh0stzk/pkgs/raw/main/eww -o eww; then
         chmod +x eww
         if sudo install -Dm755 eww /usr/bin/eww; then
-            echo "Installation complete."
+            echo "[INFO] Successfully installed Eww"
             rm eww
         else
-            echo "Error: Something happend."
+            echo "[INFO] Eww: Error: Something happend."
         fi
     else
-        echo "Error: The file can't be downloaded.."
+        echo "[INFO] Eww: Error: The file can't be downloaded.."
     fi
 fi
 
