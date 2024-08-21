@@ -331,12 +331,13 @@ display_menu() {
         local symbol=" "
         if [[ $i -eq $cursor ]]; then
             symbol=">"
-        ficheck_arg
+        fi
 
         [[ $checked =~ ${options[$i]} ]] && symbol="${symbol} [x]" || symbol="${symbol} [ ]"
 
         printf "\r${symbol} %s\n" "${options[$i]}"
     done
+
     tput -T xterm rc
 }
 
