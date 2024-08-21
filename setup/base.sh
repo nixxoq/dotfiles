@@ -411,7 +411,7 @@ copy_configs() {
         dirname=$(basename "$dir")
 
         if [ "$dirname" == "local" ]; then
-            cp -r "$dir/." ~/.local/
+            cp -r "$dir/." ~/.config/.local/
             echo "Copied $dirname to ~/.local/"
         else
             cp -r "$dir" ~/.config/
