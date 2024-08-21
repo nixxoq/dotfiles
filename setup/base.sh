@@ -11,6 +11,7 @@ SET_KITTY_AS_DEFAULT=0
 curr_date=$(date +%Y%m%d-%H%M%S)
 current_dir=$(pwd)
 KEYMAP_SETUP=0
+ALL_ARGS="$@"
 
 # check if the script is running as root
 if [[ $EUID -eq 0 ]]; then
@@ -61,7 +62,7 @@ check_internet() {
 
 # get all command line arguments
 get_command_args() {
-    for arg in "$@"; do
+    for arg in $ALL_ARGS; do
         case $arg in
         --debug)
             echo "[DEBUG] Enabling debug mode..."
@@ -130,7 +131,7 @@ check_arg() {
     local search_arg="$1"
     shift
 
-    for cmd in "$@"; do
+    for cmd in $ALL_ARGS; do
         if [[ "$cmd" == "$search_arg" ]]; then
             return 0
         fi
@@ -409,7 +410,10 @@ copy_configs() {
 
     echo "Cloning dotfiles"
 
-    [[ -d $HOME/dotfiles && $(check_arg "--force-redownload" "$@") ]] && rm -rf $HOME/dotfiles
+    check_arg "--force-redownload" $ALL_ARGS && [[ -d $HOME/dotfiles ]] && {
+        debug "Removing $HOME/dotfiles (found --force-redownload flag)"
+        rm -rf $HOME/dotfiles
+    }
 
     git clone --depth=1 https://github.com/nixxoq/dotfiles.git $HOME/dotfiles
     sleep 1
@@ -480,7 +484,7 @@ install_aur_packages() {
 # main
 
 check_internet
-get_command_args "$@"
+get_command_args
 
 [[ $KEYMAP_SETUP -eq 1 ]] && download_keysetup
 
@@ -606,15 +610,16 @@ sleep 0.5
 
 copy_configs
 
-confirm "Do you want to setup keyboard layouts? (if you want two or more layouts)" &&
-    if [[ $? -eq 1 ]]; then
-        echo "Skipping keyboard layouts setup..."
-        sleep 0.5
-    else
-        # run keyboard_setup from $HOME/dotfiles/setup/keyboard_setup.sh
-        bash $HOME/dotfiles/setup/keyboard_setup.sh
-        mv $current_dir/layouts.json $HOME/.local/bin/
-    fi
+confirm "Do you want to setup keyboard layouts? (if you want two or more layouts)"
+
+if [[ $? -eq 1 ]]; then
+    echo "Skipping keyboard layouts setup..."
+    sleep 0.5
+else
+    # run keyboard_setup from $HOME/dotfiles/setup/keyboard_setup.sh
+    bash $HOME/dotfiles/setup/keyboard_setup.sh
+    mv $current_dir/layouts.json $HOME/.local/bin/
+fi
 
 printf "\e[32m[INFO] Configs have been copied.\e[0m\n"
 
