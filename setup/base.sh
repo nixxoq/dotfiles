@@ -411,11 +411,11 @@ copy_configs() {
         dirname=$(basename "$dir")
 
         if [ "$dirname" == "local" ]; then
-            cp -r "$dir/" ~/.config/.local
-            echo "Copied $dirname"
+            cp -r "$dir/." ~/.local/
+            echo "Copied $dirname to ~/.local/"
         else
-            cp -r "$dir" ~/.config
-            echo "Copied $dirname"
+            cp -r "$dir" ~/.config/
+            echo "Copied $dirname to ~/.config/"
         fi
     done
 
@@ -425,11 +425,11 @@ copy_configs() {
         dirname=$(basename "$dir")
 
         if [ "$dirname" == "local" ]; then
-            cp -r "$dir/" ~/.local
-            echo "Copied $dirname"
+            cp -r "$dir/." ~/.local/
+            echo "Copied $dirname to ~/.local/"
         else
-            cp -r "$dir" ~
-            echo "Copied $dirname"
+            cp -r "$dir" ~/
+            echo "Copied $dirname to home directory"
         fi
     done
 
