@@ -83,6 +83,9 @@ get_command_args() {
             debug "Configuring keymap..."
             KEYMAP_SETUP=1
             ;;
+        --force-redownload)
+            debug "Forcing re-download of dotfiles if folder exists..."
+            ;;
         --help)
             printf "%sUsage: $0 [--debug] [--skip-update]\n"
             printf "%s\t--debug: Enable debug mode.\n"
@@ -90,6 +93,7 @@ get_command_args() {
             printf "%s\t--media: Install media dependencies.\n"
             printf "%s\t--dev: Install development dependencies.\n"
             printf "%s\t--configure-keymap: Configure keymap.\n"
+            printf "%s\t--force-redownload: Re-download dotfiles if folder exists.\n"
             printf "%s\t--help: Show this help message.\n"
             exit 0
             ;;
@@ -327,7 +331,7 @@ display_menu() {
         local symbol=" "
         if [[ $i -eq $cursor ]]; then
             symbol=">"
-        fi
+        ficheck_arg
 
         [[ $checked =~ ${options[$i]} ]] && symbol="${symbol} [x]" || symbol="${symbol} [ ]"
 
@@ -403,6 +407,8 @@ copy_configs() {
     install_packages "git"
 
     echo "Cloning dotfiles"
+
+    [[ -d $HOME/dotfiles && $(check_arg "--force-redownload" "$@") ]] && rm -rf $HOME/dotfiles
 
     git clone --depth=1 https://github.com/nixxoq/dotfiles.git $HOME/dotfiles
     sleep 1
