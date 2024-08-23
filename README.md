@@ -1,10 +1,7 @@
 
-<div align="justify">
-
 <div align="center">
 <h1>My dotfiles config</h1>
 </div>
-
 
 <pre align="center">
 <a href="#setup">SETUP (Soon)</a> • <a href="#keybinds">KEYBINDS</a> • <a href="#screenshots">Additional Screenshots</a></a>
