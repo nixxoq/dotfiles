@@ -19,14 +19,14 @@ function send_notification {
 }
 
 case $1 in
-  up)
-    # increase the backlight by 5%
-    brightnessctl set "${BRIGHTNESS_STEPS:-5}%+" -q
-    send_notification
-    ;;
-  down)
-    # decrease the backlight by 5%
-    brightnessctl set "${BRIGHTNESS_STEPS:-5}%-" -q
-    send_notification
-    ;;
+up)
+  # increase the backlight by 5%
+  brightnessctl set "${BRIGHTNESS_STEPS:-5}%+" -q
+  send_notification
+  ;;
+down)
+  # decrease the backlight by 5%
+  brightnessctl set "${BRIGHTNESS_STEPS:-5}%-" -q
+  send_notification
+  ;;
 esac

@@ -84,7 +84,8 @@ super + alt + n
 	OpenApps --netmanager
 
 # Clipboard
-super + alt + c
+; super + alt + c
+super + v
 	OpenApps --clipboard
 
 # Screenshot
@@ -193,3 +194,12 @@ ctrl + shift + alt + {Left,Down,Up,Right}
 # move a floating window
 alt + shift {Left,Down,Up,Right}
 	bspc node -v {-10 0,0 10,0 -10,10 0}
+
+
+#################
+# Experementals #
+#################
+
+# Alt + Tab
+alt + Tab
+	~/.local/bin/alt_tab

@@ -17,9 +17,7 @@ vol_dir="$HOME/.config/bspwm/assets"
 notify_cmd='dunstify -u low -h string:x-dunst-stack-tag:cvolum'
 
 # Get Volume
-get_volume() {
-    pamixer --get-volume-human | sed 's/%//'
-}
+get_volume() { pamixer --get-volume-human | sed 's/%//'; }
 
 # Get icons
 get_icon() {
@@ -32,9 +30,7 @@ get_icon() {
 }
 
 # Notify
-notify_user() {
-    ${notify_cmd} -i "$icon" "Volume : $(get_volume)%"
-}
+notify_user() { ${notify_cmd} -i "$icon" "Volume : $(get_volume)%"; }
 
 # Adjust Volume
 adjust_volume() {
@@ -59,11 +55,11 @@ toggle_mute() {
 # Execute accordingly
 if command -v pamixer &>/dev/null; then
     case "$1" in
-        --get) get_volume ;;
-        --inc) adjust_volume -i 5 ;;
-        --dec) adjust_volume -d 5 ;;
-        --toggle) toggle_mute ;;
-        *) echo "$(get_volume)%" ;;
+    --get) get_volume ;;
+    --inc) adjust_volume -i 5 ;;
+    --dec) adjust_volume -d 5 ;;
+    --toggle) toggle_mute ;;
+    *) echo "$(get_volume)%" ;;
     esac
 else
     ${notify_cmd} "'pamixer' is not installed."

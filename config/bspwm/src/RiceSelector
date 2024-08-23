@@ -15,7 +15,7 @@
 
 # Some vars
 bspwm_dir="$HOME/.config/bspwm"
-read -r current_rice < "$bspwm_dir"/.rice
+read -r current_rice <"$bspwm_dir"/.rice
 rofi_command="rofi -dmenu -theme $bspwm_dir/src/rofi-themes/RiceSelector.rasi"
 
 # Variables to try to define the correct size of the images for your resolution
@@ -36,6 +36,6 @@ selected=$(
 
 # If a valid option was selected, write the value to the configuration file and change theme.
 [[ -n "$selected" && "$selected" != "$current_rice" ]] && {
-    echo "$selected" > "$bspwm_dir"/.rice
-	"${bspwm_dir}"/rices/"${selected}"/Theme.sh 
+    echo "$selected" >"$bspwm_dir"/.rice
+    "${bspwm_dir}"/rices/"${selected}"/Theme.sh
 }

@@ -505,7 +505,7 @@ install_packages "\
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-joypixels ttf-terminus-nerd \
     ueberzug webp-pixbuf-loader xclip xdg-user-dirs xdo xdotool xorg-xdpyinfo \
     xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo jq \
-    xorg xorg-xinit eza feh libdbusmenu-gtk3
+    xorg xorg-xinit eza feh libdbusmenu-gtk3 xdotool
 "
 
 confirm "Do you want to install brightness control?" && install_packages "brightnessctl"

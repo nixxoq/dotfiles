@@ -2,8 +2,4 @@
 
 NHidden=$(bspc query -N -n .hidden -d focused)
 
-if [ -z "$NHidden" ]; then
-	bspc node focused -g hidden=on
-else
-	bspc node "$NHidden" -g hidden=off
-fi
+[ -z "$NHidden" ] && bspc node focused -g hidden=on || bspc node "$NHidden" -g hidden=off

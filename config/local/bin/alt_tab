@@ -1,0 +1,69 @@
+#!/bin/bash
+
+LOGFILE="/tmp/alt_tab.log"
+
+log() {
+    echo "$(date +"%Y-%m-%d %H:%M:%S") - $1" >>"$LOGFILE"
+}
+
+>"$LOGFILE"
+
+log "Script started."
+
+# Get list of all visible windows in the current desktop
+window_list=$(bspc query -N -d | while read -r window_id; do
+    title=$(xprop -id "$window_id" | awk -F ' = ' '/_NET_WM_NAME/ {print $2}' | sed 's/"//g')
+    if [ -n "$title" ]; then
+        echo "$title (ID: $window_id)"
+    fi
+done)
+
+log "Window list obtained."
+
+selected_window=$(echo "$window_list" | rofi -dmenu -i -p "Select window:" -theme ~/.config/bspwm/src/rofi-themes/AltTab.rasi)
+
+if [ -n "$selected_window" ]; then
+    window_id=$(echo "$selected_window" | grep -oP '(?<=ID: )[0-9a-fx]+')
+    window_title=$(echo "$selected_window" | sed -E 's/ \((ID: [0-9a-fx]+)\)//')
+
+    log "Selected window: ID=$window_id, Title=$window_title"
+
+    floating_windows=$(bspc query -N -n .window.floating.local)
+
+    if echo "$floating_windows" | grep -q "$window_id"; then
+        log "Window $window_id is floating. Changing to tiled."
+        bspc node "$window_id" -t tiled
+    fi
+
+    bspc node "$window_id" --focus
+
+    log "Switched to window: ID=$window_id, Title=$window_title"
+
+    xwininfo_output=$(xwininfo -id "$window_id")
+    x=$(echo "$xwininfo_output" | grep "Absolute upper-left X:" | awk '{print $4}')
+    y=$(echo "$xwininfo_output" | grep "Absolute upper-left Y:" | awk '{print $4}')
+    width=$(echo "$xwininfo_output" | grep "Width:" | awk '{print $2}')
+    height=$(echo "$xwininfo_output" | grep "Height:" | awk '{print $2}')
+
+    if [ -z "$x" ] || [ -z "$y" ] || [ -z "$width" ] || [ -z "$height" ]; then
+        log "Failed to get coordinates or size. Using default values."
+        x=0
+        y=0
+        width=0
+        height=0
+    fi
+
+    center_x=$((x + width / 2))
+    center_y=$((y + height / 2))
+
+    log "Window coordinates: X=$x, Y=$y, Width=$width, Height=$height"
+    log "Cursor will be moved to center: X=$center_x, Y=$center_y"
+
+    xdotool mousemove $center_x $center_y
+
+    notify-send "Switched to window" "$window_title"
+else
+    log "No window selected."
+fi
+
+log "Script finished."

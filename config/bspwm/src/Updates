@@ -8,7 +8,7 @@
 
 get_total_updates() {
     local total_updates
-    total_updates=$(($(checkupdates 2> /dev/null | wc -l || echo 0) + $(paru -Qua 2> /dev/null | wc -l || echo 0)))
+    total_updates=$(($(checkupdates 2>/dev/null | wc -l || echo 0) + $(paru -Qua 2>/dev/null | wc -l || echo 0)))
     echo "${total_updates:-0}"
 }
 
@@ -23,7 +23,7 @@ get_list_aur_updates() {
 }
 
 print_updates() {
-	local print_updates
+    local print_updates
     print_updates=$(get_total_updates)
 
     if [[ "$print_updates" -gt 0 ]]; then
@@ -40,13 +40,13 @@ update_system() {
 }
 
 case "$1" in
-    --get-updates) get_total_updates ;;
-    --print-updates) print_updates ;;
-    --update-system) update_system ;;
-    --help|*)echo -e "Updates [options]
+--get-updates) get_total_updates ;;
+--print-updates) print_updates ;;
+--update-system) update_system ;;
+--help | *) echo -e "Updates [options]
 
 Options:
 	--get-updates		Get the number of updates available.
 	--print-updates		Print the number of available package to update.
-	--update-system		Update your system including the AUR packages.\n"
+	--update-system		Update your system including the AUR packages.\n" ;;
 esac

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#  ██╗  ██╗██╗██████╗ ███████╗    ██████╗  █████╗ ██████╗ 
+#  ██╗  ██╗██╗██████╗ ███████╗    ██████╗  █████╗ ██████╗
 #  ██║  ██║██║██╔══██╗██╔════╝    ██╔══██╗██╔══██╗██╔══██╗
 #  ███████║██║██║  ██║█████╗      ██████╔╝███████║██████╔╝
 #  ██╔══██║██║██║  ██║██╔══╝      ██╔══██╗██╔══██║██╔══██╗
@@ -11,7 +11,7 @@
 #	19.07.2024 21:47:36
 
 # Configuration
-read -r current_rice < "$HOME"/.config/bspwm/.rice
+read -r current_rice <"$HOME"/.config/bspwm/.rice
 CONF_FILE="$HOME/.config/bspwm/rices/$current_rice/Theme.sh"
 
 # Function to get padding value from Theme.sh
@@ -29,18 +29,20 @@ set_padding() {
 
 is_eww_theme() {
     case "$current_rice" in
-        "z0mbi3"|"andrea")
-            return 0 ;;
-        *)
-            return 1 ;;
+    "z0mbi3" | "andrea")
+        return 0
+        ;;
+    *)
+        return 1
+        ;;
     esac
 }
 
 get_eww_config_dir() {
     local base_dir="$HOME/.config/bspwm/rices/$current_rice"
     case "$current_rice" in
-        "z0mbi3") echo "$base_dir/bar" ;;
-        "andrea") echo "$base_dir/andy" ;;
+    "z0mbi3") echo "$base_dir/bar" ;;
+    "andrea") echo "$base_dir/andy" ;;
     esac
 }
 
@@ -73,7 +75,7 @@ toggle_bars() {
 
 # Parse command line argument
 case $1 in
-    -h|--hide) toggle_bars hide ;;
-    -u|--unhide) toggle_bars unhide ;;
-    *) echo "Usage: $0 {-h|--hide|-u|--unhide}" ;;
+-h | --hide) toggle_bars hide ;;
+-u | --unhide) toggle_bars unhide ;;
+*) echo "Usage: $0 {-h|--hide|-u|--unhide}" ;;
 esac

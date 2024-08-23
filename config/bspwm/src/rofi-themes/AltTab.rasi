@@ -1,0 +1,87 @@
+/* alt_tab.rasi */
+
+// Импортируем общий конфиг
+@import "shared.rasi"
+
+configuration {
+    hover-select: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+}
+
+window {
+    transparency: "real";
+    location: center;
+    anchor: center;
+    fullscreen: false;
+    width: 1000px;
+    border-radius: 20px;
+    cursor: "default";
+    background-color: @background-alt;
+}
+
+mainbox {
+    enabled: true;
+    spacing: 20px;
+    margin: 20px;
+    background-color: transparent;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled: true;
+    background-color: transparent;
+    children: [ "dummy", "prompt", "dummy"];
+}
+
+dummy {
+    background-color: transparent;
+}
+
+prompt {
+    enabled: true;
+    font: "JetBrainsMono Nerd Font Bold 20";
+    background-color: transparent;
+    text-color: @foreground;
+}
+
+listview {
+    enabled: true;
+    expand: true;
+    columns: 1;  // Отображаем одно окно в строке
+    lines: 10;   // Лимит на 10 окон в списке
+    cycle: true;
+    dynamic: true;  // Автоматическая настройка высоты в зависимости от количества окон
+    scrollbar: true;  // Полоса прокрутки для большого количества окон
+    layout: vertical;
+    reverse: false;
+    fixed-height: false;  // Отключаем фиксированную высоту для адаптации
+    fixed-columns: true;
+
+    spacing: 10px;
+    background-color: transparent;
+    cursor: "default";
+}
+
+element {
+    enabled: true;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white/10%;
+    text-color: @foreground;
+    cursor: pointer;
+}
+
+element-text {
+    font: "JetBrainsMono Nerd Font 12";
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 0.5;
+}
+
+element selected.normal {
+    background-color: @selected;
+    text-color: @foreground;
+}

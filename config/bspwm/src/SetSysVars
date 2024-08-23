@@ -6,7 +6,6 @@
 #  ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║     ╚████╔╝ ██║  ██║██║  ██║███████║
 #  ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝      ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
 
-
 CONFIG_FILE="$HOME/.config/bspwm/src/system.ini"
 SFILE="$HOME/.config/bspwm/src/.sys"
 
@@ -18,8 +17,8 @@ function setup_system_vars() {
     # Network interfaces (primary and secondary)
     # readarray -t ALL_NET < <(ip -o link show up | awk -F': ' '{print $2}' | grep -vE '^(lo|docker|veth|br-)')
 
-	PRIMARY_NET=$(ip -o route get 1 | awk '{print $5; exit}')
-	#SECONDARY_NET=$(printf '%s\n' "${ALL_NET[@]}" | grep -v "$PRIMARY_NET" | head -n1)
+    PRIMARY_NET=$(ip -o route get 1 | awk '{print $5; exit}')
+    #SECONDARY_NET=$(printf '%s\n' "${ALL_NET[@]}" | grep -v "$PRIMARY_NET" | head -n1)
 
     [[ -n "$PRIMARY_NET" ]] && sed -i "s/sys_network_interface = .*/sys_network_interface = $PRIMARY_NET/" "$CONFIG_FILE"
     # [[ -n "$SECONDARY_NET" ]] && sed -i "s/sys_network_interface2 = .*/sys_network_interface2 = $SECONDARY_NET/" "$CONFIG_FILE"

@@ -48,12 +48,9 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-def fix_string(string):
+def fix_string(string: str):
     # corrects encoding for the python version used
-    if sys.version_info.major == 3:
-        return string
-    else:
-        return string.encode('utf-8')
+    return string if sys.version_info.major == 3 else string.encode('utf-8')
 
 
 def truncate(name, trunclen):
