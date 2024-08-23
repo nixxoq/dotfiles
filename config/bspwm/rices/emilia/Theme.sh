@@ -14,20 +14,20 @@
 . "${HOME}"/.config/bspwm/src/Process.bash
 
 # Current Rice
-read -r RICE < "$HOME"/.config/bspwm/.rice
+read -r RICE <"$HOME"/.config/bspwm/.rice
 
 # Vars config for Emilia Rice
 # Bspwm border		# Fade windows true|false	# Shadows true|false	# Corner radius
-BORDER_WIDTH="0"	P_FADE="true"				P_SHADOWS="true"		P_CORNER_R="6"
+BORDER_WIDTH="0" P_FADE="true" P_SHADOWS="true" P_CORNER_R="6"
 
 # (Tokyo Night) colorscheme
-bg="#1a1b26"  fg="#c0caf5"
+bg="#1a1b26" fg="#c0caf5"
 
-black="#15161e"   red="#f7768e"   green="#9ece6a"   yellow="#e0af68"
-blackb="#414868"  redb="#f7768e"  greenb="#9ece6a"  yellowb="#e0af68"
+black="#15161e" red="#f7768e" green="#9ece6a" yellow="#e0af68"
+blackb="#414868" redb="#f7768e" greenb="#9ece6a" yellowb="#e0af68"
 
-blue="#7aa2f7"   magenta="#bb9af7"   cyan="#7dcfff"   white="#a9b1d6"
-blueb="#7aa2f7"  magentab="#bb9af7"  cyanb="#7dcfff"  whiteb="#c0caf5"
+blue="#7aa2f7" magenta="#bb9af7" cyan="#7dcfff" white="#a9b1d6"
+blueb="#7aa2f7" magentab="#bb9af7" cyanb="#7dcfff" whiteb="#c0caf5"
 
 # Set bspwm configuration
 set_bspwm_config() {
@@ -78,8 +78,8 @@ cyan = "${cyanb}"
 white = "${whiteb}"
 EOF
 
-  # Set kitty colorscheme
-  cat >"$HOME"/.config/kitty/current-theme.conf <<EOF
+	# Set kitty colorscheme
+	cat >"$HOME"/.config/kitty/current-theme.conf <<EOF
 # The basic colors
 foreground              ${fg}
 background              ${bg}
@@ -140,7 +140,7 @@ color7  ${white}
 color15 ${whiteb}
 EOF
 
-pidof -x kitty && killall -USR1 kitty
+	pidof -x kitty && killall -USR1 kitty
 }
 
 # Set compositor configuration
@@ -235,8 +235,12 @@ launch_theme() {
 		MONITOR=$mon polybar -q emi-bar -c "${HOME}"/.config/bspwm/rices/"${RICE}"/config.ini &
 	done
 
-	# Set random wallpaper for actual rice
-	feh -z --no-fehbg --bg-fill "${HOME}"/.config/bspwm/rices/"${RICE}"/walls
+	if [ -f "${HOME}"/.config/bspwm/last_wallpaper ]; then
+		feh -z --no-fehbg --bg-fill "${HOME}"/.config/bspwm/last_wallpaper
+	else
+		# Set random wallpaper for actual rice
+		feh -z --no-fehbg --bg-fill "${HOME}"/.config/bspwm/rices/"${RICE}"/walls
+	fi
 
 	# Launch dunst notification daemon
 	dunst -config "${HOME}"/.config/bspwm/dunstrc &
