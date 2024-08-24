@@ -235,11 +235,18 @@ launch_theme() {
 		MONITOR=$mon polybar -q emi-bar -c "${HOME}"/.config/bspwm/rices/"${RICE}"/config.ini &
 	done
 
+	# Set wallpaper on all monitors
 	if [ -f "${HOME}"/.config/bspwm/last_wallpaper ]; then
-		feh -z --no-fehbg --bg-fill "${HOME}"/.config/bspwm/last_wallpaper
+		wall_dir="${HOME}"/.config/bspwm/rices/"${RICE}"/walls
+		last_wallpaper=$(cat "${HOME}"/.config/bspwm/last_wallpaper)
+		for mon in $(xrandr --listmonitors | awk '{print $4}' | grep -Eo '^[^+]+' | grep -v '^$'); do
+			feh --no-fehbg --bg-fill "${wall_dir}/${last_wallpaper}" --output $mon
+		done
 	else
 		# Set random wallpaper for actual rice
-		feh -z --no-fehbg --bg-fill "${HOME}"/.config/bspwm/rices/"${RICE}"/walls
+		for mon in $(xrandr --listmonitors | awk '{print $4}' | grep -Eo '^[^+]+' | grep -v '^$'); do
+			feh -z --no-fehbg --bg-fill "${HOME}"/.config/bspwm/rices/"${RICE}"/walls --output $mon
+		done
 	fi
 
 	# Launch dunst notification daemon
