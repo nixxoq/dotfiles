@@ -7,37 +7,31 @@ log() {
 }
 
 >"$LOGFILE"
-
 log "Script started."
 
-# Get list of all visible windows in the current desktop
 window_list=$(bspc query -N -d | while read -r window_id; do
     title=$(xprop -id "$window_id" | awk -F ' = ' '/_NET_WM_NAME/ {print $2}' | sed 's/"//g')
-    if [ -n "$title" ]; then
-        echo "$title (ID: $window_id)"
-    fi
+    [ -n "$title" ] && echo "$title|$window_id"
 done)
 
 log "Window list obtained."
 
-selected_window=$(echo "$window_list" | rofi -dmenu -i -p "Select window:" -theme ~/.config/bspwm/src/rofi-themes/AltTab.rasi)
+declare -A window_map
+while IFS='|' read -r title window_id; do
+    window_map["$title"]="$window_id"
+done <<<"$window_list"
+
+selected_window=$(printf "%s\n" "${!window_map[@]}" | rofi -dmenu -i -p "Select window:" -theme ~/.config/bspwm/src/rofi-themes/AltTab.rasi)
 
 if [ -n "$selected_window" ]; then
-    window_id=$(echo "$selected_window" | grep -oP '(?<=ID: )[0-9a-fx]+')
-    window_title=$(echo "$selected_window" | sed -E 's/ \((ID: [0-9a-fx]+)\)//')
-
-    log "Selected window: ID=$window_id, Title=$window_title"
+    window_id="${window_map[$selected_window]}"
+    log "Selected window: ID=$window_id, Title=$selected_window"
 
     floating_windows=$(bspc query -N -n .window.floating.local)
-
-    if echo "$floating_windows" | grep -q "$window_id"; then
-        log "Window $window_id is floating. Changing to tiled."
-        bspc node "$window_id" -t tiled
-    fi
+    echo "$floating_windows" | grep -q "$window_id" && bspc node "$window_id" -t tiled
 
     bspc node "$window_id" --focus
-
-    log "Switched to window: ID=$window_id, Title=$window_title"
+    log "Switched to window: ID=$window_id, Title=$selected_window"
 
     xwininfo_output=$(xwininfo -id "$window_id")
     x=$(echo "$xwininfo_output" | grep "Absolute upper-left X:" | awk '{print $4}')
@@ -45,13 +39,7 @@ if [ -n "$selected_window" ]; then
     width=$(echo "$xwininfo_output" | grep "Width:" | awk '{print $2}')
     height=$(echo "$xwininfo_output" | grep "Height:" | awk '{print $2}')
 
-    if [ -z "$x" ] || [ -z "$y" ] || [ -z "$width" ] || [ -z "$height" ]; then
-        log "Failed to get coordinates or size. Using default values."
-        x=0
-        y=0
-        width=0
-        height=0
-    fi
+    [ -z "$x" ] || [ -z "$y" ] || [ -z "$width" ] || [ -z "$height" ] && x=0 && y=0 && width=0 && height=0
 
     center_x=$((x + width / 2))
     center_y=$((y + height / 2))
@@ -60,8 +48,7 @@ if [ -n "$selected_window" ]; then
     log "Cursor will be moved to center: X=$center_x, Y=$center_y"
 
     xdotool mousemove $center_x $center_y
-
-    notify-send "Switched to window" "$window_title"
+    notify-send "Switched to window" "$selected_window"
 else
     log "No window selected."
 fi

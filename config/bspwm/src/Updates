@@ -3,8 +3,8 @@
 #  ╠═╣╠╦╝║  ╠═╣  ║ ║╠═╝ ║║╠═╣ ║ ║╣ ╚═╗
 #  ╩ ╩╩╚═╚═╝╩ ╩  ╚═╝╩  ═╩╝╩ ╩ ╩ ╚═╝╚═╝
 # Script to check for new updates in arch and AUR. Copyright 2023 gh0stzk
-# Author: z0mbi3
-# url: https://github.com/gh0stzk
+# Author: z0mbi3, modified by NixxO (https://github.com/nixxoq)
+# url: https://github.com/nixxoq/dotfiles
 
 get_total_updates() {
     local total_updates
@@ -36,13 +36,30 @@ print_updates() {
 }
 
 update_system() {
-    paru -Syu --nocombinedupgrade
+    echo -e "\033[1m\033[34mUpdating system...\033[0m"
+    
+    local print_updates
+    print_updates=$(get_total_updates)
+    if [[ "$print_updates" -gt 0 ]]; then
+        if [[ "$2" == "--ignore-packages" ]]; then
+            shift 2
+            ignore_packages=""
+            for package in "$@"; do
+                ignore_packages+="--ignore $package "
+            done
+            paru -Syyu --combinedupgrade $ignore_packages
+        else
+            paru -Syyu --combinedupgrade
+        fi
+    else
+        echo -e "\033[1m\033[32mYour system is already updated!\033[0m"
+    fi
 }
 
 case "$1" in
 --get-updates) get_total_updates ;;
 --print-updates) print_updates ;;
---update-system) update_system ;;
+--update-system) update_system "$@" ;;
 --help | *) echo -e "Updates [options]
 
 Options:

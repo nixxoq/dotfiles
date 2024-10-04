@@ -9,34 +9,37 @@
 CONFIG_FILE="$HOME/.config/bspwm/src/system.ini"
 SFILE="$HOME/.config/bspwm/src/.sys"
 
-# Check if the .sys file already exists
-[[ -f "$SFILE" ]] && exit 0 # The file exists, exit without doing anything
+[[ -f "$SFILE" ]] && echo "Already configured." && exit 0
+
+# Create the configuration file if it doesn't exist
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "Creating new configuration file: $CONFIG_FILE"
+    cat <<EOL >"$CONFIG_FILE"
+[system]
+sys_network_interface = not_set
+;;sys_network_interface2 = not_set
+sys_graphics_card = not_set
+sys_battery = not_set
+sys_adapter = not_set
+EOL
+fi
 
 # Function to get and set values
-function setup_system_vars() {
-    # Network interfaces (primary and secondary)
-    # readarray -t ALL_NET < <(ip -o link show up | awk -F': ' '{print $2}' | grep -vE '^(lo|docker|veth|br-)')
+setup_system_vars() {
+    declare -A sys_vars=(
+        [sys_network_interface]="$(ip -o route get 1 | awk '{print $5; exit}')"
+        [sys_graphics_card]="$(basename $(find /sys/class/backlight -maxdepth 1 -type l | head -n1))"
+        [sys_battery]="$(basename $(find /sys/class/power_supply -maxdepth 1 -type l -name 'BAT*' | head -n1))"
+        [sys_adapter]="$(basename $(find /sys/class/power_supply -maxdepth 1 -type l -name 'A[CD]*' | head -n1))"
+    )
 
-    PRIMARY_NET=$(ip -o route get 1 | awk '{print $5; exit}')
-    #SECONDARY_NET=$(printf '%s\n' "${ALL_NET[@]}" | grep -v "$PRIMARY_NET" | head -n1)
-
-    [[ -n "$PRIMARY_NET" ]] && sed -i "s/sys_network_interface = .*/sys_network_interface = $PRIMARY_NET/" "$CONFIG_FILE"
-    # [[ -n "$SECONDARY_NET" ]] && sed -i "s/sys_network_interface2 = .*/sys_network_interface2 = $SECONDARY_NET/" "$CONFIG_FILE"
-
-    # Graphics card (backlight)
-    CARD=$(find /sys/class/backlight -maxdepth 1 -type l | head -n1 | xargs basename)
-    [[ -n "$CARD" ]] && sed -i "s/sys_graphics_card = .*/sys_graphics_card = $CARD/" "$CONFIG_FILE"
-
-    # Battery and adapter
-    BATTERY=$(find /sys/class/power_supply -maxdepth 1 -type l -name "BAT*" | head -n1 | xargs basename)
-    ADAPTER=$(find /sys/class/power_supply -maxdepth 1 -type l -name "A[CD]*" | head -n1 | xargs basename)
-
-    [[ -n "$BATTERY" ]] && sed -i "s/sys_battery = .*/sys_battery = $BATTERY/" "$CONFIG_FILE"
-    [[ -n "$ADAPTER" ]] && sed -i "s/sys_adapter = .*/sys_adapter = $ADAPTER/" "$CONFIG_FILE"
+    for var in "${!sys_vars[@]}"; do
+        [[ -n "${sys_vars[$var]}" ]] && sed -i "s/$var = .*/$var = ${sys_vars[$var]}/" "$CONFIG_FILE" || echo "Failed to update $var"
+    done
 }
 
-# Ejecutar la configuración
+# Run the setup function
 setup_system_vars
 
-# Crear el archivo .sys para indicar que la configuración ya se ha realizado
+# Create the .sys file to indicate that the configuration has been done
 touch "$SFILE"

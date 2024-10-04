@@ -1,132 +1,61 @@
 #!/usr/bin/env bash
 
-encode_to_url_format() {
-    echo "$1" | sed 's/ /%20/g'
+get_weather() {
+    KEY="8b05d62206f459e1d298cbe5844d7d87"
+    CITY=$1
+    CITYN=$(echo "$CITY" | sed 's/ /%20/g')
+    UNITS="metric"
+    WEATHER=$(curl -sf "api.openweathermap.org/data/2.5/weather?q=$CITYN&appid=$KEY&units=$UNITS")
+
+    WEATHER_DESC=$(echo "$WEATHER" | jq -r ".weather[0].main")
+    WEATHER_TEMP=$(echo "$WEATHER" | jq ".main.temp" | cut -d "." -f 1)
+    WEATHER_ICON_CODE=$(echo "$WEATHER" | jq -r ".weather[].icon" | head -1)
+    WEATHER_FEELS_LIKE=$(echo "$WEATHER" | jq ".main.feels_like" | cut -d "." -f 1)
+
+    case $WEATHER_ICON_CODE in
+    "01d") WEATHER_ICON="" ;;
+    "01n") WEATHER_ICON="" ;;
+    "02d") WEATHER_ICON="" ;;
+    "02n") WEATHER_ICON="" ;;
+    "03d" | "03n" | "04d" | "04n") WEATHER_ICON="" ;;
+    "09d" | "09n" | "10d" | "10n") WEATHER_ICON="" ;;
+    "11d" | "11n") WEATHER_ICON="" ;;
+    "13d" | "13n") WEATHER_ICON="" ;;
+    "40d" | "40n") WEATHER_ICON="" ;;
+    *) WEATHER_ICON="" ;;
+    esac
 }
 
-check_if_empty() {
-    [[ -z "$1" ]] && echo "0" || echo "$1"
+command_line_args() {
+    CITY="Kyiv"
+    args=("$@")
+    for arg in "${args[@]}"; do
+        case $arg in
+        --city=*) CITY="${arg#*=}" ;;
+        --city) CITY="${args[1]}" ;;
+        esac
+    done
+
+    get_weather "$CITY"
+
+    if [[ $# -eq 0 || ! " ${args[@]} " =~ " --show-current-temp " && ! " ${args[@]} " =~ " --show-feels-like " && ! " ${args[@]} " =~ " --show-weather-desc " && ! " ${args[@]} " =~ " --show-icon " && ! " ${args[@]} " =~ " --show-full " && ! " ${args[@]} " =~ " --show-city " ]]; then
+        echo -e "\033[1m\033[34mInformation about weather in $CITY:\033[0m"
+        echo -e "\033[1m\033[32mTemperature:\033[0m $WEATHER_TEMP°"
+        echo -e "\033[1m\033[32mFeels like:\033[0m $WEATHER_FEELS_LIKE°"
+        echo -e "\033[1m\033[32mWeather:\033[0m $WEATHER_DESC"
+        echo -e "\033[1m\033[32mIcon:\033[0m $WEATHER_ICON"
+    fi
+
+    for arg in "${args[@]}"; do
+        case $arg in
+        "--show-current-temp") echo "$WEATHER_TEMP" ;;
+        "--show-feels-like") echo "$WEATHER_FEELS_LIKE" ;;
+        "--show-weather-desc") echo "$WEATHER_DESC" ;;
+        "--show-icon") echo "$WEATHER_ICON" ;;
+        "--show-full") echo "$WEATHER" ;;
+        "--show-city") echo "$CITY" ;;
+        esac
+    done
 }
 
-KEY="8b05d62206f459e1d298cbe5844d7d87"
-CITY="Kyiv"
-CITYN=$(encode_to_url_format "$CITY")
-UNITS="metric" # Available "metric" "imperial"
-WEATHER=$(curl -sf "api.openweathermap.org/data/2.5/weather?q=$CITYN&appid=$KEY&units=$UNITS")
-
-WEATHER_DESC=$(echo "$WEATHER" | jq -r ".weather[0].main")
-WEATHER_TEMP=$(echo "$WEATHER" | jq ".main.temp" | cut -d "." -f 1)
-WEATHER_ICON_CODE=$(echo "$WEATHER" | jq -r ".weather[].icon" | head -1)
-WEATHER_FEELS_LIKE=$(echo "$WEATHER" | jq ".main.feels_like" | cut -d "." -f 1)
-WEATHER_ICON=""
-WEATHER_HEX=""
-
-case $WEATHER_ICON_CODE in
-    "01d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#ffd86b"
-        ;;
-    "01n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#fcdcf6"
-        ;;
-    "02d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#adadff"
-        ;;
-    "02n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#adadff"
-        ;;
-    "03d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#adadff"
-        ;;
-    "03n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#adadff"
-        ;;
-    "04d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#adadff"
-        ;;
-    "04n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#acb0d0"
-        ;;
-    "09d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#6b95ff"
-        ;;
-    "09n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#6b95ff"
-        ;;
-    "10d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#6b95ff"
-        ;;
-    "10n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#6b95ff"
-        ;;
-    "11d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#ffeb57"
-        ;;
-    "11n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#ffeb57"
-        ;;
-    "13d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#e3e6fc"
-        ;;
-    "13n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#e3e6fc"
-        ;;
-    "40d")
-        WEATHER_ICON=""
-        WEATHER_HEX="#84afdb"
-        ;;
-    "40n")
-        WEATHER_ICON=""
-        WEATHER_HEX="#84afdb"
-        ;;
-    *)
-        WEATHER_ICON=""
-        WEATHER_HEX="#adadff"
-        ;;
-esac
-
-case $1 in
-    "current_temp")
-        check_if_empty "$WEATHER_TEMP"
-        ;;
-    "current_temp_fahrenheit")
-        WEATHER_TEMP=$("$WEATHER_TEMP" 9 / 5 + 32)
-        check_if_empty "$WEATHER_TEMP"
-        ;;
-    "feels_like")
-        check_if_empty "$WEATHER_FEELS_LIKE"
-        ;;
-    "weather_desc")
-        [[ -z $WEATHER_DESC ]] && echo "Not Available." || echo "$WEATHER_DESC"
-        ;;
-    "icon")
-        echo $WEATHER_ICON
-        ;;
-    "hex")
-        echo $WEATHER_HEX
-        ;;
-    "full")
-        echo "$WEATHER"
-        ;;
-    "city")
-        echo "$CITY"
-        ;;
-    "wmodule")
-        echo $WEATHER_ICON "$WEATHER_TEMP"°
-        ;;
-esac
+command_line_args "$@"
