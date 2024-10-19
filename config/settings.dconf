@@ -1,0 +1,35 @@
+[ca/desrt/dconf-editor]
+saved-pathbar-path='/org/gnome/desktop/interface/gtk-theme'
+saved-view='/org/gnome/desktop/'
+window-height=500
+window-is-maximized=true
+window-width=540
+
+[org/gnome/desktop/interface]
+color-scheme='prefer-dark'
+cursor-size=20
+cursor-theme='Bibata-Modern-Ice'
+document-font-name='Cantarell 10'
+font-antialiasing='rgba'
+font-hinting='full'
+font-name='Cantarell 10'
+gtk-theme='Arc-Dark'
+icon-theme='Tela-circle-dracula'
+monospace-font-name='CaskaydiaCove Nerd Font Mono 9'
+
+[org/gnome/tweaks]
+show-extensions-notice=false
+
+[org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=206
+sort-column='name'
+sort-directories-first=false
+sort-order='ascending'
+type-format='category'
+window-position=(0, 0)
+window-size=(1890, 446)
