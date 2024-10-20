@@ -7,6 +7,8 @@
 <a href="#setup">SETUP (manual installtion soon)</a> • <a href="#keybinds">KEYBINDS</a> • <a href="#screenshots">Additional Screenshots</a></a>
 </pre>
 
+> [!WARNING]
+> Outdated. I'm using [v2 config right now](https://github.com/nixxoq/dotfiles/v2)
 
 ```
 - OS: Arch Linux
