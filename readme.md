@@ -15,7 +15,7 @@
 - Screenshot tool: flameshot (git-version, built with -DUSE_WAYLAND_CLIPBOARD=true -DUSE_WAYLAND_GRIM=ON flags)
 ```
 
-![Old-Desktop](https://github.com/user-attachments/assets/f086a57f-5101-4110-a2ec-753c4f3fb481)
+![screenshot](https://github.com/user-attachments/assets/98af27b9-a16e-4954-9e90-dbce169db9f9)
 
 ## Setup
 
