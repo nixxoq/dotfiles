@@ -12,9 +12,10 @@
 - OS: Arch Linux
 - WM: Hyprland
 - Terminal: kitty
-- Screenshot tool: grim
+- Screenshot tool: flameshot (git-version, built with -DUSE_WAYLAND_CLIPBOARD=true -DUSE_WAYLAND_GRIM=ON flags)
 ```
-![Desktop-Preview](https://github.com/user-attachments/assets/f086a57f-5101-4110-a2ec-753c4f3fb481)
+
+![Old-Desktop](https://github.com/user-attachments/assets/f086a57f-5101-4110-a2ec-753c4f3fb481)
 
 ## Setup
 
