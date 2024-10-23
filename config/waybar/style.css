@@ -11,11 +11,15 @@
 
 window#waybar {
     background: @bar-bg;
+    /* background: rgba(0, 0, 0, 0.4);  */
     border-radius: 7px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 5px;
+    margin: 5px;
 }
 
 tooltip {
-    background: #EAB2C2;
+    background: #000000;
     color: @main-fg;
     border-radius: 8px;
     border-width: 0px;
@@ -117,7 +121,7 @@ tooltip {
 #custom-cliphist,
 #clock,
 #custom-cpuinfo,
-#cpu,
+/* #cpu, */
 #custom-gpuinfo,
 #idle_inhibitor,
 #custom-keybindhint,
@@ -125,13 +129,13 @@ tooltip {
 #memory,
 #mpris,
 #network,
-#custom-power,
+/* #custom-power, */
 #pulseaudio,
 #custom-spotify,
 #taskbar,
 #custom-theme,
 #tray,
-#custom-updates,
+/* #custom-updates, */
 #custom-wallchange,
 #custom-wbar,
 #window,
@@ -149,7 +153,26 @@ tooltip {
     margin: 6px 0px 6px 0px;
     padding-left: 4px;
     padding-right: 4px;
+}
 
+#cpu,
+#memory,
+#disk,
+#custom-window,
+#bluetooth,
+#custom-power,
+#network,
+#pulseaudio,
+#pulseaudio-microphone,
+#custom-separator,
+#custom-updates {
+    color: @main-fg;
+    background: @main-bg;
+    opacity: 1;
+    margin: 6px 0px 6px 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-right: 1px solid @main-bg;
 }
 
 #custom-weather {
@@ -277,12 +300,8 @@ tooltip {
 }
 
 #custom-separator {
-    border-radius: 7px 0px 0px 7px;
-    
-    padding: 0 8px;
-    font-size: 14px;
-    background: @main-bg;
-    color: #DEC386;
+    color: #1B5E20;
+    margin: 0 5px;
 }
 
 #custom-keymap {

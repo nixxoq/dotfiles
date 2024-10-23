@@ -17,22 +17,18 @@
         "custom/r_end",
         "custom/l_end",
         "cpu",
-        "custom/separator",
+        // "custom/separator",
         "custom/updates",
-        "custom/r_end",
-        "custom/l_end",
         "memory",
-        "custom/r_end",
-        "custom/l_end",
+        // "custom/separator",
         "disk",
-        "custom/r_end",
-        "custom/l_end",
-        "",
         "custom/r_end"
     ],
     "modules-center": [
         "custom/padd",
+        "custom/l_end",
         "hyprland/window",
+        "custom/r_end",
         "custom/padd"
     ],
     "modules-right": [
@@ -40,13 +36,12 @@
         "custom/l_end",
         "network",
         "bluetooth",
-        "custom/r_end",
-        "custom/l_end",
+        // "custom/r_end",
+        // "custom/l_end",
         "pulseaudio",
         "pulseaudio#microphone",
-        "custom/r_end",
-        "custom/l_end",
         "battery",
+        // "custom/separator",
         "hyprland/language",
         "backlight",
         "custom/r_end",
@@ -57,13 +52,11 @@
         "custom/l_end",
         "tray",
         "custom/r_end",
-        "custom/r_end",
-        "custom/power",
         "custom/padd",
         "custom/padd"
     ],
     "custom/separator": {
-        "format": "●",
+        "format": " ",
         "tooltip": false,
         "class": "separator"
     },
@@ -71,7 +64,7 @@
     "disk": {
         "interval": 10,
         "format": "󰨣 {specific_free:0.2f}GB free",
-        // "css-name": "disk",
+        "css-name": "disk",
         "unit": "GB"
     },
     "custom/weather": {
@@ -180,10 +173,11 @@
     "hyprland/window": {
         "format": "{}",
         "rewrite": {
-            "(.*) — Mozilla Firefox": "🌎 - $1",
+            "(.*) — Mozilla Firefox": "🌎 - Mozilla Firefox",
             "64Gram (.*)": "✉️ - Telegram",
             "(.*) - (.*) - Visual Studio Code": "🔗 - $1 - $2"
         },
+        "css-name": "custom-window",
         "separate-outputs": true
     },
     "custom/updates": {
@@ -265,8 +259,8 @@
     "pulseaudio#microphone": {
         "format": "{format_source}",
         "rotate": 0,
-        "format-source": "",
-        "format-source-muted": "",
+        "format-source": "\ue029",
+        "format-source-muted": "\ue02b",
         "on-click": "pavucontrol -t 4",
         "on-click-middle": "~/.config/hyprdots/scripts/volumecontrol.sh -i m",
         "on-scroll-up": "~/.config/hyprdots/scripts/volumecontrol.sh -i i",
@@ -349,14 +343,6 @@
             "on-scroll-up": "shift_up",
             "on-scroll-down": "shift_down"
         }
-    },
-    "custom/power": {
-        "format": "{}",
-        "rotate": 0,
-        "exec": "echo ; echo  ",
-        "on-click": "~/.config/hypr/scripts/Wlogout.sh",
-        // "interval" : 86400, // once every day
-        "tooltip": true
     },
     // modules for padding //
     "custom/l_end": {
