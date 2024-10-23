@@ -110,5 +110,11 @@ Alt + Tab: switch between workspaces using hyprswitch (requires hyprswitch)
 
 ## Screenshots
 
+### Old-Desktop preview
+<a href="https://github.com/nixxoq/dotfiles/tree/bbe5c306ae12afd4ce38b78fa8c5723ed692b08d">
+  <img src="https://github.com/user-attachments/assets/f086a57f-5101-4110-a2ec-753c4f3fb481" alt="Old-Desktop" />
+</a>
+
+
 ### Appmenu
 ![Application Menu](https://github.com/user-attachments/assets/3483f5b4-dd43-4d51-83a8-ce22aff32d9c)
