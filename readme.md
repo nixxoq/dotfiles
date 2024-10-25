@@ -12,10 +12,15 @@
 - OS: Arch Linux
 - WM: Hyprland
 - Terminal: kitty
+- Bar: Ags (Aylur's Gtk Shell) + Hyprpanel
 - Screenshot tool: flameshot (git-version, built with -DUSE_WAYLAND_CLIPBOARD=true -DUSE_WAYLAND_GRIM=ON flags)
 ```
 
-![screenshot](https://github.com/user-attachments/assets/98af27b9-a16e-4954-9e90-dbce169db9f9)
+AGS:
+![hyprpanel](https://github.com/user-attachments/assets/0413feb8-8e20-489b-bc6a-6cb97fd54dee)
+
+Waybar:
+![waybar-mode](https://github.com/user-attachments/assets/98af27b9-a16e-4954-9e90-dbce169db9f9)
 
 ## Setup
 
@@ -30,7 +35,15 @@ Not implemented yet.
 > [!WARNING]
 > **Dependency packages:**
 >
-> ttf-jetbrains-mono ttf-jetbrains-mono-nerd bat dolphin catnip (?) cbonsai (-bin) cliphist checkupdates-with-aur dunst egl-wayland eza hyprland hyprlang hyprlock hyprcursor hyprswitch jq kitty kitty-shell-integration kitty-terminfo lib32-wayland noto-fonts otf-material-design-icons pacman-contrib pamixer pavucontrol pipewire pipewire-pulse pipwire-jack pipewire-audio polkit-gnome pywal-git rofi ranger sddm swww waybar wl-clipboard wlogout xdg-desktop-portal xdg-desktop-portal-wlr xdg-user-dirs zsh zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting noto-color-emoji-fontconfig (fixes font rendering in discord and other apps) ttf-liberation zip unzip qt6ct qt5ct kvantum arc-kde arc-gtk-theme dconf dconf-editor firefox geany gtk3 gtk4 gtk4-layer-shell hicolor-icon-theme htop otf-material-design-icons 
+> ttf-jetbrains-mono ttf-jetbrains-mono-nerd bat dolphin catnip cbonsai clipse egl-wayland eza hyprland hyprlang hyprlock hyprcursor hyprswitch jq kitty kitty-shell-integration kitty-terminfo lib32-wayland noto-fonts otf-material-design-icons pacman-contrib pamixer pavucontrol pipewire pipewire-pulse pipwire-jack pipewire-audio polkit-gnome pywal-git rofi ranger sddm swww waybar wl-clipboard wlogout xdg-desktop-portal xdg-desktop-portal-wlr xdg-user-dirs zsh zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting noto-color-emoji-fontconfig ttf-liberation zip unzip qt6ct qt5ct kvantum arc-kde arc-gtk-theme dconf dconf-editor firefox geany gtk3 gtk4 gtk4-layer-shell hicolor-icon-theme htop otf-material-design-icons 
+
+> [!NOTE]
+> **If you prefer using ags instead of waybar:**
+>
+> curl -fsSL https://bun.sh/install | bash && sudo ln -s $HOME/.bun/bin/bun /usr/local/bin/bun
+> 
+> yay/paru -S libgtop bluez bluez-utils btop networkmanager dart-sass brightnessctl swww python gnome-bluetooth-3.0 power-profiles-daemon grimblast-git gpu-screen-recorder hyprpicker matugen-bin python-gpustat aylurs-gtk-shell-git
+
 
 <!-- 
 > [!WARNING]
@@ -57,6 +70,20 @@ Command line arguments:
 --force-redownload: Re-download dotfiles if folder exists.
 --help: Display help message.
 ``` -->
+
+## FAQ
+
+Since I'm too lazy to write a setup script, I have a few answers to specific questions.
+
+### Q: "Open with" -> "Other application" is empty
+### A: try this
+> mkdir $HOME/.config/menus/
+> curl -L https://raw.githubusercontent.com/KDE/plasma-workspace/master/menu/desktop/plasma-applications.menu -o $HOME/.config/menus/applications.menu
+> kbuildsycoca6
+
+### Q: Hey, I wanna use waybar instead of ags, what should I do?
+### A: 
+> open ~/.config/hypr/hyprland.conf file, find and comment "exec-once = ags" line, uncomment "exec-once = waybar"
 
 ## keybinds
 ```
