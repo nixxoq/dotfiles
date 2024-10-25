@@ -78,7 +78,9 @@ Since I'm too lazy to write a setup script, I have a few answers to specific que
 ### Q: "Open with" -> "Other application" is empty
 ### A: try this
 > mkdir $HOME/.config/menus/
+>
 > curl -L https://raw.githubusercontent.com/KDE/plasma-workspace/master/menu/desktop/plasma-applications.menu -o $HOME/.config/menus/applications.menu
+>
 > kbuildsycoca6
 
 ### Q: Hey, I wanna use waybar instead of ags, what should I do?
