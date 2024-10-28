@@ -3,26 +3,27 @@
 # wallpaper var
 EnableWallDcol=1
 ConfDir="${XDG_CONFIG_HOME:-$HOME/.config}"
-CloneDir="/home/kyokino/Hyprdots"
+CloneDir="$HOME/.config/hyprdots"
 cacheDir="$HOME/.cache/hyprdots"
 ThemeCtl="${ConfDir}/hyprdots/theme.ctl"
 WallbashDir="${ConfDir}/hyprdots/wallbash"
 
 # theme var
-gtkTheme=`gsettings get org.gnome.desktop.interface gtk-theme | sed "s/'//g"`
-gtkIcon=`gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g"`
-gtkMode=`gsettings get org.gnome.desktop.interface color-scheme | sed "s/'//g" | awk -F '-' '{print $2}'`
+gtkTheme=$(gsettings get org.gnome.desktop.interface gtk-theme | sed "s/'//g")
+gtkIcon=$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")
+gtkMode=$(gsettings get org.gnome.desktop.interface color-scheme | sed "s/'//g" | awk -F '-' '{print $2}')
 
 # hypr var
-hypr_border=`hyprctl -j getoption decoration:rounding | jq '.int'`
-hypr_width=`hyprctl -j getoption general:border_size | jq '.int'`
+hypr_border=$(hyprctl -j getoption decoration:rounding | jq '.int')
+hypr_width=$(hyprctl -j getoption general:border_size | jq '.int')
 
 # pacman fns
-pkg_installed()
-{
+pkg_installed() {
     local PkgIn=$1
 
-    if pacman -Qi $PkgIn &> /dev/null
+    if
+        pacman -Qi $PkgIn &
+        >/dev/null
     then
         #echo "${PkgIn} is already installed..."
         return 0
@@ -32,13 +33,10 @@ pkg_installed()
     fi
 }
 
-get_aurhlpr()
-{
-    if pkg_installed yay
-    then
+get_aurhlpr() {
+    if pkg_installed yay; then
         aurhlpr="yay"
-    elif pkg_installed paru
-    then
+    elif pkg_installed paru; then
         aurhlpr="paru"
     fi
 }

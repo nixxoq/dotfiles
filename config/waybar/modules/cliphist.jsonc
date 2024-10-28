@@ -3,7 +3,6 @@
         "rotate": ${r_deg},
         "exec": "echo ; echo 󰅇 clipboard history",
         "on-click": "sleep 0.1 && ${ScrDir}/cliphist.sh c",
-        "on-click-right": "sleep 0.1 && ${ScrDir}/cliphist.sh d",
         "on-click-middle": "sleep 0.1 && ${ScrDir}/cliphist.sh w",
         "interval" : 86400, // once every day
         "tooltip": true

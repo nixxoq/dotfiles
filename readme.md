@@ -14,6 +14,7 @@
 - Terminal: kitty
 - Bar: Ags (Aylur's Gtk Shell) + Hyprpanel
 - Screenshot tool: flameshot (git-version, built with -DUSE_WAYLAND_CLIPBOARD=true -DUSE_WAYLAND_GRIM=ON flags)
+- mouse icon: Bibata-Modern-Ice (size 24)
 ```
 
 AGS:
@@ -35,7 +36,7 @@ Not implemented yet.
 > [!WARNING]
 > **Dependency packages:**
 >
-> ttf-jetbrains-mono ttf-jetbrains-mono-nerd bat dolphin catnip cbonsai clipse egl-wayland eza hyprland hyprlang hyprlock hyprcursor hyprswitch jq kitty kitty-shell-integration kitty-terminfo lib32-wayland noto-fonts otf-material-design-icons pacman-contrib pamixer pavucontrol pipewire pipewire-pulse pipwire-jack pipewire-audio polkit-gnome pywal-git rofi ranger sddm swww waybar wl-clipboard wlogout xdg-desktop-portal xdg-desktop-portal-wlr xdg-user-dirs zsh zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting noto-color-emoji-fontconfig ttf-liberation zip unzip qt6ct qt5ct kvantum arc-kde arc-gtk-theme dconf dconf-editor firefox geany gtk3 gtk4 gtk4-layer-shell hicolor-icon-theme htop otf-material-design-icons 
+> ttf-jetbrains-mono ttf-jetbrains-mono-nerd bat dolphin clipse egl-wayland eza hyprland hyprlang hyprlock hyprcursor hyprswitch jq kitty kitty-shell-integration kitty-terminfo lib32-wayland noto-fonts otf-material-design-icons pacman-contrib pamixer pavucontrol pipewire pipewire-pulse pipwire-jack pipewire-audio polkit-gnome pywal-git rofi ranger sddm swww waybar wl-clipboard wlogout xdg-desktop-portal xdg-desktop-portal-wlr xdg-user-dirs zsh zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting noto-color-emoji-fontconfig ttf-liberation zip unzip qt6ct qt5ct kvantum kvantum-qt5 arc-kde arc-gtk-theme dconf dconf-editor firefox geany gtk3 gtk4 gtk4-layer-shell hicolor-icon-theme htop
 
 > [!NOTE]
 > **If you prefer using ags instead of waybar:**

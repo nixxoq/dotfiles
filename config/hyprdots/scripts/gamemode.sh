@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-HYPRGAMEMODE=$(hyprctl getoption animations:enabled | sed -n '2p' | awk '{print $2}')
+HYPRGAMEMODE=$(hyprctl getoption animations:enabled | sed -n '1p' | awk '{print $2}')
 
 # Waybar performance
 FILE="$HOME/.config/waybar/style.css"
@@ -21,6 +21,10 @@ if [ $HYPRGAMEMODE = 1 ] ; then
         keyword general:gaps_out 0;\
         keyword general:border_size 1;\
         keyword decoration:rounding 0"
+    notify-send "Gamemode" "Animations disabled"
     exit
+elif [ $HYPRGAMEMODE = 0 ] ; then
+    hyprctl reload
+    notify-send "Gamemode" "Animations enabled"
 fi
-hyprctl reload
+# hyprctl reload

@@ -11,10 +11,10 @@ configuration {
     font:                        "JetBrainsMono Nerd Font 10";
     icon-theme:                  "Tela-circle-dracula";
 }
-
+ 
 @theme "~/.config/rofi/theme.rasi"
-
-
+ 
+ 
 // Main //
 window {
     height:                      31em;
@@ -36,8 +36,8 @@ mainbox {
     children:                    [ "inputbar" , "listbox" , "mode-switcher" ];
     background-color:            transparent;
 }
-
-
+ 
+ 
 // Inputs //
 inputbar {
     enabled:                     true;
@@ -46,8 +46,8 @@ inputbar {
 entry {
     enabled:                     false;
 }
-
-
+ 
+ 
 // Lists //
 listbox {
     padding:                     0em;
@@ -73,8 +73,8 @@ listview {
     background-color:            @main-bg;
     text-color:                  @main-fg;
 }
-
-
+ 
+ 
 // Modes //
 mode-switcher {
     orientation:                 horizontal;
@@ -95,8 +95,8 @@ button selected {
     background-color:            @main-fg;
     text-color:                  @main-bg;
 }
-
-
+ 
+ 
 // Elements //
 element {
     orientation:                 vertical;
@@ -124,7 +124,7 @@ element-text {
     background-color:            transparent;
     text-color:                  inherit;
 }
-
+ 
 // Error message //
 error-message {
     text-color:                  @main-fg;
@@ -132,7 +132,7 @@ error-message {
     text-transform:              capitalize;
     children:                    [ "textbox" ];
 }
-
+ 
 textbox {
     text-color:                  inherit;
     background-color:            inherit;
