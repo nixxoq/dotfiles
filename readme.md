@@ -36,7 +36,7 @@ Not implemented yet.
 > [!WARNING]
 > **Dependency packages:**
 >
-> ttf-jetbrains-mono ttf-jetbrains-mono-nerd htop bat dolphin clipse egl-wayland eza hyprland hyprlang hyprlock hypridle hyprcursor hyprswitch jq kitty kitty-shell-integration kitty-terminfo lib32-wayland noto-fonts otf-material-design-icons pacman-contrib pamixer pavucontrol pipewire pipewire-pulse pipwire-jack pipewire-audio polkit-gnome pywal-git rofi-lbonn-wayland-git wmctrl ranger sddm swww waybar wl-clipboard wlogout xdg-desktop-portal xdg-desktop-portal-wlr xdg-user-dirs zsh zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting noto-color-emoji-fontconfig ttf-liberation zip unzip qt6ct qt5ct kvantum kvantum-qt5 arc-kde arc-gtk-theme dconf dconf-editor firefox geany gtk3 gtk4 gtk4-layer-shell hicolor-icon-theme htop hypo-candy waypaper
+> ttf-jetbrains-mono ttf-jetbrains-mono-nerd htop bat dolphin clipse egl-wayland eza hyprland hyprlang hyprlock hypridle hyprcursor hyprswitch jq kitty kitty-shell-integration kitty-terminfo lib32-wayland noto-fonts otf-material-design-icons pacman-contrib pamixer pavucontrol pipewire pipewire-pulse pipwire-jack pipewire-audio polkit-gnome pywal-git rofi-lbonn-wayland-git wmctrl ranger sddm swww waybar wl-clipboard wlogout xdg-desktop-portal xdg-desktop-portal-wlr xdg-user-dirs zsh zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting noto-color-emoji-fontconfig ttf-liberation zip unzip qt6ct qt5ct kvantum kvantum-qt5 arc-kde arc-gtk-theme dconf dconf-editor firefox geany gtk3 gtk4 gtk4-layer-shell hicolor-icon-theme htop hypo-candy waypaper papirus-icon-theme
 
 > [!WARNING]
 > **Required hyprland plugins:**
@@ -55,6 +55,11 @@ Not implemented yet.
 > curl -fsSL https://bun.sh/install | bash && sudo ln -s $HOME/.bun/bin/bun /usr/local/bin/bun
 > 
 > yay/paru -S libgtop bluez bluez-utils btop htop networkmanager dart-sass brightnessctl swww python gnome-bluetooth-3.0 power-profiles-daemon grimblast-git gpu-screen-recorder hyprpicker matugen-bin python-gpustat aylurs-gtk-shell-git
+>
+> ln -s $HOME/.config/Hyprpanel $HOME/.config/ags
+>
+> bash $HOME/.config/Hyprpanel/install_fonts.sh
+> bash $HOME/.config/Hyprpanel/make_agsv1.sh
 
 
 <!-- 
