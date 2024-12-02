@@ -11,17 +11,20 @@
     "width": 1900,
     "margin-top": 10,
     "modules-left": [
-        "custom/padd",
+        // "custom/padd",
         "custom/l_end",
         "hyprland/workspaces",
-        "custom/r_end",
-        "custom/l_end",
+        // "custom/r_end",
+        // "custom/l_end",
+        "custom/padd",
+        // "custom/borderl",
         "cpu",
         // "custom/separator",
         "custom/updates",
         "memory",
         // "custom/separator",
         "disk",
+        // "custom/borderr",
         "custom/r_end"
     ],
     "modules-center": [
@@ -33,33 +36,36 @@
     ],
     "modules-right": [
         "custom/padd",
-        "custom/l_end",
+        // "custom/l_end",
         "network",
         "bluetooth",
         // "custom/r_end",
         // "custom/l_end",
+        "custom/padd",
+        "custom/padd",
         "pulseaudio",
         "pulseaudio#microphone",
         "battery",
         // "custom/separator",
         "hyprland/language",
         "backlight",
-        "custom/r_end",
-        "custom/l_end",
+        "custom/padd",
+        // "custom/r_end",
+        // "custom/l_end",
         "idle_inhibitor",
         "clock",
-        "custom/r_end",
-        "custom/l_end",
+        "custom/padd",
+        // "custom/l_end",
         "tray",
-        "custom/r_end",
+        // "custom/r_end",
         "custom/padd",
         "custom/padd"
     ],
-    "custom/separator": {
-        "format": " ",
-        "tooltip": false,
-        "class": "separator"
-    },
+    // "custom/separator": {
+    //     "format": " ",
+    //     "tooltip": false,
+    //     "class": "separator"
+    // },
     // sourced from modules based on config.ctl //
     "disk": {
         "interval": 10,
@@ -174,6 +180,7 @@
         "format": "{}",
         "rewrite": {
             "(.*) — Mozilla Firefox": "🌎 - Mozilla Firefox",
+            "(.*) — Zen Browser": "🌎 - Zen",
             "64Gram (.*)": "✉️ - Telegram",
             "(.*) - (.*) - Visual Studio Code": "🔗 - $1 - $2"
         },
@@ -181,12 +188,12 @@
         "separate-outputs": true
     },
     "custom/updates": {
-        "exec": "~/.config/hyprdots/scripts/systemupdate.sh",
+        "exec": "bash ~/.config/hypr/scripts/Updates --get-updates",
         "return-type": "json",
         "format": "󰆦 {}",
         "rotate": 0,
-        "on-click": "~/.config/hyprdots/scripts/systemupdate.sh up",
-        "interval": 86400, // once every day
+        "on-click": "bash ~/.config/hypr/scripts/Updates --get-updates",
+        "interval": 500, // once every day
         "tooltip": true,
     },
     "tray": {
@@ -203,8 +210,9 @@
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰖪 ",
         "tooltip-format-disconnected": "Disconnected",
-        "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
+        // "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
         "interval": 2,
+        "on-click": "pkill -9 iwgtk || iwgtk"
     },
     "bluetooth": {
         "format": "",
@@ -235,14 +243,15 @@
     "pulseaudio": {
         "format": "{icon} {volume}",
         "rotate": 0,
-        "format-muted": "婢",
+        "format-muted": "󰟎",
         "on-click": "pavucontrol -t 3",
-        "on-click-middle": "~/.config/hyprdots/scripts/volumecontrol.sh -o m",
+        "on-click-right": "~/.config/hyprdots/scripts/volumecontrol.sh -o m",
         "on-scroll-up": "~/.config/hyprdots/scripts/volumecontrol.sh -o i",
         "on-scroll-down": "~/.config/hyprdots/scripts/volumecontrol.sh -o d",
         "tooltip-format": "{icon} {desc} // {volume}%",
         "scroll-step": 5,
         "format-icons": {
+            
             "headphone": "",
             "hands-free": "",
             "headset": "",
@@ -259,10 +268,10 @@
     "pulseaudio#microphone": {
         "format": "{format_source}",
         "rotate": 0,
-        "format-source": "\ue029",
+        "format-source": "\ue029 ",
         "format-source-muted": "\ue02b",
         "on-click": "pavucontrol -t 4",
-        "on-click-middle": "~/.config/hyprdots/scripts/volumecontrol.sh -i m",
+        "on-click-right": "~/.config/hyprdots/scripts/volumecontrol.sh -i m",
         "on-scroll-up": "~/.config/hyprdots/scripts/volumecontrol.sh -i i",
         "on-scroll-down": "~/.config/hyprdots/scripts/volumecontrol.sh -i d",
         "tooltip-format": "{format_source} {source_desc} // {source_volume}%",
@@ -321,10 +330,12 @@
         }
     },
     "clock": {
-        "format": "{:%R 󰃭 %d·%m·%y}",
+        "format": "{:%I:%M:%S 󰃭 %d·%m·%y}",
+        "interval": 1,
         "rotate": 0,
         "format-alt": "{:%R 󰃭 %d·%m·%y}",
-        "tooltip-format": "<tt>{calendar}</tt>",
+        "tooltip": true,
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
             "mode-mon-col": 3,

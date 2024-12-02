@@ -1,0 +1,23 @@
+" Special
+let wallpaper  = "/home/nixxo/Pictures/bgs/wallhaven-85qd7y.png"
+let background = "#0a0a0c"
+let foreground = "#bec5c9"
+let cursor     = "#bec5c9"
+
+" Colors
+let color0  = "#0a0a0c"
+let color1  = "#576061"
+let color2  = "#8B755C"
+let color3  = "#487089"
+let color4  = "#598EA7"
+let color5  = "#70B5CB"
+let color6  = "#7EC0D4"
+let color7  = "#bec5c9"
+let color8  = "#85898c"
+let color9  = "#576061"
+let color10 = "#8B755C"
+let color11 = "#487089"
+let color12 = "#598EA7"
+let color13 = "#70B5CB"
+let color14 = "#7EC0D4"
+let color15 = "#bec5c9"
