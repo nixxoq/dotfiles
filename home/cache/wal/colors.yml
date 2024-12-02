@@ -1,4 +1,4 @@
-wallpaper: "/home/nixxo/Pictures/bgs/wallhaven-85qd7y.png"
+wallpaper: "/home/$USER/Pictures/bgs/wallhaven-85qd7y.png"
 
 special:
     background: "#0a0a0c"

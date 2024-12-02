@@ -1,4 +1,4 @@
-set $wallpaper /home/nixxo/Pictures/bgs/wallhaven-85qd7y.png
+set $wallpaper /home/$USER/Pictures/bgs/wallhaven-85qd7y.png
 
 set $background #0a0a0c
 set $foreground #bec5c9

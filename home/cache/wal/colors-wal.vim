@@ -1,5 +1,5 @@
 " Special
-let wallpaper  = "/home/nixxo/Pictures/bgs/wallhaven-85qd7y.png"
+let wallpaper  = "/home/$USER/Pictures/bgs/wallhaven-85qd7y.png"
 let background = "#0a0a0c"
 let foreground = "#bec5c9"
 let cursor     = "#bec5c9"
