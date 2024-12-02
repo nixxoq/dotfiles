@@ -18,9 +18,15 @@
 ```
 
 AGS:
+![image](https://github.com/user-attachments/assets/140abeeb-a923-4f9d-96ad-9c52f50fe722)
+![image](https://github.com/user-attachments/assets/16237829-0c36-4c55-a715-8a8d84029781)
+
 ![hyprpanel](https://github.com/user-attachments/assets/0413feb8-8e20-489b-bc6a-6cb97fd54dee)
 
 Waybar:
+![image](https://github.com/user-attachments/assets/028101d2-5b0c-418a-abfc-2bb178d71637)
+![image](https://github.com/user-attachments/assets/d86e3b75-4826-41ff-a9d1-7bc990e7c20b)
+
 ![waybar-mode](https://github.com/user-attachments/assets/98af27b9-a16e-4954-9e90-dbce169db9f9)
 
 ## Setup
