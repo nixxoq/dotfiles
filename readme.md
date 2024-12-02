@@ -104,6 +104,10 @@ Since I'm too lazy to write a setup script, I have a few answers to specific que
 ### A: 
 > open ~/.config/hypr/hyprland.conf file, find and comment "exec-once = ags" line, uncomment "exec-once = waybar"
 
+### Q: Can I customize Hyprpanel?
+### A:
+> Run agsv1 -t settings-dialog to open the settings
+
 ## keybinds
 ```
 Windows + Q (or Alt + F4): kill active windows + Del: kill hyprland session
