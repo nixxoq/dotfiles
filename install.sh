@@ -213,9 +213,9 @@ confirm "Now, we will install the dotfiles. Continue?" || exit 0
 # install paru (aur helper) if not installed
 if ! is_package_installed "paru"; then
     log_message INFO "Installing paru (AUR helper), please wait..."
-    git clone https://aur.archlinux.org/paru.git
-    cd paru
-    makepkg -si
+    git clone https://aur.archlinux.org/paru-bin.git
+    cd paru-bin
+    makepkg --noconfirm --install --syncdeps
     cd ..
     rm -rf paru
 fi
