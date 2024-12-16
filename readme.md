@@ -4,7 +4,7 @@
 </div>
 
 <pre align="center">
-<a href="#setup">SETUP (<a href="#automatic">automatic</a> and <a href="#manual">manual</a>)</a> • <a href="#keybinds">KEYBINDS</a> • <a href="#screenshots">Additional Screenshots</a></a>
+<a href="#setup">SETUP (<a href="#automatic-installation">automatic</a> and <a href="#manual-installation">manual</a>)</a> • <a href="#keybinds">KEYBINDS</a> • <a href="#screenshots">Additional Screenshots</a></a>
 </pre>
 
 
