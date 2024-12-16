@@ -7,6 +7,7 @@ curr_date=$(date +%Y%m%d-%H%M%S)
 current_dir=$(pwd)
 KEYMAP_SETUP=0
 ALL_ARGS="$@"
+FORCE_REDOWNLOAD=0
 AGS=0
 
 # functions
@@ -258,9 +259,10 @@ cp -r home/.zshrc "$HOME/.zshrc"
 cp -r home/cache "$HOME/.cache"
 
 log_message INFO "Copying cursor..."
+mkdir -p "$HOME/.local/share/icons"
 cp -r cursor/* "$HOME/.local/share/icons"
 
-confirm "Do you want prefer using ags instead of waybar?" || AGS=1
+confirm "Do you want prefer using ags instead of waybar?" && AGS=1
 
 if [ "$AGS" -eq 1 ]; then
     log_message INFO "Installing AGS..."
@@ -281,12 +283,14 @@ else
 fi
 
 log_message INFO "Finalizing steps..."
-hyprpm -v update
-hyprpm add https://github.com/KZDKM/Hyprspace
-hyprpm enable Hyprspace
 
 cd $HOME
 rm -rf $HOME/dotfiles
-remove_package "gum"
 
 log_message OK "Dotfiles installed successfully."
+log_message INFO "Do not forget to run these commands after logging in hyprland:"
+log_message INFO "hyprpm -v update"
+log_message INFO "hyprpm add https://github.com/KZDKM/Hyprspace"
+log_message INFO "hyprpm enable Hyprspace"
+
+remove_package "gum"
