@@ -4,7 +4,7 @@
 </div>
 
 <pre align="center">
-<a href="#">SETUP (automatic installtion soon)</a> • <a href="#keybinds">KEYBINDS</a> • <a href="#screenshots">Additional Screenshots</a></a>
+<a href="#">SETUP (automatic + manual)</a> • <a href="#keybinds">KEYBINDS</a> • <a href="#screenshots">Additional Screenshots</a></a>
 </pre>
 
 
@@ -31,14 +31,30 @@ Waybar:
 
 ## Setup
 
-Not implemented yet.
-
 > [!WARNING]
 > Before using this config, make sure you have:
 > - Arch Linux based distribution
 > - Internet connection
 > - AUR helper (yay or paru) preinstalled
 
+### Automatic installation
+Download script:
+```sh
+curl -sL https://raw.githubusercontent.com/nixxoq/dotfiles/v2/install.sh -o instal.sh
+chmod +x install.sh
+./install.sh [--skip-update] [--debug] [--force-redownload] [--help]
+```
+
+Command line arguments:
+```
+--debug: Enable debug mode.
+--skip-update: Skip system update.
+--configure-keymap: Configure keymap.
+--force-redownload: Re-download dotfiles if folder exists.
+--help: Display help message.
+```
+
+### Manual installation
 > [!WARNING]
 > **Dependency packages:**
 >
@@ -67,32 +83,6 @@ Not implemented yet.
 > bash $HOME/.config/Hyprpanel/install_fonts.sh
 > bash $HOME/.config/Hyprpanel/make_agsv1.sh
 
-
-<!-- 
-> [!WARNING]
-> Before using this config, make sure you have:
-> - Arch Linux based distribution
-> - Internet connection
-> - Curl preinstalled (if not, install it using `sudo pacman -S curl`) -->
-
-<!-- 
-Download script:
-```
-curl -sL https://raw.githubusercontent.com/nixxoq/dotfiles/main/setup/base.sh -o base.sh
-chmod +x base.sh
-./base.sh
-```
-
-Command line arguments:
-```
---debug: Enable debug mode.
---skip-update: Skip system update.
---media: Install media dependencies.
---dev: Install development dependencies.
---configure-keymap: Configure keymap.
---force-redownload: Re-download dotfiles if folder exists.
---help: Display help message.
-``` -->
 
 ## FAQ
 
