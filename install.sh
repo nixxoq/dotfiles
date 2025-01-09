@@ -278,9 +278,10 @@ if [ "$AGS" -eq 1 ]; then
     # log_message INFO "AGS && Hyprpanel installed successfully."
     install_package_aur "ags-hyprpanel-git"
 
-    cp -r $HOME/dotfiles/Hyprpanel $HOME/.config/
-    ln -s $HOME/.config/Hyprpanel $HOME/.config/ags
-    bash "$HOME/.config/ags/scripts/install_fonts.sh"
+    # cp -r $HOME/dotfiles/Hyprpanel $HOME/.config/
+    # ln -s $HOME/.config/Hyprpanel $HOME/.config/ags
+    cd /usr/share/hyprpanel/
+    bash "/usr/share/hyprpanel/scripts/install_fonts.sh"
 else
     log_message INFO "Applying waybar configuration..."
     echo "exec-once = waybar" >>$HOME/.config/hypr/config/launch.conf
