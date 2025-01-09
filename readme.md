@@ -69,6 +69,8 @@ Command line arguments:
 > >
 > > hyprpm add https://github.com/KZDKM/Hyprspace
 > >
+> > hyprpm add https://github.com/alexhulbert/Hyprchroma
+> >
 > > hyprpm enable Hyprspace
 
 > [!NOTE]

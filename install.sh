@@ -265,17 +265,22 @@ cp -r cursor/* "$HOME/.local/share/icons"
 confirm "Do you want prefer using ags instead of waybar?" && AGS=1
 
 if [ "$AGS" -eq 1 ]; then
-    log_message INFO "Installing AGS..."
-    curl -fsSL https://bun.sh/install | bash && sudo ln -s $HOME/.bun/bin/bun /usr/local/bin/bun
-    install_package_aur "libgtop" "bluez" "bluez-utils" "btop" "htop" "networkmanager" "dart-sass" "brightnessctl" "swww" "python" "gnome-bluetooth-3.0" "power-profiles-daemon" "grimblast-git" "gpu-screen-recorder" "hyprpicker" "matugen-bin" "python-gpustat" "aylurs-gtk-shell-git"
+    # log_message INFO "Installing AGS..."
+    # curl -fsSL https://bun.sh/install | bash && sudo ln -s $HOME/.bun/bin/bun /usr/local/bin/bun
+    # install_package_aur "libgtop" "bluez" "bluez-utils" "btop" "htop" "networkmanager" "dart-sass" "brightnessctl" "swww" "python" "gnome-bluetooth-3.0" "power-profiles-daemon" "grimblast-git" "gpu-screen-recorder" "hyprpicker" "matugen-bin" "python-gpustat" "aylurs-gtk-shell-git"
+
+    # cp -r $HOME/dotfiles/Hyprpanel $HOME/.config/
+    # ln -s $HOME/.config/Hyprpanel $HOME/.config/ags
+    # bash "$HOME/.config/ags/install_fonts.sh"
+    # bash "$HOME/.config/ags/make_agsv1.sh"
+
+    # echo "exec-once = ags" >>$HOME/.config/hypr/config/launch.conf
+    # log_message INFO "AGS && Hyprpanel installed successfully."
+    install_package_aur "ags-hyprpanel-git"
 
     cp -r $HOME/dotfiles/Hyprpanel $HOME/.config/
     ln -s $HOME/.config/Hyprpanel $HOME/.config/ags
-    bash "$HOME/.config/ags/install_fonts.sh"
-    bash "$HOME/.config/ags/make_agsv1.sh"
-
-    echo "exec-once = ags" >>$HOME/.config/hypr/config/launch.conf
-    log_message INFO "AGS && Hyprpanel installed successfully."
+    bash "$HOME/.config/ags/scripts/install_fonts.sh"
 else
     log_message INFO "Applying waybar configuration..."
     echo "exec-once = waybar" >>$HOME/.config/hypr/config/launch.conf
@@ -291,6 +296,7 @@ log_message OK "Dotfiles installed successfully."
 log_message INFO "Do not forget to run these commands after logging in hyprland:"
 log_message INFO "hyprpm -v update"
 log_message INFO "hyprpm add https://github.com/KZDKM/Hyprspace"
+log_message INFO "hyprpm add https://github.com/alexhulbert/Hyprchroma"
 log_message INFO "hyprpm enable Hyprspace"
 
 remove_package "gum"
