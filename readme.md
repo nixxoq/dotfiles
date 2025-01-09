@@ -67,9 +67,10 @@ Command line arguments:
 > 
 > > how to install:
 > >
-> > hyprpm add https://github.com/KZDKM/Hyprspace
-> >
-> > hyprpm add https://github.com/alexhulbert/Hyprchroma
+<!-- > > hyprpm add https://github.com/KZDKM/Hyprspace -->
+<!-- > > -->
+> > hyprpm add https://github.com/nixxoq/Hyprchroma
+<!-- > > hyprpm add https://github.com/alexhulbert/Hyprchroma -->
 > >
 > > hyprpm enable Hyprspace
 
@@ -153,6 +154,8 @@ Windows + J: toggle layout mode
 Windows + ALT + [0-9]: switch to workspace silently
 
 Alt + Tab: switch between workspaces using rofi (window mode)
+
+Windows + Alt + H: toggle window chromakey
 ```
 
 

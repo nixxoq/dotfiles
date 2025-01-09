@@ -134,6 +134,10 @@ remove_package() {
     done
 }
 
+install_bibata() {
+    install_package_aur "bibata-cursor-theme-bin"
+}
+
 backup_config() {
     local config_name="$1"
     if [ "$config_name" == "qt_theme" ]; then
@@ -238,6 +242,7 @@ cp -r config/hypr "$HOME/.config/"
 cp -r config/hyprdots "$HOME/.config/"
 cp -r config/HyprPanel "$HOME/.config/"
 cp -r config/kitty "$HOME/.config/"
+cp -r config/hyprpanel "$HOME/.config/"
 cp -r config/Kvantum "$HOME/.config/"
 cp -r config/menus "$HOME/.config/"
 cp -r config/neofetch "$HOME/.config/"
@@ -258,11 +263,14 @@ log_message INFO "Copying required home files..."
 cp -r home/.zshrc "$HOME/.zshrc"
 cp -r home/cache "$HOME/.cache"
 
+log_message INFO "Copying background images..."
+cp -r home/Pictures/bgs "$HOME/Pictures"
+
 log_message INFO "Copying cursor..."
 mkdir -p "$HOME/.local/share/icons"
 cp -r cursor/* "$HOME/.local/share/icons"
 
-confirm "Do you want prefer using ags instead of waybar?" && AGS=1
+confirm "Do you want prefer using Hyprpanel instead of waybar?" && AGS=1
 
 if [ "$AGS" -eq 1 ]; then
     # log_message INFO "Installing AGS..."
@@ -274,7 +282,6 @@ if [ "$AGS" -eq 1 ]; then
     # bash "$HOME/.config/ags/install_fonts.sh"
     # bash "$HOME/.config/ags/make_agsv1.sh"
 
-    # echo "exec-once = ags" >>$HOME/.config/hypr/config/launch.conf
     # log_message INFO "AGS && Hyprpanel installed successfully."
     install_package_aur "ags-hyprpanel-git"
 
@@ -282,11 +289,14 @@ if [ "$AGS" -eq 1 ]; then
     # ln -s $HOME/.config/Hyprpanel $HOME/.config/ags
     cd /usr/share/hyprpanel/
     bash "/usr/share/hyprpanel/scripts/install_fonts.sh"
+    echo "exec-once = hyprpanel" >>$HOME/.config/hypr/config/launch.conf
 else
     log_message INFO "Applying waybar configuration..."
     echo "exec-once = waybar" >>$HOME/.config/hypr/config/launch.conf
     log_message INFO "Waybar installed successfully."
 fi
+
+confirm "Do you want install bibata cursor?" && install_bibata
 
 log_message INFO "Finalizing steps..."
 
@@ -296,8 +306,10 @@ rm -rf $HOME/dotfiles
 log_message OK "Dotfiles installed successfully."
 log_message INFO "Do not forget to run these commands after logging in hyprland:"
 log_message INFO "hyprpm -v update"
-log_message INFO "hyprpm add https://github.com/KZDKM/Hyprspace"
-log_message INFO "hyprpm add https://github.com/alexhulbert/Hyprchroma"
-log_message INFO "hyprpm enable Hyprspace"
+# log_message INFO "hyprpm add https://github.com/KZDKM/Hyprspace"
+# log_message INFO "hyprpm add https://github.com/alexhulbert/Hyprchroma"
+# temporary fix until PR is merged
+log_message INFO "hyprpm add https://github.com/nixxoq/Hyprchroma"
+log_message INFO "hyprpm enable Hyprchroma"
 
 remove_package "gum"
