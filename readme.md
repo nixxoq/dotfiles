@@ -76,15 +76,12 @@ Command line arguments:
 
 > [!NOTE]
 > **If you prefer using ags instead of waybar:**
->
-> curl -fsSL https://bun.sh/install | bash && sudo ln -s $HOME/.bun/bin/bun /usr/local/bin/bun
 > 
-> yay/paru -S libgtop bluez bluez-utils btop htop networkmanager dart-sass brightnessctl swww python gnome-bluetooth-3.0 power-profiles-daemon grimblast-git gpu-screen-recorder hyprpicker matugen-bin python-gpustat aylurs-gtk-shell-git
+> yay/paru -S ags-hyprpanel-git
 >
-> ln -s $HOME/.config/Hyprpanel $HOME/.config/ags
+> cd /usr/share/hyprpanel/
 >
-> bash $HOME/.config/Hyprpanel/install_fonts.sh
-> bash $HOME/.config/Hyprpanel/make_agsv1.sh
+> bash "/usr/share/hyprpanel/scripts/install_fonts.sh"
 
 
 ## FAQ
@@ -105,7 +102,7 @@ Since I'm too lazy to write a setup script, I have a few answers to specific que
 
 ### Q: Can I customize Hyprpanel?
 ### A:
-> Run agsv1 -t settings-dialog to open the settings
+> Run hyprpanel -t settings-dialog to open the settings
 
 ## keybinds
 ```
@@ -116,7 +113,7 @@ ALT + Return: fullscreen mode
 Windows + L: lock screen
 Windows + Shift + F: toggle pin on focused window
 Windows + backspace: logout menu
-Ctrl + Escape: toggle waybar
+Ctrl + Escape: toggle waybar / HyprPanel
 Ctrl + Alt + T: open terminal
 Windows + E: open Dolphin (file manager)
 Windows + F: open firefox
