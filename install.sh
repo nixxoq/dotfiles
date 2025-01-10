@@ -300,6 +300,8 @@ confirm "Do you want install bibata cursor?" && install_bibata
 
 log_message INFO "Finalizing steps..."
 
+install_package_aur "python-dbus
+
 cd $HOME
 rm -rf $HOME/dotfiles
 
