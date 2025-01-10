@@ -137,8 +137,9 @@ alias mirrors="sudo reflector --verbose --latest 5 --country 'United States' --a
 
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg" # I'm using systemd-boot for now
 alias mantenimiento="yay -Sc && sudo pacman -Scc"
-alias purga="sudo pacman -Rns $(pacman -Qtdq) ; sudo fstrim -av"
+alias purge_packages="sudo pacman -Qdtq | sudo pacman -Rns -"
 
 alias cat="bat --theme=base16"
 alias ls='eza --icons=always --color=always -a'
 alias ll='eza --icons=always --color=always -la'
+alias dir='eza --icons=always --color=always'
