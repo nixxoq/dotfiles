@@ -155,6 +155,9 @@ backup_config() {
     fi
     mkdir -p "$backup_path"
     cp -r "$config_path" "$backup_path"
+    if [ "$config_name" == "zsh" ]; then
+        cp "$HOME/.zshrc" "$backup_path"
+    fi
 }
 
 select_to_backup() {
