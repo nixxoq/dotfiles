@@ -40,9 +40,9 @@ Waybar:
 ### Automatic installation
 Download script:
 ```sh
-curl -sL https://raw.githubusercontent.com/nixxoq/dotfiles/v2/install.sh -o instal.sh
+curl -sL https://raw.githubusercontent.com/nixxoq/dotfiles/v2/install.sh -o install.sh
 chmod +x install.sh
-./install.sh [--skip-update] [--debug] [--force-redownload] [--help]
+./install.sh [--skip-update] [--debug] [--force-redownload] [--help] [--configure-keymap]
 ```
 
 Command line arguments:
