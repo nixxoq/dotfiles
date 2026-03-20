@@ -1,0 +1,3 @@
+# Ignore Noctalia runtime/plugin payload in destination for public source.
+.config/noctalia/cfg.zip
+.config/noctalia/plugins/**

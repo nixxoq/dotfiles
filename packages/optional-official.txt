@@ -1,0 +1,17 @@
+# Optional packages from official repos
+ark
+docker
+docker-compose
+dolphin
+gwenview
+kitty
+mangohud
+micro
+neovim
+ntfs-3g
+scrcpy
+tree
+unzip
+yt-dlp
+zed
+zip

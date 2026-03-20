@@ -1,0 +1,62 @@
+#!/bin/bash
+set -euo pipefail
+
+SOURCE_DIR={{ .chezmoi.sourceDir | quote }}
+CORE_OFFICIAL_FILE="$SOURCE_DIR/packages/core-official.txt"
+CORE_EXTERNAL_FILE="$SOURCE_DIR/packages/core-external.txt"
+OPTIONAL_OFFICIAL_FILE="$SOURCE_DIR/packages/optional-official.txt"
+OPTIONAL_EXTERNAL_FILE="$SOURCE_DIR/packages/optional-external.txt"
+
+install_pacman_file() {
+    local file="$1"
+    [[ -s "$file" ]] || return 0
+
+    mapfile -t pkgs < <(grep -Ev '^\s*(#|$)' "$file")
+    [[ ${#pkgs[@]} -gt 0 ]] || return 0
+
+    sudo pacman -S --needed --noconfirm "${pkgs[@]}"
+}
+
+install_paru_file() {
+    local file="$1"
+    [[ -s "$file" ]] || return 0
+
+    mapfile -t pkgs < <(grep -Ev '^\s*(#|$)' "$file")
+    [[ ${#pkgs[@]} -gt 0 ]] || return 0
+
+    paru -S --needed --noconfirm "${pkgs[@]}"
+}
+
+if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+    printf '\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n' | sudo tee -a /etc/pacman.conf >/dev/null
+    sudo pacman -Sy
+fi
+
+if ! command -v paru >/dev/null 2>&1; then
+    sudo pacman -S --needed --noconfirm base-devel git
+    git clone https://aur.archlinux.org/paru.git /tmp/paru
+    pushd /tmp/paru >/dev/null
+    makepkg -si --noconfirm
+    popd >/dev/null
+fi
+
+install_pacman_file "$CORE_OFFICIAL_FILE"
+install_paru_file "$CORE_EXTERNAL_FILE"
+
+{{ if .install_optional_packages }}
+install_pacman_file "$OPTIONAL_OFFICIAL_FILE"
+install_paru_file "$OPTIONAL_EXTERNAL_FILE"
+{{ end }}
+
+{{ if .use_nvidia_beta }}
+sudo pacman -S --needed --noconfirm linux-headers
+paru -S --needed --noconfirm nvidia-beta-dkms opencl-nvidia-beta lib32-opencl-nvidia-beta
+{{ end }}
+
+{{ if .install_gaming }}
+sudo pacman -S --needed --noconfirm gamescope gamemode lib32-gamemode
+{{ end }}
+
+{{ if .install_zen }}
+paru -S --needed --noconfirm zen-browser-bin
+{{ end }}

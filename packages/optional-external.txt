@@ -1,0 +1,5 @@
+# Optional packages from external repos
+discord-canary
+illogical-impulse-fonts-themes
+illogical-impulse-portal
+visual-studio-code-bin
