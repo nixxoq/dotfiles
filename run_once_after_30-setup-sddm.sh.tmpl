@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euo pipefail
+
+{{ if not .install_sddm -}}
+exit 0
+{{ end -}}
+
+if ! pacman -Qs sddm > /dev/null; then
+    echo "[sddm] sddm package is not installed, skipping service setup"
+    exit 0
+fi
+
+if ! systemctl is-enabled --quiet sddm; then
+    echo "[sddm] enabling and starting sddm.service"
+    sudo systemctl enable --now sddm
+fi
+
+if [[ ! -d /etc/sddm.conf.d ]]; then
+    sudo mkdir -p /etc/sddm.conf.d
+fi

@@ -2,6 +2,7 @@
 {{- $nvidia := promptBoolOnce . "use_nvidia_beta" "Install NVIDIA beta drivers?" false -}}
 {{- $gaming := promptBoolOnce . "install_gaming" "Install gaming tools?" true -}}
 {{- $zen := promptBoolOnce . "install_zen" "Install Zen Browser?" true -}}
+{{- $sddm := promptBoolOnce . "install_sddm" "Install and enable SDDM?" true -}}
 {{- $optionalPkgs := promptBoolOnce . "install_optional_packages" "Install optional package tier?" true -}}
 {{- $manageSystemFontconfig := promptBoolOnce . "manage_system_fontconfig" "Manage /etc/fonts/conf.d Apple Emoji symlink? (requires sudo)" false -}}
 {{- $gitName := promptStringOnce . "git_name" "Git user.name" "NixxO" -}}
@@ -18,6 +19,7 @@
     use_nvidia_beta = {{ $nvidia }}
     install_gaming = {{ $gaming }}
     install_zen = {{ $zen }}
+    install_sddm = {{ $sddm }}
     install_optional_packages = {{ $optionalPkgs }}
     manage_system_fontconfig = {{ $manageSystemFontconfig }}
     git_name = {{ $gitName | quote }}

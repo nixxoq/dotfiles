@@ -60,3 +60,7 @@ sudo pacman -S --needed --noconfirm gamescope gamemode lib32-gamemode
 {{ if .install_zen }}
 paru -S --needed --noconfirm zen-browser-bin
 {{ end }}
+
+{{ if .install_sddm }}
+paru -S --noconfirm sddm
+{{ end }}
