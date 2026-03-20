@@ -14,5 +14,10 @@ if [[ ! -L /etc/fonts/conf.d/75-apple-color-emoji.conf ]]; then
     sudo ln -sf /usr/share/fontconfig/conf.avail/75-apple-color-emoji.conf /etc/fonts/conf.d/75-apple-color-emoji.conf
 fi
 
-sudo fc-cache -fv
-fc-cache -fv
+# workaround
+mkdir -p ~/.local/share/applications
+chmod 755 ~/.local/share/applications
+update-desktop-database ~/.local/share/applications
+
+sudo fc-cache -f > /dev/null
+fc-cache -f
