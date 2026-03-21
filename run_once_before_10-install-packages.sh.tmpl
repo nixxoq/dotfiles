@@ -62,5 +62,9 @@ paru -S --needed --noconfirm zen-browser-bin
 {{ end }}
 
 {{ if .install_sddm }}
-paru -S --noconfirm sddm
+paru -S --needed --noconfirm sddm
+{{ end }}
+
+{{ if .install_vscode }}
+paru -S --needed --noconfirm visual-studio-code-bin
 {{ end }}

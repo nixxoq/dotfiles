@@ -3,9 +3,10 @@
 {{- $gaming := promptBoolOnce . "install_gaming" "Install gaming tools?" true -}}
 {{- $zen := promptBoolOnce . "install_zen" "Install Zen Browser?" true -}}
 {{- $sddm := promptBoolOnce . "install_sddm" "Install and enable SDDM?" true -}}
+{{- $vscode := promptBoolOnce . "install_vscode" "Install Visual Studio Code? (WIth custom presets)" true -}}
 {{- $optionalPkgs := promptBoolOnce . "install_optional_packages" "Install optional package tier?" true -}}
 {{- $manageSystemFontconfig := promptBoolOnce . "manage_system_fontconfig" "Manage /etc/fonts/conf.d Apple Emoji symlink? (requires sudo)" false -}}
-{{- $gitName := promptStringOnce . "git_name" "Git user.name" "NixxO" -}}
+{{- $gitName := promptStringOnce . "git_name" "Git user.name" .chezmoi.username -}}
 {{- $gitEmail := promptStringOnce . "git_email" "Git email" "" -}}
 {{- $gitSigningKey := promptStringOnce . "git_signingkey" "Git GPG signing key (empty to skip)" "" -}}
 {{- $githubFeedUsername := promptStringOnce . "github_feed_username" "Noctalia GitHub feed username (empty to skip)" "" -}}
@@ -20,6 +21,7 @@
     install_gaming = {{ $gaming }}
     install_zen = {{ $zen }}
     install_sddm = {{ $sddm }}
+    install_vscode = {{ $vscode }}
     install_optional_packages = {{ $optionalPkgs }}
     manage_system_fontconfig = {{ $manageSystemFontconfig }}
     git_name = {{ $gitName | quote }}
