@@ -7,6 +7,9 @@
 <a href="#setup">SETUP (<a href="#automatic-installation">automatic</a> and <a href="#manual-installation">manual</a>)</a> • <a href="#keybinds">KEYBINDS</a> • <a href="#screenshots">Additional Screenshots</a></a>
 </pre>
 
+> [!WARNING]
+> Outdated. I'm using [v3 config right now](https://github.com/nixxoq/dotfiles/tree/v3) [Under Construction]
+
 
 ```
 - OS: Arch Linux
