@@ -8,7 +8,7 @@
 </pre>
 
 > [!WARNING]
-> Outdated. I'm using [v2 config right now](https://github.com/nixxoq/dotfiles/tree/v2)
+> Outdated. I'm using [v3 config right now](https://github.com/nixxoq/dotfiles/tree/v3) [Under Construction]
 
 ```
 - OS: Arch Linux
