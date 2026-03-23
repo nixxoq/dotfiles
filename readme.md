@@ -1,11 +1,10 @@
 
 <div align="center">
-<h1>My dotfiles config (v3)</h1>
+  <h1>My dotfiles config (v3)</h1>
+  <p>
+    <a href="#setup">SETUP</a> • <a href="#keybinds">KEYBINDS</a>
+  </p>
 </div>
-
-<pre align="center">
-<a href="#setup">SETUP</a> • <a href="#keybinds">KEYBINDS</a></a>
-</pre>
 
 
 ```
