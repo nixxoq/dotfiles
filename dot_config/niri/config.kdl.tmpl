@@ -5,6 +5,12 @@
 prefer-no-csd
 
 // spawn-at-startup "clipse" "-listen"
+// polkit + keyring
+spawn-at-startup "dbus-update-activation-environment" "--all"
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+
+// noctalia
 spawn-at-startup "qs" "-c" "noctalia-shell"
 
 // Input device configuration.

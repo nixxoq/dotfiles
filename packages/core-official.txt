@@ -21,7 +21,7 @@ noto-fonts
 noto-fonts-cjk
 paru
 playerctl
-polkit-kde-agent
+polkit-gnome
 qt5ct
 qt6ct
 swaybg
