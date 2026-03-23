@@ -20,6 +20,15 @@ noctalia-shell
 noto-fonts
 noto-fonts-cjk
 paru
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+alsa-utils
+alsa-card-profiles
+bluez
+bluez-utils
+sof-firmware
 playerctl
 polkit-gnome
 qt5ct
