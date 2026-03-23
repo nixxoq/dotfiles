@@ -18,7 +18,6 @@
 ```
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/96fd1d38-bd72-4ed5-ba71-2eec89a3c54d" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/29b8fbf0-1038-4b6e-9c2e-94878e1994c5" />
 
 
 ## Setup
