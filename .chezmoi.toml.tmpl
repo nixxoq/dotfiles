@@ -10,6 +10,15 @@
 {{- $githubFeedToken := promptStringOnce . "github_feed_token" "Noctalia GitHub feed token (empty to skip)" "" -}}
 {{- $wallpaperDir := promptStringOnce . "wallpaper_dir" "Wallpaper directory" (printf "%s/Pictures/Wallpapers" .chezmoi.homeDir) -}}
 
+{{- $keyboardLayout := promptStringOnce . "keyboard_layout" "Keyboard layouts (comma-separated, e.g. us,ua,ru)" "us" -}}
+{{- $layoutSwitchers := dict "Alt + Shift" "grp:alt_shift_toggle" "Win + Space" "grp:win_space_toggle" "Ctrl + Shift" "grp:ctrl_shift_toggle" "Caps Lock" "grp:caps_toggle" "Custom" "custom" -}}
+{{- $switcherKey := promptChoiceOnce . "keyboard_switcher" "Select layout switching shortcut" (keys $layoutSwitchers) "Alt + Shift" -}}
+{{- $selectedSwitcher := get $layoutSwitchers $switcherKey -}}
+
+{{- if eq $selectedSwitcher "custom" -}}
+    {{- $selectedSwitcher = promptStringOnce . "keyboard_options_custom" "Enter custom XKB options" "grp:alt_shift_toggle" -}}
+{{- end -}}
+
 [data]
     use_chaotic_aur = {{ $chaotic }}
     install_sddm = {{ $sddm }}
@@ -22,3 +31,5 @@
     github_feed_username = {{ $githubFeedUsername | quote }}
     github_feed_token = {{ $githubFeedToken | quote }}
     wallpaper_dir = {{ $wallpaperDir | quote }}
+    keyboard_layout = {{ $keyboardLayout | quote }}
+    keyboard_options = {{ $selectedSwitcher | quote }}

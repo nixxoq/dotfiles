@@ -17,9 +17,9 @@ input {
             // For more information, see xkeyboard-config(7).
 
             // For example:
-            layout "us,ua,ru"
+            layout "{{ .keyboard_layout }}
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
-            options "grp:alt_shift_toggle"
+            options "{{ .keyboard_options }}"
 
             // If this section is empty, niri will fetch xkb settings
             // from org.freedesktop.locale1. You can control these using
