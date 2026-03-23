@@ -51,11 +51,6 @@ install_pacman_file "$OPTIONAL_OFFICIAL_FILE"
 install_paru_file "$OPTIONAL_EXTERNAL_FILE"
 {{ end }}
 
-# {{ if .use_nvidia_beta }}
-# sudo pacman -S --needed --noconfirm linux-headers
-# paru -S --needed --noconfirm nvidia-beta-dkms opencl-nvidia-beta lib32-opencl-nvidia-beta
-# {{ end }}
-
 {{ if .install_sddm }}
 paru -S --needed --noconfirm sddm
 {{ end }}
