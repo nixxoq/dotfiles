@@ -1,10 +1,8 @@
 # Optional packages from official repos
 ark
-docker
-docker-compose
 dolphin
 gwenview
-kitty
+# kitty
 mangohud
 micro
 neovim
@@ -13,5 +11,5 @@ scrcpy
 tree
 unzip
 yt-dlp
-zed
+# zed
 zip

@@ -1,0 +1,19 @@
+#!/bin/bash
+# hash: {{ include "dot_vscode_extensions.txt" | sha256sum }}
+set -euo pipefail
+
+{{ if not .install_vscode -}}
+exit 0
+{{ end -}}
+
+if ! command -v code &> /dev/null; then
+    echo "[vscode] 'code' binary not found, skipping extensions installation"
+    exit 0
+fi
+
+echo "[vscode] Syncing extensions..."
+while read -r extension; do
+    if [[ -n "$extension" ]]; then
+        code --install-extension "$extension" --force
+    fi
+done < "{{ .chezmoi.sourceDir }}/dot_vscode_extensions.txt"

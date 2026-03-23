@@ -1,11 +1,1 @@
 . "$HOME/.cargo/env"
-
-{{- if .lmstudio_path }}
-# Added by LM Studio CLI (template-managed)
-export PATH="$PATH:{{ .lmstudio_path }}"
-{{- end }}
-
-{{- if .jetbrains_toolbox_path }}
-# Added by JetBrains Toolbox (template-managed)
-export PATH="$PATH:{{ .jetbrains_toolbox_path }}"
-{{- end }}

@@ -49,7 +49,7 @@
     "codesnap.showLineNumbers": false,
     // workbench
     "workbench.startupEditor": "none",
-    "workbench.iconTheme": "vira-icons-ocean",
+    "workbench.iconTheme": "bearded-icons",
     // "workbench.colorTheme": "Bearded Theme Monokai Terra",
     // features
     "files.autoSave": "afterDelay",

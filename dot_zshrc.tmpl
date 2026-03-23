@@ -143,9 +143,4 @@ alias ls='eza --icons=always --color=always -a'
 alias ll='eza --icons=always --color=always -la'
 alias dir='eza --icons=always --color=always'
 
-{{- if .lmstudio_path }}
-# Added by LM Studio CLI (template-managed)
-export PATH="$PATH:{{ .lmstudio_path }}"
-{{- end }}
-
 alias gc23="g++ -std=c++23"
