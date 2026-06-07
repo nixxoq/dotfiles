@@ -1,6 +1,6 @@
 
 <div align="center">
-  <h1>My dotfiles config (v3)</h1>
+  <h1>My dotfiles config (v4-exp)</h1>
   <p>
     <a href="#setup">SETUP</a> • <a href="#keybinds">KEYBINDS</a>
   </p>
@@ -8,15 +8,14 @@
 
 
 ```
-- OS: Arch Linux (currently moving to Prism Linux)
+- OS: Prism Linux (arch-like distro)
 - WM: Niri
 - Terminal: alacrity
-- Bar: Noctalia-Shell
+- Bar: Noctalia (v5)
 - Screenshot tool: grim (bundled in Niri)
 - mouse icon: Bibata-Modern-Ice (size 24)
 ```
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/96fd1d38-bd72-4ed5-ba71-2eec89a3c54d" />
+<img width="1920" height="1080" alt="preview" src="https://github.com/user-attachments/assets/a4b735ca-537d-4f68-a4fd-878c14a7ee69" />
 
 
 ## Setup
