@@ -1,13 +1,6 @@
-# Noctalia runtime artifacts (do not publish)
 dot_config/noctalia/cfg.zip
 dot_config/noctalia/plugins/
 dot_config/noctalia/**/cache/
 dot_config/noctalia/**/avatars/
 dot_config/noctalia/**/preview.png
 dot_config/noctalia/**/screenshot.png
-
-# Legacy / local planning files
-PLAN_chezmoi.md
-
-# Legacy config template name
-.chezmoi.toml.impl
