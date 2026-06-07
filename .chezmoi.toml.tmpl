@@ -20,6 +20,30 @@
     {{- $selectedSwitcher = promptStringOnce . "keyboard_options_custom" "Enter custom XKB options" "grp:alt_shift_toggle" -}}
 {{- end -}}
 
+{{- $hasBattery := false -}}
+{{- if eq .chezmoi.os "linux" -}}
+  {{- $batteryCheck := output "sh" "-c" "if ls /sys/class/power_supply/BAT* >/dev/null 2>&1; then echo 'true'; else echo 'false'; fi" | trim -}}
+  {{- if eq $batteryCheck "true" -}}
+    {{- $hasBattery = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $monitorOutput := "eDP-1" -}}
+{{- if eq .chezmoi.os "linux" -}}
+  {{- $detectedMonitor := output "sh" "-c" "for d in /sys/class/drm/card*-*; do if [ -f $d/status ] && [ \"$(cat $d/status)\" = 'connected' ]; then echo ${d#/sys/class/drm/card*-}; break; fi; done" | trim -}}
+  {{- if $detectedMonitor -}}
+    {{- $monitorOutput = $detectedMonitor -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $keyboardDevice := "" -}}
+{{- if eq .chezmoi.os "linux" -}}
+  {{- $detectedKeyboard := output "sh" "-c" "udevadm info --export-db | awk -v RS=\"\" '/ID_INPUT_KEYBOARD=1/ {print}' | grep -oE 'DEVNAME=[^ ]+' | cut -d= -f2 | head -n1" | trim -}}
+  {{- if $detectedKeyboard -}}
+    {{- $keyboardDevice = $detectedKeyboard -}}
+  {{- end -}}
+{{- end -}}
+
 [data]
     use_chaotic_aur = {{ $chaotic }}
     install_sddm = {{ $sddm }}
@@ -35,3 +59,7 @@
     wallpaper_dir = {{ $wallpaperDir | quote }}
     keyboard_layout = {{ $keyboardLayout | quote }}
     keyboard_options = {{ $selectedSwitcher | quote }}
+
+    has_battery = {{ $hasBattery }}
+    monitor_output = {{ $monitorOutput | quote }}
+    keyboard_device = {{ $keyboardDevice | quote }}

@@ -29,7 +29,9 @@ order = [ "default" ]
     end = [
         "spacer_7",
         "cpu",
+        {{ if .has_battery - }}
         "battery",
+        {{- end }}
         "clipboard",
         "network",
         "bluetooth",
@@ -109,7 +111,7 @@ widget_order = [ "desktop-widget-0000000000000001" ]
     cx = 1804.0
     cy = 1004.0
     enabled = true
-    output = "eDP-1"
+    output = "{{ .monitor_output }}"
     rotation = 0.0
     type = "weather"
 
@@ -218,7 +220,7 @@ enabled = true
 schema_version = 2
 widget_order = [
     "lockscreen-widget-0000000000000001",
-    "lockscreen-login-box@eDP-1",
+    "lockscreen-login-box@{{ .monitor_output }}",
     "lockscreen-widget-0000000000000002",
     "lockscreen-widget-0000000000000003",
     "lockscreen-widget-0000000000000004"
@@ -229,7 +231,7 @@ widget_order = [
     major_interval = 4
     visible = true
 
-    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    [lockscreen_widgets.widget."lockscreen-login-box@{{ .monitor_output }}"]
     box_height = 0.0
     box_width = 0.0
     cx = 960.0
@@ -239,7 +241,7 @@ widget_order = [
     rotation = 0.0
     type = "login_box"
 
-        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+       [lockscreen_widgets.widget."lockscreen-login-box@{{ .monitor_output }}".settings]
 
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
     box_height = 218.29296875
@@ -247,7 +249,7 @@ widget_order = [
     cx = 960.0
     cy = 281.5
     enabled = true
-    output = "eDP-1"
+    output = "{{ .monitor_output }}"
     rotation = 0.0
     type = "clock"
 
@@ -259,7 +261,7 @@ widget_order = [
     cx = 960.0
     cy = 812.0
     enabled = true
-    output = "eDP-1"
+    output = "{{ .monitor_output }}"
     rotation = 0.0
     type = "media_player"
 
@@ -271,7 +273,7 @@ widget_order = [
     cx = 960.0
     cy = 540.0
     enabled = true
-    output = "eDP-1"
+    output = "{{ .monitor_output }}"
     rotation = 0.0
     type = "sysmon"
 
@@ -283,7 +285,7 @@ widget_order = [
     cx = 1340.0
     cy = 828.0
     enabled = true
-    output = "eDP-1"
+    output = "{{ .monitor_output }}"
     rotation = 0.0
     type = "sysmon"
 
@@ -532,7 +534,7 @@ type = "active_window"
 [widget.bongocat]
 audio_spectrum = true
 hot_reload = true
-input_device = "/dev/input/event2"
+input_device = "{{ .keyboard_device }}"
 scope = "shared"
 script = "scripts/bongocat.lua"
 tappy_mode = true
