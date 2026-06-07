@@ -209,14 +209,20 @@ sunset = ""
 
 [lockscreen]
 blur_intensity = 0.5
-blurred_desktop = false
+blurred_desktop = true
 tint_intensity = 0.30000001192092896
 wallpaper = ""
 
 [lockscreen_widgets]
-enabled = false
+enabled = true
 schema_version = 2
-widget_order = [ "lockscreen-login-box@eDP-1" ]
+widget_order = [
+    "lockscreen-widget-0000000000000001",
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-widget-0000000000000002",
+    "lockscreen-widget-0000000000000003",
+    "lockscreen-widget-0000000000000004"
+]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -234,6 +240,54 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
+    box_height = 218.29296875
+    box_width = 412.9140625
+    cx = 960.0
+    cy = 281.5
+    enabled = true
+    output = "eDP-1"
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000002]
+    box_height = 179.109375
+    box_width = 483.56640625
+    cx = 960.0
+    cy = 812.0
+    enabled = true
+    output = "eDP-1"
+    rotation = 0.0
+    type = "media_player"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000002.settings]
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000003]
+    box_height = 0.0
+    box_width = 0.0
+    cx = 960.0
+    cy = 540.0
+    enabled = true
+    output = "eDP-1"
+    rotation = 0.0
+    type = "sysmon"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000003.settings]
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000004]
+    box_height = 0.0
+    box_width = 0.0
+    cx = 1340.0
+    cy = 828.0
+    enabled = true
+    output = "eDP-1"
+    rotation = 0.0
+    type = "sysmon"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000004.settings]
 
 [nightlight]
 enabled = true
@@ -259,14 +313,25 @@ show_app_name = true
 
 [osd]
 background_opacity = 0.70999997854232788
-keyboard_layout = true
-lock_keys = true
 monitors = []
 offset_x = 20
 offset_y = 8
 orientation = "horizontal"
 position = "top_right"
 scale = 1.0
+
+    [osd.kinds]
+    bluetooth = true
+    brightness = true
+    caffeine = true
+    dnd = true
+    keyboard_layout = true
+    lock_keys = true
+    power_profile = true
+    volume = true
+    volume_input = true
+    volume_output = true
+    wifi = true
 
 [shell]
 app_icon_colorize = false
@@ -433,7 +498,7 @@ wallpaper_scheme = "m3-tonal-spot"
     enable_community_templates = true
 
 [wallpaper]
-directory = "/home/nixxo/Pictures/Wallpapers"
+directory = "{{ .wallpaper_dir }}"
 directory_dark = ""
 directory_light = ""
 edge_smoothness = 0.30000001192092896
