@@ -166,4 +166,6 @@
         }
     },
     "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "chat.disableAIFeatures": true,
+    // "python.analysis.typeCheckingMode": "standard",
 }

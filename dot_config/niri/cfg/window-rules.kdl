@@ -1,0 +1,65 @@
+// --- Global Rules ---
+
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
+window-rule {
+  opacity 0.80;
+  background-effect {
+    blur true
+    xray true
+  }
+}
+
+// --- System Interface Rules ---
+
+layer-rule {
+    match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|osd)$"
+    background-effect {
+        //blur false
+        //xray false
+    }
+}
+
+// --- System Utility Rules ---
+
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+window-rule {
+  match app-id="dev.noctalia.Noctalia.Settings"
+  open-floating true
+  default-column-width { fixed 1080; }
+  default-window-height { fixed 920; }
+}
+
+window-rule {
+    match app-id="clipse"
+    open-floating true
+    open-focused true
+}
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// --- App Specific Rules ---
+
+window-rule {
+    match app-id="zen"
+    match app-id="discord"
+    match app-id="tdesktop"
+
+    opacity 1.0
+}
+
+window-rule {
+    match title="Zen*"
+    open-on-workspace "c"
+    open-maximized true
+}

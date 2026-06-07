@@ -1,0 +1,53 @@
+layout {
+    gaps 10
+
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 1.5
+        active-color "#7fc8ff"
+        inactive-color "#505050"
+    }
+
+    border {
+        on
+        width 2
+        urgent-color "#9b0000"
+    }
+
+    shadow {
+        on
+        softness 10
+        spread 5
+        offset x=0 y=5
+        color "#0007"
+    }
+}
+
+animations {
+}
+
+environment {
+  QT_QPA_PLATFORMTHEME "qt6ct"
+}
+
+debug {
+    render-drm-device "/dev/dri/renderD128"
+    honor-xdg-activation-with-invalid-serial
+}
+
+/* You can also fine-tune the blur effect globally. */
+blur {
+  passes 3
+  offset 3.0
+  noise 0.02
+  saturation 1.2
+}

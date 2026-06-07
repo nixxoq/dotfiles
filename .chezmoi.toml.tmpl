@@ -3,6 +3,7 @@
 {{- $vscode := promptBoolOnce . "install_vscode" "Install Visual Studio Code? (With custom settings)" true -}}
 {{- $optionalPkgs := promptBoolOnce . "install_optional_packages" "Install optional package tier?" true -}}
 {{- $manageSystemFontconfig := promptBoolOnce . "manage_system_fontconfig" "Manage /etc/fonts/conf.d Apple Emoji symlink? (requires sudo)" false -}}
+{{- $discordHook := promptBoolOnce . "install_discord_hook" "Install and enable Equicord patch pacman hook? (requires sudo)" false -}}
 {{- $gitName := promptStringOnce . "git_name" "Git user.name" .chezmoi.username -}}
 {{- $gitEmail := promptStringOnce . "git_email" "Git email" "" -}}
 {{- $gitSigningKey := promptStringOnce . "git_signingkey" "Git GPG signing key (empty to skip)" "" -}}
@@ -25,6 +26,7 @@
     install_vscode = {{ $vscode }}
     install_optional_packages = {{ $optionalPkgs }}
     manage_system_fontconfig = {{ $manageSystemFontconfig }}
+    install_discord_hook = {{ $discordHook }}
     git_name = {{ $gitName | quote }}
     git_email = {{ $gitEmail | quote }}
     git_signingkey = {{ $gitSigningKey | quote }}

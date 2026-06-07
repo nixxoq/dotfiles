@@ -1,0 +1,27 @@
+{{ if .install_discord_hook -}}
+#!/bin/bash
+
+echo "[Hook] Equicord"
+sudo mkdir -p /etc/pacman.d/hooks
+
+sudo tee /etc/pacman.d/hooks/equicord-discord.hook > /dev/null << 'EOF'
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = discord
+
+[Action]
+Description = Repairing Equicord
+When = PostTransaction
+Exec = /usr/bin/sh -c 'if [ -n "$SUDO_USER" ]; then USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6); /usr/bin/sudo -u "$SUDO_USER" env SUDO_USER="" DOAS_USER="" HOME="$USER_HOME" equicord-installer -repair -location "$USER_HOME/.config/discord"; fi'
+EOF
+
+{{ else -}}
+#!/bin/bash
+
+if [ -f /etc/pacman.d/hooks/equicord-discord.hook ]; then
+    echo "[Hook] Removing Equicord"
+    sudo rm -f /etc/pacman.d/hooks/equicord-discord.hook
+fi
+{{- end }}

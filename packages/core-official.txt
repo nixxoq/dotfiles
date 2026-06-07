@@ -15,8 +15,8 @@ github-cli
 gnome-keyring
 libsecret
 niri
-noctalia-qs
-noctalia-shell
+# noctalia-qs
+# noctalia-shell
 noto-fonts
 noto-fonts-cjk
 paru

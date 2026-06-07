@@ -1,0 +1,24 @@
+prefer-no-csd
+
+// spawn-at-startup "clipse" "-listen"
+spawn-at-startup "dbus-update-activation-environment" "--all"
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+// spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "noctalia"
+// spawn-at-startup "anyrun" "daemon"
+
+hotkey-overlay {
+    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
+    // skip-at-startup
+}
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// Split configurations
+include "./cfg/input.kdl"
+include "./cfg/layout.kdl"
+include "./cfg/window-rules.kdl"
+include "./cfg/binds.kdl"
+
+include "./noctalia.kdl"

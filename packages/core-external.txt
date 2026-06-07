@@ -1,3 +1,4 @@
 # Core packages from external repos (AUR/chaotic/local)
+noctalia-git
 bibata-cursor-theme-bin
 ttf-apple-emoji
