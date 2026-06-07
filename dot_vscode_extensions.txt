@@ -57,5 +57,3 @@ vscjava.vscode-java-dependency
 vscode-icons-team.vscode-icons
 wakatime.vscode-wakatime
 yzhang.markdown-all-in-one
-
-    "workbench.iconTheme": "bearded-icons",
