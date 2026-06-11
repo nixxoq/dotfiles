@@ -23,6 +23,11 @@ layer-rule {
     }
 }
 
+layer-rule {
+    match namespace="^noctalia-backdrop"
+    place-within-backdrop true
+}
+
 // --- System Utility Rules ---
 
 window-rule {
@@ -62,4 +67,32 @@ window-rule {
     match title="Zen*"
     open-on-workspace "c"
     open-maximized true
+}
+
+window-rule {
+    match app-id="org.gnome.Nautilus"
+    opacity 0.85
+    background-effect {
+        blur true
+        xray true
+    }
+}
+
+window-rule {
+    match app-id="^[Ss]team$"
+    match app-id="discord"
+    opacity 0.85
+    draw-border-with-background false
+}
+
+window-rule {
+    match app-id="^[Cc]ode(-oss)?$"
+
+    opacity 0.90
+    draw-border-with-background false
+
+    background-effect {
+        blur true
+        xray false
+    }
 }
