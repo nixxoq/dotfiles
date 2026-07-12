@@ -683,22 +683,16 @@ type = "active_window"
 [widget.bongocat]
 audio_spectrum = true
 hot_reload = true
-input_device = "{{ .keyboard_device }}"
+input_device = "{{ index .keyboard_devices 0 }}"
 scope = "shared"
 script = "scripts/bongocat.lua"
 tappy_mode = true
 type = "scripted"
 use_mpris_filter = true
 
-[widget.cat]
-audio_spectrum = true
-input_devices = [ "/dev/input/event8" ]
-tappy_mode = true
-type = "noctalia/bongocat:cat"
-
 [widget.cat_2]
 audio_spectrum = true
-input_devices = [ "{{ .keyboard_device }}" ]
+input_devices = {{ .keyboard_devices | toJson }}
 tappy_mode = true
 type = "noctalia/bongocat:cat"
 

@@ -36,21 +36,26 @@
   {{- end -}}
 {{- end -}}
 
-{{- $keyboardDevice := "" -}}
+{{- $keyboardDevices := list -}}
 {{- if eq .chezmoi.os "linux" -}}
-  {{- $detectedKeyboard := output "sh" "-c" `
-    stable_kbs=$(find /dev/input/by-id/ /dev/input/by-path/ -name "*event-kbd" 2>/dev/null)
-    kb_dev=$(echo "$stable_kbs" | grep "/by-id/" | grep -vi "mouse" | head -n1)
-    if [ -z "$kb_dev" ]; then
-      kb_dev=$(echo "$stable_kbs" | grep "/by-id/" | head -n1)
-    fi
-    if [ -z "$kb_dev" ]; then
-      kb_dev=$(echo "$stable_kbs" | grep "/by-path/" | head -n1)
-    fi
-    echo "$kb_dev"
-  ` | trim -}}
-  {{- if $detectedKeyboard -}}
-    {{- $keyboardDevice = $detectedKeyboard -}}
+  {{- $detectedKeyboards := output "sh" "-c" `
+    declare -A targets
+    for path in $(find /dev/input/by-id/ /dev/input/by-path/ -name "*event-kbd" 2>/dev/null); do
+      target=$(readlink -f "$path")
+      target_event=$(basename "$target")
+      if evtest </dev/null 2>&1 | grep -E "^/dev/input/$target_event:" | grep -qi "mouse"; then
+        continue
+      fi
+      if [ -z "${targets[$target]}" ]; then
+        targets[$target]="$path"
+        echo "$path"
+      fi
+    done
+  ` | trim | split "\n" -}}
+  {{- range $detectedKeyboards -}}
+    {{- if . -}}
+      {{- $keyboardDevices = append $keyboardDevices . -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
@@ -72,4 +77,4 @@
 
     has_battery = {{ $hasBattery }}
     monitor_output = {{ $monitorOutput | quote }}
-    keyboard_device = {{ $keyboardDevice | quote }}
+    keyboard_devices = {{ $keyboardDevices | toJson }}
