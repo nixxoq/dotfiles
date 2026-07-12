@@ -98,7 +98,7 @@
     "window.titleBarStyle": "custom",
     "window.customMenuBarAltFocus": false,
     "window.enableMenuBarMnemonics": false,
-    "workbench.colorTheme": "Bearded Theme Oceanic",
+    "workbench.colorTheme": "Lotus Dark",
     "remote.SSH.remotePlatform": {
         "coder-vscode.0.0.0.0--nixxoq--test1234": "linux"
     },
