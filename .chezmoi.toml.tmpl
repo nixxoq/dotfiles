@@ -38,7 +38,17 @@
 
 {{- $keyboardDevice := "" -}}
 {{- if eq .chezmoi.os "linux" -}}
-  {{- $detectedKeyboard := output "sh" "-c" "udevadm info --export-db | awk -v RS=\"\" '/ID_INPUT_KEYBOARD=1/ {print}' | grep -oE 'DEVNAME=[^ ]+' | cut -d= -f2 | head -n1" | trim -}}
+  {{- $detectedKeyboard := output "sh" "-c" `
+    stable_kbs=$(find /dev/input/by-id/ /dev/input/by-path/ -name "*event-kbd" 2>/dev/null)
+    kb_dev=$(echo "$stable_kbs" | grep "/by-id/" | grep -vi "mouse" | head -n1)
+    if [ -z "$kb_dev" ]; then
+      kb_dev=$(echo "$stable_kbs" | grep "/by-id/" | head -n1)
+    fi
+    if [ -z "$kb_dev" ]; then
+      kb_dev=$(echo "$stable_kbs" | grep "/by-path/" | head -n1)
+    fi
+    echo "$kb_dev"
+  ` | trim -}}
   {{- if $detectedKeyboard -}}
     {{- $keyboardDevice = $detectedKeyboard -}}
   {{- end -}}

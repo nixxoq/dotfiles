@@ -23,17 +23,15 @@ order = [ "default" ]
     capsule_group = []
     capsule_opacity = 0.34999999403953552
     capsule_padding = 4.0
+    capsule_thickness = 0.75999999046325684
     center = [ "media", "clock" ]
     contact_shadow = false
     enabled = true
     end = [
-        "spacer_7",
-        "cpu",
-        {{ if .has_battery - }}
+        "network",
+        {{- if .has_battery }}
         "battery",
         {{- end }}
-        "clipboard",
-        "network",
         "bluetooth",
         "volume",
         "brightness",
@@ -47,6 +45,7 @@ order = [ "default" ]
     layer = "top"
     margin_edge = 5
     margin_ends = 280
+    margin_opposite_edge = 0
     padding = 14
     panel_overlap = 1
     position = "top"
@@ -58,9 +57,17 @@ order = [ "default" ]
     reserve_space = true
     scale = 1.0
     shadow = true
-    start = [ "control-center", "workspaces", "wallpaper", "bongocat" ]
+    show_on_workspace_switch = true
+    start = [ "control-center", "workspaces", "wallpaper", "bongocat", "spacer_7", "cpu", "cat_2" ]
     thickness = 21
     widget_spacing = 6
+
+        [bar.default.dead_zone]
+        command = ""
+        middle_command = ""
+        right_command = ""
+        scroll_down_command = ""
+        scroll_up_command = ""
 
 [battery]
 warning_threshold = 25
@@ -68,6 +75,7 @@ warning_threshold = 25
 [brightness]
 enable_ddcutil = true
 ignore_mmids = []
+minimum_brightness = 0.0
 
 [calendar]
 enabled = false
@@ -76,6 +84,7 @@ refresh_minutes = 15
 [control_center]
 sidebar = "compact"
 sidebar_section = "compact"
+width = 700
 
     [[control_center.shortcuts]]
     type = "wifi"
@@ -179,27 +188,29 @@ pre_action_fade_seconds = 2.0
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 600
+    timeout = 600.0
 
     [idle.behavior.lock-and-suspend]
     action = "lock_and_suspend"
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 900
+    timeout = 900.0
 
     [idle.behavior.screen-off]
     action = "screen_off"
     command = ""
     enabled = false
     resume_command = ""
-    timeout = 660
+    timeout = 660.0
 
 [keybinds]
 cancel = [ "Escape" ]
 down = [ "Down" ]
 left = [ "Left" ]
 right = [ "Right" ]
+tab_next = [ "Tab" ]
+tab_previous = [ "Shift+ISO_Left_Tab" ]
 up = [ "Up" ]
 validate = [ "Return", "KP_Enter" ]
 
@@ -210,8 +221,12 @@ sunrise = ""
 sunset = ""
 
 [lockscreen]
+allow_empty_password = false
 blur_intensity = 0.5
 blurred_desktop = true
+enabled = true
+fingerprint = true
+monitors = []
 tint_intensity = 0.30000001192092896
 wallpaper = ""
 
@@ -219,8 +234,9 @@ wallpaper = ""
 enabled = true
 schema_version = 2
 widget_order = [
+    "lockscreen-login-box@HDMI-A-1",
     "lockscreen-widget-0000000000000001",
-    "lockscreen-login-box@{{ .monitor_output }}",
+    "lockscreen-login-box@eDP-1",
     "lockscreen-widget-0000000000000002",
     "lockscreen-widget-0000000000000003",
     "lockscreen-widget-0000000000000004"
@@ -231,17 +247,36 @@ widget_order = [
     major_interval = 4
     visible = true
 
-    [lockscreen_widgets.widget."lockscreen-login-box@{{ .monitor_output }}"]
-    box_height = 0.0
-    box_width = 0.0
+    [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1"]
+    box_height = 70.0
+    box_width = 400.0
     cx = 960.0
-    cy = 957.0
+    cy = 961.0
     enabled = true
-    output = "eDP-1"
+    output = "HDMI-A-1"
     rotation = 0.0
     type = "login_box"
 
-       [lockscreen_widgets.widget."lockscreen-login-box@{{ .monitor_output }}".settings]
+        [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        input_opacity = 1.0
+        input_radius = 6.0
+        show_login_button = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 70.0
+    box_width = 400.0
+    cx = 960.0
+    cy = 957.0
+    enabled = true
+    output = "{{ .monitor_output }}"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        show_login_button = true
 
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
     box_height = 218.29296875
@@ -298,10 +333,7 @@ temperature_day = 6500
 temperature_night = 4000
 
 [notification]
-allowed_urgencies = []
 background_opacity = 0.5899999737739563
-blacklist = []
-blacklist_allow_critical = true
 collapse_on_dismiss = true
 enable_daemon = true
 layer = "top"
@@ -320,6 +352,7 @@ offset_x = 20
 offset_y = 8
 orientation = "horizontal"
 position = "top_right"
+position_vertical = "top_center"
 scale = 1.0
 
     [osd.kinds]
@@ -329,14 +362,35 @@ scale = 1.0
     dnd = true
     keyboard_layout = true
     lock_keys = true
+    media = true
+    nightlight = true
     power_profile = true
+    privacy = true
     volume = true
     volume_input = true
     volume_output = true
     wifi = true
 
+[plugins]
+enabled = [ "noctalia/bongocat" ]
+
+    [[plugins.source]]
+    auto_update = false
+    enabled = true
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    auto_update = false
+    enabled = true
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
 [shell]
 app_icon_colorize = false
+avatar_path = ""
 clipboard_auto_paste = "auto"
 clipboard_confirm_clear_history = true
 clipboard_enabled = true
@@ -365,32 +419,54 @@ ui_scale = 1.0
     enabled = true
     speed = 1.0
 
+    [shell.greeter_sync]
+
+    [shell.launcher]
+    app_grid = false
+    categories = true
+    compact = false
+    session_search = false
+    show_icons = true
+    sort_by_usage = true
+
+        [shell.launcher.dmenu]
+
     [shell.mpris]
     blacklist = []
 
     [shell.panel]
     borders = true
-    clipboard_placement = "centered"
+    clipboard_placement = "floating"
+    clipboard_position = "center"
     control_center_placement = "attached"
-    launcher_categories = true
-    launcher_compact = true
-    launcher_placement = "centered"
-    launcher_show_icons = true
+    control_center_position = "auto"
+    floating_offset = 8
+    launcher_placement = "floating"
+    launcher_position = "center"
     open_near_click_clipboard = true
     open_near_click_control_center = false
     open_near_click_launcher = false
     open_near_click_session = false
     open_near_click_wallpaper = false
+    polkit_placement = "floating"
+    polkit_position = "center"
     session_placement = "attached"
+    session_position = "auto"
     shadow = true
     transparency_mode = "soft"
     wallpaper_placement = "attached"
+    wallpaper_position = "auto"
+
+    [shell.privacy]
+    cam_filter_regex = ""
+    mic_filter_regex = ""
 
     [shell.screen_corners]
     enabled = false
     size = 32
 
     [shell.screenshot]
+    confirm_region = false
     copy_to_clipboard = true
     directory = ""
     filename_pattern = ""
@@ -399,9 +475,12 @@ ui_scale = 1.0
     pipe_to_command = false
     save_to_file = true
 
+    [shell.session.power]
+
     [[shell.session.actions]]
     action = "lock"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -411,6 +490,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "logout"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -420,6 +500,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "suspend"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -429,6 +510,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "reboot"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -438,6 +520,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "shutdown"
     command = ""
+    countdown_seconds = 0.0
     enabled = true
     glyph = ""
     label = ""
@@ -447,6 +530,7 @@ ui_scale = 1.0
     [[shell.session.actions]]
     action = "command"
     command = "notify-send 'Noctalia' 'Custom session entry'"
+    countdown_seconds = 0.0
     enabled = false
     glyph = ""
     label = ""
@@ -461,6 +545,7 @@ ui_scale = 1.0
 cpu_poll_seconds = 2.0
 cpu_temp_activity_threshold = 60.0
 cpu_temp_critical_threshold = 85.0
+cpu_temp_sensor_path = ""
 cpu_usage_activity_threshold = 50.0
 cpu_usage_critical_threshold = 90.0
 disk_pct_activity_threshold = 80.0
@@ -486,11 +571,11 @@ swap_pct_activity_threshold = 20.0
 swap_pct_critical_threshold = 80.0
 
 [theme]
-builtin = "Tokyo-Night"
-community_palette = "Espresso Cream"
-custom_palette = ""
+builtin = "Ayu"
+community_palette = "Noctalia legacy"
+custom_palette = "test2"
 mode = "dark"
-source = "wallpaper"
+source = "custom"
 wallpaper_scheme = "m3-tonal-spot"
 
     [theme.templates]
@@ -506,11 +591,14 @@ directory_light = ""
 edge_smoothness = 0.30000001192092896
 enabled = true
 fill_color = ""
-fill_mode = "fit"
+fill_mode = "stretch"
 per_monitor_directories = false
 transition = [ "fade", "wipe", "disc", "stripes", "zoom", "honeycomb" ]
 transition_duration = 1500.0
 transition_on_startup = true
+
+[wallpaper.default]
+path = "{{ .wallpaper_dir }}/frozen-lake-sunset-over-mountain-range-431a4d3c-7e2f-44eb-8d38-5c51d1fce1dc.png"
 
     [wallpaper.automation]
     enabled = false
@@ -540,6 +628,18 @@ script = "scripts/bongocat.lua"
 tappy_mode = true
 type = "scripted"
 use_mpris_filter = true
+
+[widget.cat]
+audio_spectrum = true
+input_devices = [ "/dev/input/event8" ]
+tappy_mode = true
+type = "noctalia/bongocat:cat"
+
+[widget.cat_2]
+audio_spectrum = true
+input_devices = [ "/dev/input/event8", "/dev/input/event19" ]
+tappy_mode = true
+type = "noctalia/bongocat:cat"
 
 [widget.cpu]
 display = "text"

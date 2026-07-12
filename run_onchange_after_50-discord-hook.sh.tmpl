@@ -14,6 +14,7 @@ Target = discord
 [Action]
 Description = Repairing Equicord
 When = PostTransaction
+NetworkAccess = allowed
 Exec = /usr/bin/sh -c 'if [ -n "$SUDO_USER" ]; then USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6); /usr/bin/sudo -u "$SUDO_USER" env SUDO_USER="" DOAS_USER="" HOME="$USER_HOME" equicord-installer -repair -location "$USER_HOME/.config/discord"; fi'
 EOF
 

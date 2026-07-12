@@ -1,0 +1,58 @@
+{
+  "base_keymap": "JetBrains",
+  "project_panel": {
+    "dock": "left"
+  },
+  "auto_update": false,
+  "ui_font_size": 16.0,
+  "ui_font_family": ".ZedSans",
+  "buffer_font_family": "JetBrains Mono",
+  "buffer_font_size": 14.0,
+  "buffer_line_height": {
+    "custom": 1.5,
+  },
+  "buffer_font_features": {
+    "calt": true,
+  },
+  "icon_theme": "Base Charmed Icons",
+  "theme": {
+    "mode": "system",
+    "light": "Noctalia Dark Transparent",
+    "dark": "Catppuccin Macchiato (Blur)",
+    // "dark": "Noctalia Dark Transparent",
+  },
+  "minimap": {
+    "show": "never",
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+    "anthropic_retention": false,
+  },
+  "experimental.theme_overrides": {
+    "background.appearance": "transparent",
+    // "background": "#1e203060",
+    // "editor.background": "#00000000",
+    // "editor.gutter.background": "#00000000",
+    // "terminal.background": "#00000000",
+    // "title_bar.background": "#18192660",
+    // "status_bar.background": "#18192660",
+  },
+
+  "auto_install_extensions": {
+    "catppuccin-blur": true,
+    "codely-theme": true,
+    "dockerfile": true,
+    "html": true,
+    "mcp-server-github": true,
+    "vesper-blur": true,
+    "vscode-dark-polished": true,
+    "charmed-icons": true,
+    "discord-presence": true,
+    "git-firefly": true,
+    "lotus-theme": true,
+    "neocmake": true,
+    "vscode-dark-modern": true,
+    "wakatime": true
+  },
+}
