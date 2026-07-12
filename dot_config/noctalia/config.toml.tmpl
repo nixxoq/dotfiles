@@ -6,7 +6,7 @@ sound_volume = 0.5
 volume_change_sound = ""
 
 [backdrop]
-blur_intensity = 0.34999999403953552
+blur_intensity = 0.34999999217689037
 enabled = true
 tint_intensity = 0.30000001192092896
 
@@ -15,13 +15,13 @@ order = [ "default" ]
 
     [bar.default]
     auto_hide = false
-    background_opacity = 0.55000001192092896
+    background_opacity = 0.55000000000000004
     border = "outline"
     border_width = 0.0
     capsule = false
     capsule_fill = "#101418"
     capsule_group = []
-    capsule_opacity = 0.34999999403953552
+    capsule_opacity = 0.34999999217689037
     capsule_padding = 4.0
     capsule_thickness = 0.75999999046325684
     center = [ "media", "clock" ]
@@ -81,6 +81,8 @@ minimum_brightness = 0.0
 enabled = false
 refresh_minutes = 15
 
+[config]
+
 [control_center]
 sidebar = "compact"
 sidebar_section = "compact"
@@ -131,7 +133,7 @@ active_monitor_only = true
 active_opacity = 1.0
 active_scale = 1.0
 auto_hide = true
-background_opacity = 0.5
+background_opacity = 0.4999999888241291
 cross_axis_padding = 8
 enabled = true
 icon_size = 32
@@ -234,12 +236,15 @@ wallpaper = ""
 enabled = true
 schema_version = 2
 widget_order = [
-    "lockscreen-login-box@HDMI-A-1",
     "lockscreen-widget-0000000000000001",
-    "lockscreen-login-box@eDP-1",
+    "lockscreen-login-box@HDMI-A-1",
+    "lockscreen-login-box@{{ .monitor_output }}",
     "lockscreen-widget-0000000000000002",
     "lockscreen-widget-0000000000000003",
-    "lockscreen-widget-0000000000000004"
+    "lockscreen-widget-0000000000000004",
+    "lockscreen-widget-0000000000000005",
+    "lockscreen-widget-0000000000000006",
+    "lockscreen-widget-0000000000000007"
 ]
 
     [lockscreen_widgets.grid]
@@ -263,9 +268,12 @@ widget_order = [
         background_radius = 12.0
         input_opacity = 1.0
         input_radius = 6.0
+        show_caps_lock = true
+        show_keyboard_layout = true
         show_login_button = true
+        show_password_hint = true
 
-    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    [lockscreen_widgets.widget."lockscreen-login-box@{{ .monitor_output }}"]
     box_height = 70.0
     box_width = 400.0
     cx = 960.0
@@ -275,8 +283,11 @@ widget_order = [
     rotation = 0.0
     type = "login_box"
 
-        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        [lockscreen_widgets.widget."lockscreen-login-box@{{ .monitor_output }}".settings]
+        show_caps_lock = true
+        show_keyboard_layout = true
         show_login_button = true
+        show_password_hint = true
 
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
     box_height = 218.29296875
@@ -306,7 +317,7 @@ widget_order = [
     box_height = 0.0
     box_width = 0.0
     cx = 960.0
-    cy = 540.0
+    cy = 636.0
     enabled = true
     output = "{{ .monitor_output }}"
     rotation = 0.0
@@ -317,14 +328,55 @@ widget_order = [
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000004]
     box_height = 0.0
     box_width = 0.0
-    cx = 1340.0
-    cy = 828.0
+    cx = 1104.0
+    cy = 679.0
     enabled = true
     output = "{{ .monitor_output }}"
     rotation = 0.0
     type = "sysmon"
 
         [lockscreen_widgets.widget.lockscreen-widget-0000000000000004.settings]
+        display = "gauge"
+        stat = "cpu_temp"
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000005]
+    box_height = 41.17578125
+    box_width = 75.7734375
+    cx = 1103.38671875
+    cy = 635.412109375
+    output = "{{ .monitor_output }}"
+    rotation = 0.0
+    type = "sysmon"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000005.settings]
+        display = "gauge"
+        stat = "ram_pct"
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000006]
+    box_height = 44.26171875
+    box_width = 118.05859375
+    cx = 788.970703125
+    cy = 676.869140625
+    output = "{{ .monitor_output }}"
+    rotation = 0.0
+    type = "sysmon"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000006.settings]
+        display = "gauge"
+        stat = "net_rx"
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000007]
+    box_height = 44.9931640625
+    box_width = 118.685546875
+    cx = 789.2841796875
+    cy = 614.82421875
+    output = "{{ .monitor_output }}"
+    rotation = 0.0
+    type = "sysmon"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000007.settings]
+        display = "gauge"
+        stat = "net_tx"
 
 [nightlight]
 enabled = true
@@ -333,7 +385,7 @@ temperature_day = 6500
 temperature_night = 4000
 
 [notification]
-background_opacity = 0.5899999737739563
+background_opacity = 0.58999998681247234
 collapse_on_dismiss = true
 enable_daemon = true
 layer = "top"
@@ -346,7 +398,7 @@ show_actions = true
 show_app_name = true
 
 [osd]
-background_opacity = 0.70999997854232788
+background_opacity = 0.70999998413026333
 monitors = []
 offset_x = 20
 offset_y = 8
@@ -441,6 +493,7 @@ ui_scale = 1.0
     control_center_placement = "attached"
     control_center_position = "auto"
     floating_offset = 8
+    launcher_compact = true
     launcher_placement = "floating"
     launcher_position = "center"
     open_near_click_clipboard = true
@@ -570,6 +623,8 @@ ram_pct_critical_threshold = 90.0
 swap_pct_activity_threshold = 20.0
 swap_pct_critical_threshold = 80.0
 
+[templates]
+
 [theme]
 builtin = "Ayu"
 community_palette = "Noctalia legacy"
@@ -597,14 +652,20 @@ transition = [ "fade", "wipe", "disc", "stripes", "zoom", "honeycomb" ]
 transition_duration = 1500.0
 transition_on_startup = true
 
-[wallpaper.default]
-path = "{{ .wallpaper_dir }}/frozen-lake-sunset-over-mountain-range-431a4d3c-7e2f-44eb-8d38-5c51d1fce1dc.png"
-
     [wallpaper.automation]
     enabled = false
     interval_seconds = 1800
     order = "random"
     recursive = true
+
+    [wallpaper.default]
+    path = "{{ .wallpaper_dir }}/frozen-lake-sunset-over-mountain-range-431a4d3c-7e2f-44eb-8d38-5c51d1fce1dc.png"
+
+    [wallpaper.last]
+    path = "{{ .wallpaper_dir }}/frozen-lake-sunset-over-mountain-range-431a4d3c-7e2f-44eb-8d38-5c51d1fce1dc.png"
+
+    [wallpaper.monitors.{{ .monitor_output }}]
+    path = "{{ .wallpaper_dir }}/frozen-lake-sunset-over-mountain-range-431a4d3c-7e2f-44eb-8d38-5c51d1fce1dc.png"
 
 [weather]
 effects = true
@@ -637,7 +698,7 @@ type = "noctalia/bongocat:cat"
 
 [widget.cat_2]
 audio_spectrum = true
-input_devices = [ "/dev/input/event8", "/dev/input/event19" ]
+input_devices = [ "{{ .keyboard_device }}" ]
 tappy_mode = true
 type = "noctalia/bongocat:cat"
 
