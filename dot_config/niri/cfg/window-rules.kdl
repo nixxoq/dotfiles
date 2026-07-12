@@ -78,9 +78,17 @@ window-rule {
     }
 }
 
+
+window-rule {
+    match app-id="zed"
+    opacity 0.80
+    draw-border-with-background false
+}
+
 window-rule {
     match app-id="^[Ss]team$"
     match app-id="discord"
+    match app-id="zed"
     opacity 0.85
     draw-border-with-background false
 }
