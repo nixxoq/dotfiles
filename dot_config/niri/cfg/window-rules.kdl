@@ -81,8 +81,13 @@ window-rule {
 
 window-rule {
     match app-id="zed"
-    match app-id="tdesktop"
     opacity 0.80
+    draw-border-with-background false
+}
+
+window-rule {
+    match app-id="tdesktop"
+    opacity 0.90
     draw-border-with-background false
 }
 
