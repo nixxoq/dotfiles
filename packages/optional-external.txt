@@ -1,3 +1,0 @@
-# Optional packages from external repos
-illogical-impulse-fonts-themes
-illogical-impulse-portal

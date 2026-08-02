@@ -1,0 +1,19 @@
+#!/bin/sh
+
+ACTION="$1"
+
+X_POS=$(xdotool getmouselocation | grep -o 'x:[0-9]*' | cut -d: -f2)
+
+if [ "$X_POS" -lt 1920 ]; then
+    if [ "$ACTION" = "up" ]; then
+        brightnessctl set +5%
+    else
+        brightnessctl set 5%-
+    fi
+else
+    if [ "$ACTION" = "up" ]; then
+        ddcutil setvcp 10 + 10 --async
+    else
+        ddcutil setvcp 10 - 10 --async
+    fi
+fi

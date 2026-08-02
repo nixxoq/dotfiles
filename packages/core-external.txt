@@ -1,3 +1,0 @@
-# Core packages from external repos (AUR/chaotic/local)
-bibata-cursor-theme-bin
-ttf-apple-emoji
