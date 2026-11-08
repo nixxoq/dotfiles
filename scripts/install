@@ -1,14 +1,42 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+umask 077
+error_log="$(mktemp)"
 exec 3>&1 4>&2
-exec >/dev/null 2>/dev/null
+exec > >(tee "$error_log" >&3) 2> >(tee -a "$error_log" >&4)
+
+cleanup() {
+    rm -rf "${stage:-}"
+    rm -f "$error_log"
+}
+
+report_error() {
+    local status=$? line message='' detail=''
+    while IFS= read -r line; do
+        line="${line//$'\r'/}"
+        [[ -n "$line" ]] || continue
+        message="$line"
+        case "${line,,}" in
+            *conflict*)
+                [[ "${line,,}" == *'failed to prepare transaction'* ]] || detail="$line"
+                ;;
+            *'breaks dependency'*) detail="$line" ;;
+        esac
+    done < "$error_log"
+    [[ -n "$detail" ]] && message="$detail"
+    message="${message#'error: '}"
+    [[ -n "$message" ]] || message="${BASH_COMMAND:-command failed}"
+    printf 'error: %s\n' "$message" >&4
+    exit "$status"
+}
+
+trap report_error ERR
+trap cleanup EXIT
 
 fail() {
     printf 'error: %s\n' "$1" >&4
     exit 1
 }
-
-trap 'status=$?; printf "error: command failed\n" >&4; exit "$status"' ERR
 
 if [[ "${1:-}" == -h || "${1:-}" == --help ]]; then
     printf 'done\n' >&3
@@ -191,7 +219,6 @@ if [[ "$install_vscode" == true ]]; then
 fi
 
 stage="$(mktemp -d)"
-trap 'rm -rf "$stage"' EXIT
 cp -a "$source_dir/home/." "$stage/"
 python3 "$source_dir/scripts/render-configs.py" \
     --source "$source_dir" \

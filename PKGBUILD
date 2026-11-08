@@ -1,6 +1,6 @@
 pkgname=dotfiles
 pkgver=0.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="NixxO desktop dotfiles and direct installer"
 arch=('any')
 url="https://github.com/nixxoq/dotfiles"
