@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
-umask 077
 error_log="$(mktemp)"
 exec 3>&1 4>&2
 exec > >(tee "$error_log" >&3) 2> >(tee -a "$error_log" >&4)
@@ -113,11 +112,14 @@ setup_chaotic_repo() {
     repo_changed=true
 }
 
-ensure_paru() {
-    if command -v paru >/dev/null 2>&1; then return 0; fi
+ensure_pacman_config_readable() {
     if [[ ! -r /etc/pacman.conf ]]; then
         sudo chmod a+r /etc/pacman.conf
     fi
+}
+
+ensure_paru() {
+    if command -v paru >/dev/null 2>&1; then return 0; fi
     local tmp
     tmp="$(mktemp -d)"
     git clone --depth=1 https://aur.archlinux.org/paru.git "$tmp/paru"
@@ -203,8 +205,12 @@ ask_text 'Git signing key (blank to skip)' "$default_git_key"
 git_signing_key="$REPLY"
 
 sudo pacman -S --needed --noconfirm base-devel git curl
+ensure_pacman_config_readable
 repo_changed=false
-if [[ "$use_cachyos" == true ]]; then setup_cachyos_repo; fi
+if [[ "$use_cachyos" == true ]]; then
+    setup_cachyos_repo
+    ensure_pacman_config_readable
+fi
 if [[ "$use_chaotic" == true ]]; then setup_chaotic_repo; fi
 if [[ "$repo_changed" == true ]]; then sudo pacman -Syu; fi
 ensure_paru
