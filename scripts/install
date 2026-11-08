@@ -115,6 +115,9 @@ setup_chaotic_repo() {
 
 ensure_paru() {
     if command -v paru >/dev/null 2>&1; then return 0; fi
+    if [[ ! -r /etc/pacman.conf ]]; then
+        sudo chmod a+r /etc/pacman.conf
+    fi
     local tmp
     tmp="$(mktemp -d)"
     git clone --depth=1 https://aur.archlinux.org/paru.git "$tmp/paru"
