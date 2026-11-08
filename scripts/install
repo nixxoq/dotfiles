@@ -30,7 +30,7 @@ fi
 ask_yes_no() {
     local prompt="$1" default="$2" answer suffix
     if [[ "$default" == true ]]; then suffix='[Y/n]'; else suffix='[y/N]'; fi
-    read -r -p "$prompt $suffix " answer >&4 || answer=''
+    read -r -p "$prompt $suffix " answer 2>&4 || answer=''
     if [[ -z "$answer" ]]; then REPLY="$default"; return; fi
     answer="$(printf '%s' "$answer" | tr '[:upper:]' '[:lower:]')"
     case "$answer" in
@@ -42,7 +42,7 @@ ask_yes_no() {
 
 ask_text() {
     local prompt="$1" default="$2" answer
-    read -r -p "$prompt [$default]: " answer >&4 || answer=''
+    read -r -p "$prompt [$default]: " answer 2>&4 || answer=''
     if [[ -n "$answer" ]]; then REPLY="$answer"; else REPLY="$default"; fi
 }
 
@@ -152,7 +152,7 @@ esac
 ask_text 'Keyboard layouts (comma separated)' 'us'
 keyboard_layout="$REPLY"
 printf 'Keyboard switcher:\n  1) Alt + Shift\n  2) Win + Space\n  3) Ctrl + Shift\n  4) Caps Lock\n  5) Custom XKB options\n' >&4
-read -r -p 'Choose [1]: ' keyboard_choice >&4 || keyboard_choice=''
+read -r -p 'Choose [1]: ' keyboard_choice 2>&4 || keyboard_choice=''
 case "$keyboard_choice" in
     2) keyboard_options=grp:win_space_toggle ;;
     3) keyboard_options=grp:ctrl_shift_toggle ;;
