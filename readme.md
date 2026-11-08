@@ -16,6 +16,7 @@
 - mouse icon: Bibata-Modern-Ice (size 24)
 ```
 <img width="1920" height="1080" alt="preview" src="https://github.com/user-attachments/assets/a4b735ca-537d-4f68-a4fd-878c14a7ee69" />
+
 ## Setup
 
 Requires an Arch-based distribution and an internet connection.
