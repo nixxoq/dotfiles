@@ -1,7 +1,7 @@
 [user]
-    name = {{ .git_name | quote }}
-    email = {{ .git_email | quote }}
-    signingkey = {{ .git_signingkey | quote }}
+    name = {GIT_NAME}
+    email = {GIT_EMAIL}
+    signingkey = {GIT_SIGNING_KEY}
 
 [commit]
     gpgSign = true

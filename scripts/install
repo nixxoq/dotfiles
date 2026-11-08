@@ -1,0 +1,272 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+exec 3>&1 4>&2
+exec >/dev/null 2>/dev/null
+
+fail() {
+    printf 'error: %s\n' "$1" >&4
+    exit 1
+}
+
+trap 'status=$?; printf "error: command failed\n" >&4; exit "$status"' ERR
+
+if [[ "${1:-}" == -h || "${1:-}" == --help ]]; then
+    printf 'done\n' >&3
+    exit 0
+fi
+
+if [[ "$(id -u)" -eq 0 ]]; then
+    fail 'run as a regular user'
+fi
+
+source_dir=/usr/share/dotfiles
+if [[ -n "$(printenv DOTFILES_SOURCE 2>/dev/null || true)" ]]; then
+    source_dir="$(printenv DOTFILES_SOURCE)"
+fi
+if [[ ! -d "$source_dir/home" || ! -d "$source_dir/packages" ]]; then
+    fail 'package source not found'
+fi
+
+ask_yes_no() {
+    local prompt="$1" default="$2" answer suffix
+    if [[ "$default" == true ]]; then suffix='[Y/n]'; else suffix='[y/N]'; fi
+    read -r -p "$prompt $suffix " answer >&4 || answer=''
+    if [[ -z "$answer" ]]; then REPLY="$default"; return; fi
+    answer="$(printf '%s' "$answer" | tr '[:upper:]' '[:lower:]')"
+    case "$answer" in
+        y|yes) REPLY=true ;;
+        n|no) REPLY=false ;;
+        *) fail 'answer yes or no' ;;
+    esac
+}
+
+ask_text() {
+    local prompt="$1" default="$2" answer
+    read -r -p "$prompt [$default]: " answer >&4 || answer=''
+    if [[ -n "$answer" ]]; then REPLY="$answer"; else REPLY="$default"; fi
+}
+
+install_pacman_file() {
+    local file="$1"
+    [[ -s "$file" ]] || return 0
+    mapfile -t pkgs < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$file")
+    [[ "${#pkgs[@]}" -gt 0 ]] || return 0
+    sudo pacman -S --needed --noconfirm "${pkgs[@]}"
+}
+
+install_paru_file() {
+    local file="$1"
+    [[ -s "$file" ]] || return 0
+    mapfile -t pkgs < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$file")
+    [[ "${#pkgs[@]}" -gt 0 ]] || return 0
+    paru -S --needed --noconfirm "${pkgs[@]}"
+}
+
+setup_cachyos_repo() {
+    if grep -qi 'cachyos' /etc/pacman.conf; then return 0; fi
+    local tmp
+    tmp="$(mktemp -d)"
+    curl -fsSL https://mirror.cachyos.org/cachyos-repo.tar.xz -o "$tmp/cachyos-repo.tar.xz"
+    tar -xJf "$tmp/cachyos-repo.tar.xz" -C "$tmp"
+    sudo "$tmp/cachyos-repo/cachyos-repo.sh"
+    rm -rf "$tmp"
+    repo_changed=true
+}
+
+setup_chaotic_repo() {
+    if grep -q 'chaotic-aur' /etc/pacman.conf; then return 0; fi
+    sudo pacman-key --recv-key 3056513887B78AEB --keyserver hkp://keyserver.ubuntu.com:80
+    sudo pacman-key --lsign-key 3056513887B78AEB
+    sudo pacman -U --noconfirm \
+        https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst \
+        https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst
+    printf '\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist\n' |
+        sudo tee -a /etc/pacman.conf >/dev/null
+    repo_changed=true
+}
+
+ensure_paru() {
+    if command -v paru >/dev/null 2>&1; then return 0; fi
+    local tmp
+    tmp="$(mktemp -d)"
+    git clone --depth=1 https://aur.archlinux.org/paru.git "$tmp/paru"
+    (
+        cd "$tmp/paru"
+        makepkg -si --noconfirm
+    )
+    rm -rf "$tmp"
+}
+
+backup_and_copy_tree() {
+    local source_root="$1" destination_root="$2" backup_prefix="$3"
+    local source_file relative target_file backup_file
+    while IFS= read -r -d '' source_file; do
+        relative="$(realpath --relative-to="$source_root" "$source_file")"
+        if [[ "$backup_prefix" == home && "$relative" == Pictures/Wallpapers/* ]]; then
+            continue
+        fi
+        target_file="$destination_root/$relative"
+        if [[ -e "$target_file" || -L "$target_file" ]]; then
+            if [[ -f "$source_file" && -f "$target_file" ]] &&
+                cmp -s "$source_file" "$target_file"; then
+                continue
+            fi
+            if [[ -L "$source_file" && -L "$target_file" ]] &&
+                [[ "$(readlink "$source_file")" == "$(readlink "$target_file")" ]]; then
+                continue
+            fi
+            backup_file="$backup_root/$backup_prefix/$relative"
+            mkdir -p "$(dirname "$backup_file")"
+            mv -- "$target_file" "$backup_file"
+            backup_made=true
+        fi
+        mkdir -p "$(dirname "$target_file")"
+        cp -a -- "$source_file" "$target_file"
+    done < <(find "$source_root" \( -type f -o -type l \) -print0)
+}
+
+ask_yes_no 'Enable the CachyOS repository?' true
+use_cachyos="$REPLY"
+ask_yes_no 'Enable the Chaotic-AUR repository?' true
+use_chaotic="$REPLY"
+ask_yes_no 'Install the optional package tier?' true
+install_optional="$REPLY"
+ask_yes_no 'Install and enable SDDM?' true
+install_sddm="$REPLY"
+ask_yes_no 'Install Visual Studio Code and extensions?' true
+install_vscode="$REPLY"
+ask_yes_no 'Manage the system Apple emoji fontconfig link?' false
+manage_fontconfig="$REPLY"
+ask_yes_no 'Install the Equicord repair hook?' false
+install_discord_hook="$REPLY"
+
+ask_text 'Wallpaper directory' "$HOME/Pictures/Wallpapers"
+wallpaper_dir="$REPLY"
+case "$wallpaper_dir" in
+    '~') wallpaper_dir="$HOME" ;;
+    '~/'*) wallpaper_dir="$HOME/$(printf '%s' "$wallpaper_dir" | cut -c3-)" ;;
+    /*) ;;
+    *) wallpaper_dir="$HOME/$wallpaper_dir" ;;
+esac
+
+ask_text 'Keyboard layouts (comma separated)' 'us'
+keyboard_layout="$REPLY"
+printf 'Keyboard switcher:\n  1) Alt + Shift\n  2) Win + Space\n  3) Ctrl + Shift\n  4) Caps Lock\n  5) Custom XKB options\n' >&4
+read -r -p 'Choose [1]: ' keyboard_choice >&4 || keyboard_choice=''
+case "$keyboard_choice" in
+    2) keyboard_options=grp:win_space_toggle ;;
+    3) keyboard_options=grp:ctrl_shift_toggle ;;
+    4) keyboard_options=grp:caps_toggle ;;
+    5) ask_text 'Custom XKB options' 'grp:alt_shift_toggle'; keyboard_options="$REPLY" ;;
+    *) keyboard_options=grp:alt_shift_toggle ;;
+esac
+
+default_git_name="$(git config --global user.name 2>/dev/null || true)"
+default_git_email="$(git config --global user.email 2>/dev/null || true)"
+default_git_key="$(git config --global user.signingkey 2>/dev/null || true)"
+ask_text 'Git user.name' "$default_git_name"
+git_name="$REPLY"
+ask_text 'Git user.email' "$default_git_email"
+git_email="$REPLY"
+ask_text 'Git signing key (blank to skip)' "$default_git_key"
+git_signing_key="$REPLY"
+
+sudo pacman -S --needed --noconfirm base-devel git curl
+repo_changed=false
+if [[ "$use_cachyos" == true ]]; then setup_cachyos_repo; fi
+if [[ "$use_chaotic" == true ]]; then setup_chaotic_repo; fi
+if [[ "$repo_changed" == true ]]; then sudo pacman -Syu; fi
+ensure_paru
+install_pacman_file "$source_dir/packages/core-official.txt"
+install_paru_file "$source_dir/packages/core-external.txt"
+if [[ "$install_optional" == true ]]; then
+    install_pacman_file "$source_dir/packages/optional-official.txt"
+    install_paru_file "$source_dir/packages/optional-external.txt"
+fi
+if [[ "$install_sddm" == true ]]; then
+    sudo pacman -S --needed --noconfirm sddm
+fi
+if [[ "$install_vscode" == true ]]; then
+    paru -S --needed --noconfirm visual-studio-code-bin
+fi
+
+stage="$(mktemp -d)"
+trap 'rm -rf "$stage"' EXIT
+cp -a "$source_dir/home/." "$stage/"
+python3 "$source_dir/scripts/render-configs.py" \
+    --source "$source_dir" \
+    --output-home "$stage" \
+    --home "$HOME" \
+    --wallpaper-dir "$wallpaper_dir" \
+    --keyboard-layout "$keyboard_layout" \
+    --keyboard-options "$keyboard_options" \
+    --git-name "$git_name" \
+    --git-email "$git_email" \
+    --git-signing-key "$git_signing_key"
+
+validation_output="$(noctalia config validate "$stage/.config/noctalia/config.toml" 2>&1)" || fail 'Noctalia config validation failed'
+if printf '%s\n' "$validation_output" | grep -Eiq '(^|[[:space:]])warn(ing)?'; then
+    fail 'Noctalia config has warnings'
+fi
+
+backup_root="$HOME/.local/state/dotfiles/backups/$(date +%Y%m%d-%H%M%S)-$$"
+backup_made=false
+backup_and_copy_tree "$stage" "$HOME" home
+backup_and_copy_tree "$stage/Pictures/Wallpapers" "$wallpaper_dir" wallpapers
+
+if [[ "$install_sddm" == true ]] && pacman -Q sddm >/dev/null 2>&1; then
+    if ! systemctl is-enabled --quiet sddm.service; then
+        sudo systemctl enable --now sddm.service
+    fi
+fi
+
+if [[ "$manage_fontconfig" == true ]] &&
+    [[ -f /usr/share/fontconfig/conf.avail/75-apple-color-emoji.conf ]] &&
+    [[ ! -L /etc/fonts/conf.d/75-apple-color-emoji.conf ]]; then
+    if [[ -e /etc/fonts/conf.d/75-apple-color-emoji.conf ]]; then
+        sudo cp -a /etc/fonts/conf.d/75-apple-color-emoji.conf \
+            "/etc/fonts/conf.d/75-apple-color-emoji.conf.backup-$(date +%Y%m%d-%H%M%S)"
+    fi
+    sudo ln -sf /usr/share/fontconfig/conf.avail/75-apple-color-emoji.conf \
+        /etc/fonts/conf.d/75-apple-color-emoji.conf
+    sudo fc-cache -f >/dev/null
+    fc-cache -f
+fi
+
+if [[ "$install_vscode" == true ]] && command -v code >/dev/null 2>&1; then
+    while IFS= read -r extension || [[ -n "$extension" ]]; do
+        [[ -n "$extension" ]] && code --install-extension "$extension" --force >/dev/null 2>&1
+    done < "$source_dir/home/.vscode_extensions.txt"
+fi
+
+if [[ "$install_discord_hook" == true ]]; then
+    hook=/etc/pacman.d/hooks/equicord-discord.hook
+    if [[ ! -e "$hook" ]]; then
+        sudo install -d -m755 /etc/pacman.d/hooks
+        sudo tee "$hook" >/dev/null <<'HOOK'
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = discord
+
+[Action]
+Description = Repairing Equicord
+When = PostTransaction
+NetworkAccess = allowed
+Exec = /usr/bin/sh -c 'if [ -n "$SUDO_USER" ]; then USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6); /usr/bin/sudo -u "$SUDO_USER" env SUDO_USER="" DOAS_USER="" HOME="$USER_HOME" equicord-installer -repair -location "$USER_HOME/.config/discord"; fi'
+HOOK
+    else
+        :
+    fi
+fi
+
+mkdir -p "$HOME/.local/share/applications"
+export XDG_MENU_PREFIX=arch-
+update-desktop-database "$HOME/.local/share/applications"
+sudo update-desktop-database /usr/share/applications
+if command -v kbuildsycoca6 >/dev/null 2>&1; then
+    kbuildsycoca6 --noincremental
+fi
+
+printf 'done\n' >&3

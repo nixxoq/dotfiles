@@ -1,6 +1,12 @@
-dot_config/noctalia/cfg.zip
-dot_config/noctalia/plugins/
-dot_config/noctalia/**/cache/
-dot_config/noctalia/**/avatars/
-dot_config/noctalia/**/preview.png
-dot_config/noctalia/**/screenshot.png
+home/.config/noctalia/cfg.zip
+home/.config/noctalia/plugins/
+home/.config/noctalia/**/cache/
+home/.config/noctalia/**/avatars/
+home/.config/noctalia/**/preview.png
+home/.config/noctalia/**/screenshot.png
+
+# makepkg output
+/src/
+/pkg/
+/*.pkg.tar.zst
+/.SRCINFO

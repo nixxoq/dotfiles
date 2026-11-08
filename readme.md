@@ -1,6 +1,6 @@
 
 <div align="center">
-  <h1>My dotfiles config (v4-exp)</h1>
+  <h1>My dotfiles config (v4-exp-2)</h1>
   <p>
     <a href="#setup">SETUP</a> • <a href="#keybinds">KEYBINDS</a>
   </p>
@@ -16,25 +16,21 @@
 - mouse icon: Bibata-Modern-Ice (size 24)
 ```
 <img width="1920" height="1080" alt="preview" src="https://github.com/user-attachments/assets/a4b735ca-537d-4f68-a4fd-878c14a7ee69" />
-
-
 ## Setup
 
-> [!WARNING]
-> Before using this config, make sure you have:
-> - Arch Linux based distribution
-> - Internet connection
+Requires an Arch-based distribution and an internet connection.
 
-Since i've moved to chezmoi as a replacement for shell scripts, you need to install `chezmoi` and `git` first:
-```bash
-sudo pacman -S chezmoi git
-```
+Build and install the package from this checkout:
 
-After that, run the following command to apply the dotfiles:
-```bash
-chezmoi init --apply https://github.com/nixxoq/dotfiles.git
-```
-Answer the prompts and wait for the process to finish!
+    makepkg -si
+
+Then run the installer as your regular user:
+
+    bash /usr/share/dotfiles/install
+
+The installer handles package/repository choices, renders Niri and Noctalia settings for this machine, backs up conflicting files under ~/.local/state/dotfiles/backups/, and applies the configs to your home directory.
+
+
 
 ## keybinds
 ### Layout & Window Management

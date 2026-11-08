@@ -134,10 +134,6 @@ fi
 #  ┴ ┴┴─┘┴┴ ┴└─┘
 alias mirrors="sudo reflector --verbose --latest 5 --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
 
-alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg" # I'm using systemd-boot for now
-alias mantenimiento="paru -Sc && sudo pacman -Scc"
-alias purge_packages="sudo pacman -Qdtq | sudo pacman -Rns -"
-
 alias cat="bat --theme=base16"
 alias ls='eza --icons=always --color=always -a'
 alias ll='eza --icons=always --color=always -la'
