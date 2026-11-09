@@ -83,7 +83,9 @@ install_pacman_file() {
     [[ -s "$file" ]] || return 0
     mapfile -t pkgs < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$file")
     [[ "${#pkgs[@]}" -gt 0 ]] || return 0
-    sudo pacman -S --needed --noconfirm "${pkgs[@]}"
+    mapfile -t missing < <(pacman -T "${pkgs[@]}" 2>/dev/null || true)
+    [[ "${#missing[@]}" -gt 0 ]] || return 0
+    sudo pacman -S --needed --noconfirm "${missing[@]}"
 }
 
 install_paru_file() {
@@ -91,7 +93,9 @@ install_paru_file() {
     [[ -s "$file" ]] || return 0
     mapfile -t pkgs < <(sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$file")
     [[ "${#pkgs[@]}" -gt 0 ]] || return 0
-    paru -S --needed --noconfirm "${pkgs[@]}"
+    mapfile -t missing < <(pacman -T "${pkgs[@]}" 2>/dev/null || true)
+    [[ "${#missing[@]}" -gt 0 ]] || return 0
+    paru -S --needed --noconfirm "${missing[@]}"
 }
 
 setup_cachyos_repo() {
@@ -209,7 +213,10 @@ git_email="$REPLY"
 ask_text 'Git signing key (blank to skip)' "$default_git_key"
 git_signing_key="$REPLY"
 
-sudo pacman -S --needed --noconfirm base-devel git curl
+mapfile -t bootstrap_missing < <(pacman -T base-devel git curl 2>/dev/null || true)
+if [[ "${#bootstrap_missing[@]}" -gt 0 ]]; then
+    sudo pacman -S --needed --noconfirm "${bootstrap_missing[@]}"
+fi
 ensure_pacman_config_readable
 repo_changed=false
 if [[ "$use_cachyos" == true ]]; then
@@ -226,10 +233,14 @@ if [[ "$install_optional" == true ]]; then
     install_paru_file "$source_dir/packages/optional-external.txt"
 fi
 if [[ "$install_sddm" == true ]]; then
-    sudo pacman -S --needed --noconfirm sddm
+    if ! pacman -T sddm >/dev/null 2>&1; then
+        sudo pacman -S --needed --noconfirm sddm
+    fi
 fi
 if [[ "$install_vscode" == true ]]; then
-    paru -S --needed --noconfirm visual-studio-code-bin
+    if ! pacman -T visual-studio-code-bin >/dev/null 2>&1 && ! command -v code >/dev/null 2>&1; then
+        paru -S --needed --noconfirm visual-studio-code-bin
+    fi
 fi
 
 stage="$(mktemp -d)"

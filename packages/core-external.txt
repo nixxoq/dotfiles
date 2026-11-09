@@ -3,3 +3,5 @@ noctalia-git
 bibata-cursor-theme-bin
 ttf-apple-emoji
 yamis-icon-theme-git
+qt5ct-kde
+qt6ct-kde

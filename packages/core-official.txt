@@ -29,8 +29,6 @@ bluez-utils
 sof-firmware
 playerctl
 polkit-gnome
-qt5ct
-qt6ct
 swaybg
 ttf-dejavu
 ttf-jetbrains-mono
