@@ -1,5 +1,8 @@
 post_install() {
-    :
+    printf '\n'
+    printf '==> To complete setup and apply dotfiles, run:\n'
+    printf '==>   dotfiles-install\n'
+    printf '\n'
 }
 
 post_upgrade() {

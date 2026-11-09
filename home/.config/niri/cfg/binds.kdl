@@ -249,8 +249,8 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
-    Print { screenshot; }
-    Mod+Shift+S { screenshot; }
+    // Print { screenshot; }
+    // Mod+Shift+S { screenshot; }
     // Print { 
     //     spawn "script" "--command" "XDG_CURRENT_DESKTOP=sway flameshot gui" "/dev/null";
     // }
@@ -286,6 +286,8 @@ binds {
     // Super+L hotkey-overlay-title="Lock the Screen" { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
     Mod+L hotkey-overlay-title="Lock the Screen" { spawn "noctalia" "msg" "panel-toggle" "session"; }
     Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+    Print { spawn "noctalia" "msg" "screenshot-region"; }
+    Mod+Shift+S { spawn "noctalia" "msg" "screenshot-region"; }
 
     //Mod+D { spawn "sh" "-c" "~/.config/anyrun/generate_anyrun_theme.py && anyrun"; }
 }

@@ -49,6 +49,11 @@ fi
 source_dir=/usr/share/dotfiles
 if [[ -n "$(printenv DOTFILES_SOURCE 2>/dev/null || true)" ]]; then
     source_dir="$(printenv DOTFILES_SOURCE)"
+elif [[ ! -d "$source_dir/home" || ! -d "$source_dir/packages" ]]; then
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    if [[ -d "$script_dir/../home" && -d "$script_dir/../packages" ]]; then
+        source_dir="$(cd "$script_dir/.." && pwd)"
+    fi
 fi
 if [[ ! -d "$source_dir/home" || ! -d "$source_dir/packages" ]]; then
     fail 'package source not found'
@@ -240,9 +245,12 @@ python3 "$source_dir/scripts/render-configs.py" \
     --git-email "$git_email" \
     --git-signing-key "$git_signing_key"
 
-validation_output="$(noctalia config validate "$stage/.config/noctalia/config.toml" 2>&1)" || fail 'Noctalia config validation failed'
+validation_output="$(noctalia config validate "$stage/.config/noctalia/config.toml" 2>&1)" || {
+    printf '%s\n' "$validation_output" >&4
+    fail 'Noctalia config validation failed'
+}
 if printf '%s\n' "$validation_output" | grep -Eiq '(^|[[:space:]])warn(ing)?'; then
-    fail 'Noctalia config has warnings'
+    printf 'note: Noctalia validation reported warnings:\n%s\n' "$validation_output" >&3
 fi
 
 backup_root="$HOME/.local/state/dotfiles/backups/$(date +%Y%m%d-%H%M%S)-$$"

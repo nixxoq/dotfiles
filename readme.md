@@ -21,16 +21,14 @@
 
 Requires an Arch-based distribution and an internet connection.
 
-Build and install the package from this checkout:
+Run the installer from this checkout:
+
+    ./install.sh
+
+Or you can build and install the package manually:
 
     makepkg -si
-
-Then run the installer as your regular user:
-
-    bash /usr/share/dotfiles/install
-
-The installer handles package/repository choices, renders Niri and Noctalia settings for this machine, backs up conflicting files under ~/.local/state/dotfiles/backups/, and applies the configs to your home directory.
-
+    dotfiles-install
 
 
 ## keybinds

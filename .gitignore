@@ -10,3 +10,5 @@ home/.config/noctalia/**/screenshot.png
 /pkg/
 /*.pkg.tar.zst
 /.SRCINFO
+__pycache__/
+*.pyc

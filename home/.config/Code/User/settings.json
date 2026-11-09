@@ -98,7 +98,6 @@
     "window.titleBarStyle": "custom",
     "window.customMenuBarAltFocus": false,
     "window.enableMenuBarMnemonics": false,
-    "workbench.colorTheme": "Lotus Dark",
     "remote.SSH.remotePlatform": {
         "coder-vscode.0.0.0.0--nixxoq--test1234": "linux"
     },
@@ -167,5 +166,7 @@
     },
     "terminal.integrated.enableMultiLinePasteWarning": "never",
     "chat.disableAIFeatures": true,
+    "workbench.colorTheme": "Bearded Theme Aquarelle Cymbidium",
+    "githubPullRequests.pullBranch": "never",
     // "python.analysis.typeCheckingMode": "standard",
 }

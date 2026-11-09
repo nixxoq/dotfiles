@@ -3,10 +3,11 @@
 window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
+    draw-border-with-background false
 }
 
 window-rule {
-  opacity 0.80;
+  opacity 0.86;
   background-effect {
     blur true
     xray true
@@ -94,8 +95,9 @@ window-rule {
 window-rule {
     match app-id="^[Ss]team$"
     match app-id="discord"
+    match app-id="equibop"
     // match app-id="zed"
-    opacity 0.85
+    opacity 0.92
     draw-border-with-background false
 }
 
